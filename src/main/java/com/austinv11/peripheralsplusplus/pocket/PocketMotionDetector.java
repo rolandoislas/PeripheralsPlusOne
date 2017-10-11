@@ -22,7 +22,7 @@ public class PocketMotionDetector implements IPocketUpgrade {
 	
 	@Override
 	public String getUnlocalisedAdjective() {
-		return "peripheralsplusplus.pocket_upgrade.motion_detector";
+		return "peripheralsplusone.pocket_upgrade.motion_detector";
 	}
 	
 	@Override

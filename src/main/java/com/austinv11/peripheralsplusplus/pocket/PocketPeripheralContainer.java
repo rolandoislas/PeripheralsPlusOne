@@ -34,7 +34,7 @@ public class PocketPeripheralContainer implements IPocketUpgrade {
 	
 	@Override
 	public String getUnlocalisedAdjective() {
-		return "peripheralsplusplus.pocket_upgrade.peripheral_container";
+		return "peripheralsplusone.pocket_upgrade.peripheral_container";
 	}
 	
 	@Override

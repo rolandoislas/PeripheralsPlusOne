@@ -152,10 +152,10 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
                     1, 1, "");
             try {
                 iPhone.setStackDisplayName(
-                        MinecraftTranslator.translateToLocal("item.peripheralsplusplus:iphone.name"));
+                        MinecraftTranslator.translateToLocal("item.peripheralsplusone:iphone.name"));
             } catch (TranslationException | IOException e) {
                 e.printStackTrace();
-                iPhone.setStackDisplayName("item.peripheralsplusplus:iphone.name");
+                iPhone.setStackDisplayName("item.peripheralsplusone:iphone.name");
             }
             recipeList.add(new MerchantRecipe(
                     new ItemStack(Items.EMERALD, 64),
@@ -184,15 +184,15 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
             ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
             switch (type) {
                 case 0:
-                        stack.setTagCompound(Util.writeToBookNBT("peripheralsplusplus.lore.1.title",
+                        stack.setTagCompound(Util.writeToBookNBT("peripheralsplusone.lore.1.title",
                             Colors.MAGIC+"dan200", getTextFromInt(type)));
                     break;
                 case 1:
-                    stack.setTagCompound(Util.writeToBookNBT("peripheralsplusplus.lore.2.title",
+                    stack.setTagCompound(Util.writeToBookNBT("peripheralsplusone.lore.2.title",
                             Colors.MAGIC+"dan200", getTextFromInt(type)));
                     break;
                 case 2:
-                    stack.setTagCompound(Util.writeToBookNBT("peripheralsplusplus.lore.3.title",
+                    stack.setTagCompound(Util.writeToBookNBT("peripheralsplusone.lore.3.title",
                             Colors.MAGIC+"dan200", getTextFromInt(type)));
                     break;
             }
@@ -203,26 +203,26 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
             List<String> list = new ArrayList<>();
             switch (type) {
                 case 0:
-                    list.add("peripheralsplusplus.lore.1.header");
-                    list.add("peripheralsplusplus.lore.1.pg1");
-                    list.add("peripheralsplusplus.lore.1.pg2");
-                    list.add("peripheralsplusplus.lore.1.pg3");
-                    list.add("peripheralsplusplus.lore.1.pg4");
+                    list.add("peripheralsplusone.lore.1.header");
+                    list.add("peripheralsplusone.lore.1.pg1");
+                    list.add("peripheralsplusone.lore.1.pg2");
+                    list.add("peripheralsplusone.lore.1.pg3");
+                    list.add("peripheralsplusone.lore.1.pg4");
                     break;
                 case 1:
-                    list.add("peripheralsplusplus.lore.2.header");
-                    list.add("peripheralsplusplus.lore.2.pg1");
-                    list.add("peripheralsplusplus.lore.2.pg2");
-                    list.add("peripheralsplusplus.lore.2.pg3");
-                    list.add("peripheralsplusplus.lore.2.pg4");
-                    list.add("peripheralsplusplus.lore.2.pg5");
-                    list.add("peripheralsplusplus.lore.2.pg6");
+                    list.add("peripheralsplusone.lore.2.header");
+                    list.add("peripheralsplusone.lore.2.pg1");
+                    list.add("peripheralsplusone.lore.2.pg2");
+                    list.add("peripheralsplusone.lore.2.pg3");
+                    list.add("peripheralsplusone.lore.2.pg4");
+                    list.add("peripheralsplusone.lore.2.pg5");
+                    list.add("peripheralsplusone.lore.2.pg6");
                     break;
                 case 2:
-                    list.add("peripheralsplusplus.lore.3.header");
-                    list.add("peripheralsplusplus.lore.3.pg1");
-                    list.add("peripheralsplusplus.lore.3.pg2");
-                    list.add("peripheralsplusplus.lore.3.pg3");
+                    list.add("peripheralsplusone.lore.3.header");
+                    list.add("peripheralsplusone.lore.3.pg1");
+                    list.add("peripheralsplusone.lore.3.pg2");
+                    list.add("peripheralsplusone.lore.3.pg3");
                     break;
             }
             return list;

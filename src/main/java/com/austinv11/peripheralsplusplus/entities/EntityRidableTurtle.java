@@ -322,10 +322,10 @@ public class EntityRidableTurtle extends MountedEntity {
 		try {
 			if (!turtle.getWorld().isAirBlock(turtle.getPosition().up()))
 				failMessage = MinecraftTranslator.translateToLocal(
-						"peripheralsplusplus.message.upgrade.ridable_blocked");
+						"peripheralsplusone.message.upgrade.ridable_blocked");
 			if (turtle.getFuelLevel() < Config.fuelPerTurtleMovement && turtle.isFuelNeeded())
 				failMessage = MinecraftTranslator.translateToLocal(
-						"peripheralsplusplus.message.upgrade.ridable_no_fuel");
+						"peripheralsplusone.message.upgrade.ridable_no_fuel");
 		}
 		catch (TranslationException | IOException e) {
 			failMessage = "Unknown error: " + e.getMessage();

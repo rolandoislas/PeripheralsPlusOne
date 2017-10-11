@@ -1,8 +1,8 @@
 package com.austinv11.peripheralsplusplus.reference;
 
 public class Reference {
-	public static final String MOD_ID = "peripheralsplusplus";
-	public static final String MOD_NAME = "Peripherals++";
+	public static final String MOD_ID = "peripheralsplusone";
+	public static final String MOD_NAME = "PeripheralsPlusOne";
 	public static final String VERSION = "@VERSION@";
 	public static final String SERVER_PROXY_CLASS = "com.austinv11.peripheralsplusplus.proxy.CommonProxy";
 	public static final String CLIENT_PROXY_CLASS = "com.austinv11.peripheralsplusplus.proxy.ClientProxy";

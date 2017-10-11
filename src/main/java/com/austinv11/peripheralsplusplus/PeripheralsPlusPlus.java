@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(modid= Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION,
 		guiFactory = Reference.GUI_FACTORY_CLASS,
-		dependencies = "required-after:collectiveframework;required-after:computercraft")
+		dependencies = "required-after:theframework;required-after:computercraft")
 public class PeripheralsPlusPlus {
 	
 	public static SimpleNetworkWrapper NETWORK;

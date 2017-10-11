@@ -46,12 +46,12 @@ public class ItemPermissionsCard extends ItemPPP
                         NBTHelper.setBoolean(stack, "withdraw", false);
                         NBTHelper.setBoolean(stack, "deposit", false);
                         player.sendMessage(new TextComponentTranslation(
-                                "peripheralsplusplus.chat.permCard.set"));
+                                "peripheralsplusone.chat.permCard.set"));
                     }
                     else
                     {
                         player.sendMessage(new TextComponentTranslation(
-                                "peripheralsplusplus.chat.permCard.alreadySet"));
+                                "peripheralsplusone.chat.permCard.alreadySet"));
                         return new ActionResult<>(EnumActionResult.FAIL, stack);
                     }
                 }
@@ -63,7 +63,7 @@ public class ItemPermissionsCard extends ItemPPP
                     if (!world.isRemote)
                     {
                         player.sendMessage(new TextComponentTranslation(
-                                "peripheralsplusplus.chat.permCard.notSet"));
+                                "peripheralsplusone.chat.permCard.notSet"));
                     }
                     return new ActionResult<>(EnumActionResult.FAIL, stack);
                 }
@@ -74,7 +74,7 @@ public class ItemPermissionsCard extends ItemPPP
                     if (!world.isRemote)
                     {
                         player.sendMessage(new TextComponentTranslation(
-                                "peripheralsplusplus.chat.permCard.wrongOwner"));
+                                "peripheralsplusone.chat.permCard.wrongOwner"));
                     }
                     return new ActionResult<>(EnumActionResult.FAIL, stack);
                 }
@@ -90,7 +90,7 @@ public class ItemPermissionsCard extends ItemPPP
     public String getItemStackDisplayName(ItemStack stack)
     {
         GameProfile username = NBTUtil.readGameProfileFromNBT(NBTHelper.getCompoundTag(stack, "profile"));
-        return I18n.translateToLocal("item.peripheralsplusplus:permissions_card.name") +
+        return I18n.translateToLocal("item.peripheralsplusone:permissions_card.name") +
                 (NBTHelper.getTag(stack, "profile") == null ? "" : " - " +
                         (username.getName() == null ? "" : username.getName()));
     }

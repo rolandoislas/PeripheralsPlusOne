@@ -29,7 +29,7 @@ public class ItemBlockTurtle extends ItemBlock {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack item, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         if (NBTHelper.hasTag(item, "desc")) {
-            String description = I18n.translateToLocal("peripheralsplusplus.description.turtle." +
+            String description = I18n.translateToLocal("peripheralsplusone.description.turtle." +
                     NBTHelper.getInt(item, "desc"));
             tooltip.add(description);
         } else {

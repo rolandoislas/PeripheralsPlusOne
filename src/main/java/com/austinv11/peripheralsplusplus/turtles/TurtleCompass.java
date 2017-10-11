@@ -36,7 +36,7 @@ public class TurtleCompass implements ITurtleUpgrade, TextureManager.TextureRegi
 
     @Override
 	public String getUnlocalisedAdjective() {
-		return "peripheralsplusplus.turtle_upgrade.compass";
+		return "peripheralsplusone.turtle_upgrade.compass";
 	}
 
 	@Override

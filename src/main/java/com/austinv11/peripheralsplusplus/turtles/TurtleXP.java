@@ -34,7 +34,7 @@ public class TurtleXP implements ITurtleUpgrade, ModelManager.ModelRegistrar {
 
 	@Override
 	public String getUnlocalisedAdjective() {
-		return "peripheralsplusplus.turtle_upgrade.xp";
+		return "peripheralsplusone.turtle_upgrade.xp";
 	}
 
 	@Override

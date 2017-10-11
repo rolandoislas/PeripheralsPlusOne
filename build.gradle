@@ -15,12 +15,13 @@ buildscript {
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.9"
     }
 }
 
 repositories {
     maven {
-        url  "http://jcenter.bintray.com"
+        url  "https://dl.bintray.com/rolandoislas/The-Framework"
     }
     maven {
         name = "chickenbones"
@@ -45,12 +46,14 @@ repositories {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
+apply plugin: "com.matthewprenger.cursegradle"
 
-ext.buildNumber = System.getenv("BUILD_ID") ?: "dev"
-//version = "1.3.5-$buildNumber"
-version = "1.3.7"
+ext.build = System.getenv('TRAVIS_BUILD_NUMBER')
+ext.tag = System.getenv("TRAVIS_TAG")
+version = "1.12.2-1.0"
+version =  version + "-build-T" + ext.build
 group= "com.austinv11.peripheralsplusplus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Peripherals++"
+archivesBaseName = "PeripheralsPlusOne"
 
 minecraft {
     version = "1.12.2-14.23.0.2491"
@@ -68,23 +71,50 @@ publishing {
     }
 }
 
-bintray {
-    user = 'austinv11'
-    key = System.getenv("API_KEY")
-    dryRun = false
-    publish = true
-    publications = ['mavenJava']
-    pkg {
-        repo = "maven"
-        name = "PeripheralsPlusPlus"
-        desc = "A ComputerCraft Addon"
-        websiteUrl = "https://github.com/austinv11/PeripheralsPlusPlus"
-        issueTrackerUrl = "https://github.com/austinv11/PeripheralsPlusPlus/issues"
-        vcsUrl = "https://github.com/austinv11/PeripheralsPlusPlus.git"
-        licenses = ["GPL v2"]
-        publicDownloadNumbers = true
-        version {
-            name = project.version
+// deobf jars
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest {
+        attributes 'FMLAT': 'ppp_at.cfg'
+    }
+}
+
+if (ext.tag) {
+    if (ext.tag.contains("release"))
+        ext.releaseType = "release"
+    else if (ext.tag.contains("beta"))
+        ext.releaseType = "beta"
+    else
+        ext.releaseType = "alpha"
+    curseforge {
+        apiKey = System.getenv("CURSE_API_KEY") ?: ""
+        project {
+            id = "279746"
+            changelog = System.getenv("TRAVIS_COMMIT_MESSAGE") ?: ""
+            releaseType = project.releaseType
+            mainArtifact jar
+            addArtifact deobfJar
+        }
+    }
+    bintray {
+        user = 'rolandoislas'
+        key = System.getenv("BINTRAY_API_KEY") ?: ""
+        dryRun = false
+        publish = true
+        publications = ['mavenJava']
+        pkg {
+            repo = "PeripheralsPlusOne"
+            name = "PeripheralsPlusOne"
+            desc = "A ComputerCraft Addon"
+            websiteUrl = "https://github.com/rolandoislas/PeripheralsPlusOne"
+            issueTrackerUrl = "https://github.com/rolandoislas/PeripheralsPlusOne/issues"
+            vcsUrl = "https://github.com/rolandoislas/PeripheralsPlusOne.git"
+            licenses = ["GPL v2"]
+            publicDownloadNumbers = true
+            version {
+                name = project.version + "-" + project.releaseType
+            }
         }
     }
 }
@@ -95,6 +125,7 @@ configurations {
 
 ext.freettsVersion = "1.2.2"
 dependencies {
+    compile "com.austinv11.collectiveframework:TheFramework:1.12.2-1.0-build-T6:deobf"
     compile "codechicken:NotEnoughItems:1.12-2.4.0.231:deobf"
 	compile "codechicken:CodeChickenLib:1.12-3.1.3.313:deobf"
     compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
@@ -131,6 +162,7 @@ jar {
     manifest {
         attributes 'FMLAT': 'ppp_at.cfg'
     }
+    dependsOn deobfJar
     for (Object depToBundle : configurations.compileBundle.collect()) {
         if (depToBundle.isDirectory())
             from depToBundle
@@ -150,14 +182,3 @@ idea {
         inheritOutputDirs = true 
     } 
 }
-
-// deobf jars
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-    manifest {
-        attributes 'FMLAT': 'ppp_at.cfg'
-    }
-}
-
-build.dependsOn sourceJar, deobfJar
