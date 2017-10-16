@@ -1,8 +1,8 @@
 # Chatbox
 
----
-
-The chatbox is a peripheral which allows for Computers to interface with Minecraft's chat system. It can allow you to send, receive and broadcast chat messages. It can also be crafted with a turtle to make a [Chatty Turtle](/turtle_upgrades/chatty_turtle/).
+The chatbox is a peripheral which allows for Computers to interface with Minecraft's chat system. It can allow you to
+ send, receive and broadcast chat messages. It can also be crafted with a turtle to make a 
+ [Chatty Turtle](/turtle_upgrades/chatty_turtle/).
 
 ## Events
 | Event | Parameter 1 | Parameter 2 | Parameter 3 | Parameter 4 | Description |

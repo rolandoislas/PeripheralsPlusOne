@@ -1,7 +1,5 @@
 # Sign Reading Turtle
 
----
-
 The Sign Reading Turtle Upgrade is a turtle upgrade which allows turtles to read text on signs. 
 
 ## Functions

@@ -1,8 +1,7 @@
 # Gardening Turtle
 
----
-
-The Gardening Turtle Upgrade is a turtle upgrade which allows turtles to get how grown a crop is as a percentage and use bonemeal on plants. It is crafted with wheat seeds and a turtle. 
+The Gardening Turtle Upgrade is a turtle upgrade which allows turtles to get the age of a crop is as a percentage and
+ use bonemeal on plants.
 
 ## Functions
 | Function | Returns | Description |

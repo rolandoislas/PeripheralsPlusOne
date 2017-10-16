@@ -1,10 +1,7 @@
 # ME Bridge
 
----
-
-The ME Bridge is peripheral which is added when Applied Energistics 2 is installed. This allows you to interact with an ME network (given you have the security access required for the network).
-
-<b>Note: Because of changes in the AE2 API, this peripheral requires at least AE2 rv2 beta 8.</b>
+The ME Bridge is peripheral which is added when Applied Energistics 2 is installed. This allows you to interact with an
+ ME network (given you have the security access required for the network).
 
 ## Events
 | Event | Parameter 1 | Parameter 2 | Parameter 3 | Description |
@@ -20,5 +17,5 @@ The ME Bridge is peripheral which is added when Applied Energistics 2 is install
 |listAll()|_table_ items|Lists all referenced items in the network|
 |listItems()|_table_ items|Lists all stored items in the network|
 |listCraft()|_table_ items|Lists all craftable items in the network|
-|retrieve(_string_ itemId, _number_ amount, _string or number_ directionToDeposit)|_number_ extracted|Retrieves the given items and attempts to place it in an inventory in the direction given (either the number or a string like "north" or "up", returns the amount extracted. **Note**: The item id can include metadata value by using the form "<id> <meta>"|
-|craft(_string_ itemId, _number_ amount)|_nil_|Attempts to craft the given items **Note**: The item id can include metadata value by using the form "<id> <meta>"|
+|retrieve(_string_ itemId, _number_ metadata, _number_ amount, _string or number_ directionToDeposit)|_number_ extracted|Retrieves the given items and attempts to place it in an inventory in the direction given (either the number or a string like "north" or "up", returns the amount extracted.|
+|craft(_string_ itemId, _number_ metadata, _number_ amount)|_nil_|Attempts to craft the given items|

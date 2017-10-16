@@ -1,2 +1,4 @@
-site_name: Peripherals++
-repo_url: https://github.com/austinv11/PeripheralsPlusPlus/
+site_name: PeripheralsPlusOne
+repo_url: https://github.com/rolandoislas/PeripheralsPlusOne/
+site_description: PeripheralsPlusOne documentation
+theme: readthedocs

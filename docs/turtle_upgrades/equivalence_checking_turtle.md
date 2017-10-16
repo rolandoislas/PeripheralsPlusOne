@@ -1,8 +1,7 @@
 # Equivalence Checking Turtle
 
----
-
-The Equivalence Checking Turtle Upgrade is the Turtle variant of the [Ore Dictionary](/peripherals/ore_dictionary/) block. 
+The Equivalence Checking Turtle Upgrade is the Turtle variant of the [Ore Dictionary](/peripherals/ore_dictionary/)
+ block. 
 
 ## Functions
 | Function | Returns | Description |

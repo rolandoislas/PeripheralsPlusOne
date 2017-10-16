@@ -1,8 +1,7 @@
 # Feeding Turtle
 
----
-
-The Feeding Turtle Upgrade is an upgrade which allows Turtles to breed animals. It is crafted with Feeder Upgrade and a turtle. 
+The Feeding Turtle Upgrade is an upgrade which allows Turtles to breed animals. It is crafted with Feeder Upgrade and a
+ turtle. 
 
 ## Functions
 | Function | Returns | Description |

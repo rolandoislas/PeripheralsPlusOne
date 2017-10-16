@@ -1,13 +1,16 @@
 # Smart Helmets
 
----
+Smart helmets allow for computers to directly interact with a player. In order to be able to use a smart helmet, 
+ right click a smart helmet on an [antenna](/peripherals/antenna/) to link it to that antenna. Currently, all the 
+ smart helmet does is let you interact with the wearer's HUD
 
-Smart helmets allow for computers to directly interact with a player. In order to be able to use a smart helmet, right click a smart helmet onto an [antenna](/peripherals/antenna/) to link it to that antenna. Currently, all the smart helmet does is let you interact with the wearer's HUD
-
-The smart helmet item's description (in the tooltip) will be the connected antenna's label. If no label has been set for the antenna, the description will instead be the UUID of the connected antenna. 
+The smart helmet item's description (in the tooltip) will be the connected antenna's label. If no label has been set for
+ the antenna, the description will instead be the UUID of the connected antenna. 
 
 ## Smart Helmet HUD functions
-A smart helmet HUD works with a stack (or technically 'Deque') based system. Meaning that you create a list of instructions, which are then synced to the player and are run in a FIFO ("First In First Out") order. With the smart helmet, you could modify a player's hud as well as create custom guis!
+A smart helmet HUD works with a stack (or technically 'Deque') based system. Meaning that you create a list of
+ instructions, which are then synced to the player and are run in a FIFO ("First In First Out") order. With the smart 
+ helmet, you can modify a player's hud as well as create custom GUIs!
 
 ### Hud Functions:
 

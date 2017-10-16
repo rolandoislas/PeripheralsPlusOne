@@ -1,10 +1,16 @@
 # Nano Swarm
 
----
+A Nano Swarm is a throwable entity that will infect the first mob it touches. After infecting the mob, a player can
+ control what the infected mob does by communicating with the nano swarm through an [antenna](/peripherals/antenna/).
+ Before a nano swarm can be thrown (or shot by a dispenser), it first must be linked to an antenna. To do this, simply
+ right click on an antenna with the swarm in your hand.
 
-A Nano Swarm is a throwable entity that will infect the first mob it touches. After infecting the mob, a player can control what the infected mob does by communicating with the nano swarm through an [antenna](/peripherals/antenna/). Before a nano swarm can be thrown (or shot by a dispenser), it first must be linked to an antenna. To do this, simply right click on an antenna with the swarm in your hand.
+Many attributes and actions for the infected entity can be accessed through the nano swarm. However, the nanobots can
+ only perform a certain amount of actions and gather so much data before they become unusable. By default, the nanobots 
+ can only receive 8 instructions before being destroyed. This is configurable in the config file. There is no limit to
+ the amount of bots that can infect and entity, so while the bots will decay with use, this can be remedied by adding
+ ample bots to an entity.
 
-Many attributes and actions for the infected entity can be accessed through the nano swarm. However, the nanobots can only perform a certain amount of actions and gather so much data before they become unusable. By default, the nanobots can only receive 8 instructions before being destroyed. This is configurable in the config file.
 ##Functions
 Functions accessible for both mobs and players.
 <table>

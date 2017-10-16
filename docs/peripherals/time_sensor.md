@@ -1,8 +1,6 @@
 # Time Sensor
 
----
-
-The Time Sensor is a simple peripheral that returns unix time in "yyyy.MM.dd.HH.mm.ss" format. It has only one function:
+The Time Sensor is a simple peripheral that returns the system time.
 
 ##Functions
 

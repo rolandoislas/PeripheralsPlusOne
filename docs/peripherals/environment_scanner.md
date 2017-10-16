@@ -1,8 +1,7 @@
 # Environment Scanner
 
----
-
-The Environment Scanner is a peripheral which allows a computer to read info about its current position. It can be crafted with a turtle to make an [Enivironmentalist Turtle](/turtle_upgrades/environmentalist_turtle/).
+The Environment Scanner is a peripheral which allows a computer to read info about its current position. It can be
+ crafted with a turtle to make an [Environmentalist Turtle](/turtle_upgrades/environmentalist_turtle/).
 
 ## Functions
 | Function | Returns | Description |

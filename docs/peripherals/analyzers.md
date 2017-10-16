@@ -1,8 +1,7 @@
 # Analyzers
 
----
-
-Analyzers are peripherals which are available if [Forestry](http://forestry.sengir.net) is installed. The variants can be used to analyze bees, saplings, and butterflies (if they were pre-analyzed).
+Analyzers are peripherals which are available if [Forestry](http://forestry.sengir.net) is installed. The variants can
+ be used to analyze bees, saplings, and butterflies (if they were pre-analyzed).
 
 ## Functions
 | Function | Returns | Description |
@@ -19,13 +18,14 @@ Analyzers are peripherals which are available if [Forestry](http://forestry.seng
 |speed|lifespan|fertility|
 |lifespan|metabolism|yield|
 |fertility|fertility|sappiness|
-|nocturnal|nocturnal|matures|
-|tolerantFlyer|tolerantFlyer|fruit|
-|caveDwelling|fireResistant|growth|
-|flower|flower|girth|
-|territory|effect|plant|
-|effect|temperature|effect|
-|temperature|toleranceTemperature||
-|toleranceTemperature|humidity||
-|humidity|toleranceHumidity||
+|neverSleeps|nocturnal|matures|
+|toleratesRain|tolerantFlyer|fruit|
+|caveDwelling|fireResistant|girth|
+|flower|flower|effect|
+|flowering|effect|decorativeLeaves|
+|territory|temperature|matchesTemplateGenome|
+|effect|toleranceTemperature||
+|temperature|humidity||
+|toleranceTemperature|toleranceHumidity||
+|humidity|cocoon||
 |toleranceHumidity|||

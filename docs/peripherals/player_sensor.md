@@ -2,7 +2,8 @@
 
 ---
 
-The Player Sensor is a peripheral which allows a computer to detect players. It can be crafted with a Turtle to get an [Player Noticing Turtle](/turtle_upgrades/player_noticing_turtle/).
+The Player Sensor is a peripheral which allows a computer to detect players. It can be crafted with a Turtle to get an
+ [Player Noticing Turtle](/turtle_upgrades/player_noticing_turtle/).
 
 ## Events
 | Event | Parameter 1 | Parameter 2 | Description |

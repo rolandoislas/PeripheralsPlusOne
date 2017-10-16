@@ -1,7 +1,5 @@
 # XP Turtle
 
----
-
 The XP Turtle Upgrade is a simple Turtle Upgrade allows Turtles to suck up and use xp.
 
 ## Functions

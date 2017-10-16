@@ -1,21 +1,71 @@
 # Dynamic Mount
 
----
+PeripheralsPlusOne includes a ComputerCraft package manager for Lua scripts called "Dyn". Its functionality is inspired
+ by Debian's "Advanced Package Tool" (APT) and thus, shares similar commands.
 
-Peripherals++ will automagically mount various sample and full-featured programs which either demonstrate the features of certain peripherals or just do something neat ;). The programs mounted are dependent upon the peripheral(s) attached to a given computer under the "ppp" directory. These programs are automatically updated when Minecraft is launched, so you never need to update the mod to get up-to-date programs. It is stored in the "ppp_mount" directory in your mods folder.
+# Dyn(amic) Package Manager
 
-## Submitting Programs
-This is open-sourced for a reason, community participation is much appreciated! If you want to show off a cool program which utilizes features added by my mod just follow the requirements below and you might be able to see your program included with the mod! Just note that I may modify your program if the need arises.
+The **Dyn**(amic) package manager makes managing and distributing ComputerCraft scripts easier. Programs installed via
+ Dyn are automatically mounted when a peripheral is attached and the program supports the peripheral type. The mount
+ path is `/rom/programs/` so the programs will be executable from any directory. Dyn also manages additional files
+ and help text. Dyn will not override default programs.
+ 
+## Repos
 
-**The Program**
-* The program can _only_ use features included with vanilla Computercraft and with Peripherals++
-* The program should have some comments (not a requirement but it would be awesome)
-* The program should not utilize the http api or any other features which are not enabled by default
+Dyn knows about available packages by reading index files from repositories. For more information about the structure
+ of a repository view the [default Dyn repo].
+ 
+Like APT repos, Dyn allows for multiple sources to be added to its sources list. The URL should be the root path that
+ the index file resides.
+ 
+## Commands
 
-**Submissions**
-* There are two ways to submit; posting on the [forum post](http://www.computercraft.info/forums2/index.php?/topic/20903-) or submitting an issue with your program (with a [Program] tag in the title)
-* While I know mistakes can happen _please_ debug your programs
+### install <program name\>
 
-**Maintenance**
-* If for some reason you want your program updated, please either PM me on the Computercraft forums or submit an issue (with a [Program Update] tag in the title)
-* If you are updating your program, I'd prefer it if you use the version on this repo (located somewhere [here](https://github.com/austinv11/PeripheralsPlusPlus/tree/master/lua)) as I may have made some modifications to it for whatever reason
+Attempts to download the specified program
+
+### remove <program name\>
+
+Attempts to remove the specified program
+
+### update
+
+Updates the local program indices from their repos
+
+This command will fail if a repo contains an invalid index file or there is an issue downloading the file.
+
+Programs will not be updated by this. This only updates the list of available programs
+
+### upgrade
+
+Upgrades all installed programs to the latest version
+
+### list
+
+List all installed programs
+
+### search
+
+Search for a program by name or description
+
+The search looks in all repos defined in the sources file
+
+### repo <argument\>
+
+Sub-command for working with repos
+
+#### add <repo url\> \[friendly name\]
+
+Adds a repo to be used for program resolving
+
+#### remove <repo url/friendly name\>
+
+Removes a repo from the list of available sources
+
+#### edit
+
+Opens the sources file for editing
+
+
+
+[default Dyn repo]: https://github.com/rolandoislas/dyn
