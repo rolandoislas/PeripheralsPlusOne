@@ -4,20 +4,24 @@ import com.austinv11.peripheralsplusplus.mount.DynamicMount;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class MountedPeripheral implements IPeripheral {
+	private List<String> mounts;
 
 	public MountedPeripheral() {
 		super();
+		mounts = new ArrayList<>();
 	}
 
 	@Override
 	public void attach(IComputerAccess computer) {
-		computer.mount(DynamicMount.DIRECTORY, new DynamicMount(this));
+		mounts.addAll(DynamicMount.attach(computer, this));
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
-		computer.mount(DynamicMount.DIRECTORY, new DynamicMount(this));
-		computer.unmount(DynamicMount.DIRECTORY);
+		DynamicMount.detach(computer, mounts);
 	}
 }

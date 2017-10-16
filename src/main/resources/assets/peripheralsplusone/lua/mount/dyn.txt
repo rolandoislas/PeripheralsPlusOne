@@ -1,0 +1,23 @@
+Dyn.lua is a script that implements a package manager for PeripheralsPlusOne's peripherals.
+
+Arguments:
+
+- install <program name>
+    Attempts to download the specified program
+- remove <program name>
+    Attempts to remove the specified program
+- update
+    Updates the local program indices
+- upgrade
+    Upgrade all installed programs
+- list
+    List installed programs
+- search
+    Search for a program by name or description
+- repo [argument]
+  - add <repo url>
+      Adds a repo to be used for program resolving
+  - remove <repo url>
+      Remove a repo from the list of available sources
+  - edit
+      Opens the sources file for editing

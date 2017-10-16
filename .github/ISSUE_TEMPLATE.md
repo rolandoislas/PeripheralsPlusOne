@@ -13,7 +13,7 @@
 
 **Stacktrace (if applicable):** [PASTEBIN or HASTEBIN link to the stacktrace. Do NOT copy and paste the log into the issue post itself.]
 
-**Version affected:** [The version of Peripherals++ *and* Forge]
+**Version affected:** [The version of PeripheralsPlusOne (e.g. x.x.x-x.x.x-build-Tx) *and* Forge]
 
 ### Additional Information
 [Any other information that may be able to help me with the problem]

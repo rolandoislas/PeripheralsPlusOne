@@ -95,6 +95,9 @@ if (ext.tag) {
             releaseType = project.releaseType
             mainArtifact jar
             addArtifact deobfJar
+            relations {
+                requiredLibrary "the-framework"
+            }
         }
     }
     bintray {

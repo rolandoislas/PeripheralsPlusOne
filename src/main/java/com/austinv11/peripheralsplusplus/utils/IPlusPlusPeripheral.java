@@ -18,7 +18,7 @@ public interface IPlusPlusPeripheral extends IPeripheral {
 	/**
 	 * This is the common provider for all Peripherals++ TileEntities
 	 */
-	public static class Provider implements IPeripheralProvider {
+	class Provider implements IPeripheralProvider {
 
 		@Nullable
 		@Override
