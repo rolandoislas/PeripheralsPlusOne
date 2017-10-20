@@ -2,16 +2,18 @@ package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.peripheralsplusplus.cleverbot.AIChatRequest;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.michaelwflaherty.cleverbotapi.CleverBotQuery;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.ILuaObject;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.tileentity.TileEntity;
 
 import java.util.*;
 
-public class TileEntityAIChatBox extends MountedTileEntity {
+public class TileEntityAIChatBox extends TileEntity implements IPlusPlusPeripheral {
 
 	public static String publicName = "aiChatBox";
 	private String name = "tileEntityAIChatBox";
@@ -94,13 +96,11 @@ public class TileEntityAIChatBox extends MountedTileEntity {
 	@Override
 	public void attach(IComputerAccess computer) {
 		computers.add(computer);
-		super.attach(computer);
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
 		computers.remove(computer);
-		super.detach(computer);
 	}
 
 	@Override

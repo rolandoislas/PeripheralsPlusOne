@@ -1,7 +1,9 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.collectiveframework.minecraft.reference.ModIds;
+import com.austinv11.collectiveframework.minecraft.tiles.TileEntityInventory;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -16,7 +18,7 @@ import net.minecraftforge.fml.common.Loader;
 
 import java.util.HashMap;
 
-public abstract class TileEntityAnalyzer extends MountedTileEntityInventory {
+public abstract class TileEntityAnalyzer extends TileEntityInventory implements IPlusPlusPeripheral {
 
 	private String name = "tileEntityAnalyzer";
 

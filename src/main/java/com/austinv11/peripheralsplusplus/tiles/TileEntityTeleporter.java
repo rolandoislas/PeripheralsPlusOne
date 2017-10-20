@@ -5,6 +5,7 @@ import com.austinv11.peripheralsplusplus.blocks.BlockPppDirectional;
 import com.austinv11.peripheralsplusplus.blocks.BlockTeleporter;
 import com.austinv11.peripheralsplusplus.network.ParticlePacket;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import java.util.HashMap;
 import java.util.Stack;
 
-public class TileEntityTeleporter extends MountedTileEntity {
+public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeripheral {
 
 	public static String publicName = "teleporter";
 	private String name = "tileEntityTeleporter";

@@ -1,6 +1,5 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
-import com.austinv11.peripheralsplusplus.mount.DynamicMount;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 
@@ -17,11 +16,11 @@ public abstract class MountedPeripheral implements IPeripheral {
 
 	@Override
 	public void attach(IComputerAccess computer) {
-		mounts.addAll(DynamicMount.attach(computer, this));
+		//mounts.addAll(DynamicMount.attach(computer, this));
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
-		DynamicMount.detach(computer, mounts);
+		//DynamicMount.detach(computer, mounts);
 	}
 }

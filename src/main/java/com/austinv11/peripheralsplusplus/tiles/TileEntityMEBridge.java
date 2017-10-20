@@ -17,6 +17,7 @@ import appeng.api.util.DimensionalCoord;
 import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -29,6 +30,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
@@ -64,8 +66,8 @@ import java.util.Locale;
 				iface="appeng.api.networking.security.IActionSource",
 				striprefs=true)
 })
-public class TileEntityMEBridge extends MountedTileEntity implements IActionHost, IGridBlock, ITickable, IActionSource,
-		IGridHost {
+public class TileEntityMEBridge extends TileEntity implements IActionHost, IGridBlock, ITickable, IActionSource,
+		IGridHost, IPlusPlusPeripheral {
 	public static String publicName = "meBridge";
 	private String name = "tileEntityMEBridge";
 	private HashMap<IComputerAccess, Boolean> computers = new HashMap<>();
@@ -302,13 +304,11 @@ public class TileEntityMEBridge extends MountedTileEntity implements IActionHost
 	@Override
 	public void attach(IComputerAccess computer) {
 		computers.put(computer, true);
-		super.attach(computer);
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
 		computers.remove(computer);
-		super.detach(computer);
 	}
 
 	@Override

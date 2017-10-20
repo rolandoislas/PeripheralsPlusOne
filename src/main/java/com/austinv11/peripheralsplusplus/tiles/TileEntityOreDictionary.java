@@ -2,6 +2,7 @@ package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.ChatUtil;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -11,12 +12,13 @@ import dan200.computercraft.api.turtle.ITurtleAccess;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.HashMap;
 
-public class TileEntityOreDictionary extends MountedTileEntity {
+public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeripheral {
 
 	public static String publicName = "oreDictionary";
 	private String name = "tileEntityOreDictionary";
@@ -163,14 +165,12 @@ public class TileEntityOreDictionary extends MountedTileEntity {
 	public void attach(IComputerAccess computer) {
 		if (!isTurtle())
 			computers.put(computer, true);
-		super.attach(computer);
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
 		if (!isTurtle())
 			computers.remove(computer);
-		super.detach(computer);
 	}
 
 	@Override

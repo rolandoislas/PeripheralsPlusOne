@@ -7,6 +7,7 @@ import com.austinv11.peripheralsplusplus.lua.LuaObjectEntityControl;
 import com.austinv11.peripheralsplusplus.lua.LuaObjectHUD;
 import com.austinv11.peripheralsplusplus.network.ScaleRequestPacket;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
@@ -26,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class TileEntityAntenna extends MountedTileEntity implements ITickable {
+public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlusPeripheral {
 
 	public static String publicName = "antenna";
 	private  String name = "tileEntityAntenna";
@@ -205,13 +207,11 @@ public class TileEntityAntenna extends MountedTileEntity implements ITickable {
 	@Override
 	public void attach(IComputerAccess computer) {
 		computers.put(computer, true);
-		super.attach(computer);
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
 		computers.remove(computer);
-		super.detach(computer);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import com.austinv11.peripheralsplusplus.entities.EntityNanoBotSwarm;
 import com.austinv11.peripheralsplusplus.entities.EntityRidableTurtle;
 import com.austinv11.peripheralsplusplus.event.handler.CapabilitiesHandler;
 import com.austinv11.peripheralsplusplus.event.handler.PeripheralContainerHandler;
+import com.austinv11.peripheralsplusplus.mount.DynamicMount;
 import com.austinv11.peripheralsplusplus.network.*;
 import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
 import com.austinv11.peripheralsplusplus.reference.Reference;
@@ -72,6 +73,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new TileEntityAntenna());
 		MinecraftForge.EVENT_BUS.register(new CapabilitiesHandler());
 		MinecraftForge.EVENT_BUS.register(new PocketMotionDetector());
+		MinecraftForge.EVENT_BUS.register(new DynamicMount());
 	}
 
 	public void registerEntities() {
@@ -84,22 +86,21 @@ public class CommonProxy {
 	}
 
 	public void registerNetwork() {
-		NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("ppp");
-		NETWORK.registerMessage(AudioPacket.AudioPacketHandler.class, AudioPacket.class, 0, Side.CLIENT);
-		NETWORK.registerMessage(AudioResponsePacket.AudioResponsePacketHandler.class, AudioResponsePacket.class, 1, Side.SERVER);
-		NETWORK.registerMessage(ChatPacket.ChatPacketHandler.class, ChatPacket.class, 4, Side.CLIENT);
-		NETWORK.registerMessage(ScaleRequestPacket.ScaleRequestPacketHandler.class, ScaleRequestPacket.class, 5, Side.CLIENT);
-		NETWORK.registerMessage(ScaleRequestResponsePacket.ScaleRequestResponsePacketHandler.class, ScaleRequestResponsePacket.class, 6, Side.SERVER);
-		NETWORK.registerMessage(CommandPacket.CommandPacketHandler.class, CommandPacket.class, 7, Side.CLIENT);
-		NETWORK.registerMessage(ParticlePacket.ParticlePacketHandler.class, ParticlePacket.class, 8, Side.CLIENT);
-		NETWORK.registerMessage(InputEventPacket.InputEventPacketHandler.class, InputEventPacket.class, 9, Side.SERVER);
-		NETWORK.registerMessage(GuiPacket.GuiPacketHandler.class, GuiPacket.class, 10, Side.CLIENT);
-		NETWORK.registerMessage(TextFieldInputEventPacket.TextFieldInputEventPacketHandler.class, TextFieldInputEventPacket.class, 11, Side.SERVER);
-		NETWORK.registerMessage(RidableTurtlePacket.RidableTurtlePacketHandler.class, RidableTurtlePacket.class, 12, Side.SERVER);
-		NETWORK.registerMessage(RobotEventPacket.RobotEventPacketHandler.class, RobotEventPacket.class, 13, Side.CLIENT);
-        NETWORK.registerMessage(PermCardChangePacket.PermCardChangePacketHandler.class, PermCardChangePacket.class, 14, Side.SERVER);
-		NETWORK.registerMessage(SynthPacket.SynthPacketHandler.class, SynthPacket.class, 15, Side.CLIENT);
-		NETWORK.registerMessage(SynthResponsePacket.SynthResponsePacketHandler.class, SynthResponsePacket.class, 16, Side.SERVER);
+		int discriminator = 0;
+		NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
+		NETWORK.registerMessage(ChatPacket.ChatPacketHandler.class, ChatPacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(ScaleRequestPacket.ScaleRequestPacketHandler.class, ScaleRequestPacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(ScaleRequestResponsePacket.ScaleRequestResponsePacketHandler.class, ScaleRequestResponsePacket.class, discriminator++, Side.SERVER);
+		NETWORK.registerMessage(CommandPacket.CommandPacketHandler.class, CommandPacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(ParticlePacket.ParticlePacketHandler.class, ParticlePacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(InputEventPacket.InputEventPacketHandler.class, InputEventPacket.class, discriminator++, Side.SERVER);
+		NETWORK.registerMessage(GuiPacket.GuiPacketHandler.class, GuiPacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(TextFieldInputEventPacket.TextFieldInputEventPacketHandler.class, TextFieldInputEventPacket.class, discriminator++, Side.SERVER);
+		NETWORK.registerMessage(RidableTurtlePacket.RidableTurtlePacketHandler.class, RidableTurtlePacket.class, discriminator++, Side.SERVER);
+		NETWORK.registerMessage(RobotEventPacket.RobotEventPacketHandler.class, RobotEventPacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(PermCardChangePacket.PermCardChangePacketHandler.class, PermCardChangePacket.class, discriminator++, Side.SERVER);
+		NETWORK.registerMessage(SynthPacket.SynthPacketHandler.class, SynthPacket.class, discriminator++, Side.CLIENT);
+		NETWORK.registerMessage(SynthResponsePacket.SynthResponsePacketHandler.class, SynthResponsePacket.class, discriminator++, Side.SERVER);
 	}
 
 	public void registerCapabilities() {

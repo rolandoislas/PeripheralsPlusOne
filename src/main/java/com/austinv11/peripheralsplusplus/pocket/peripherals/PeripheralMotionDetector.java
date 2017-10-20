@@ -4,7 +4,7 @@ import com.austinv11.collectiveframework.minecraft.utils.Location;
 import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.reference.Reference;
-import com.austinv11.peripheralsplusplus.turtles.peripherals.MountedPeripheral;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.TurtleUtil;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -18,7 +18,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class PeripheralMotionDetector extends MountedPeripheral {
+public class PeripheralMotionDetector implements IPlusPlusPeripheral {
 	
 	private Location oldLocation = null;
 	private IComputerAccess computer;
@@ -83,13 +83,11 @@ public class PeripheralMotionDetector extends MountedPeripheral {
 	@Override
 	public void attach(IComputerAccess computer) {
 		this.computer = computer;
-		super.attach(computer);
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
 		this.computer = null;
-		super.detach(computer);
 	}
 	
 	@SubscribeEvent

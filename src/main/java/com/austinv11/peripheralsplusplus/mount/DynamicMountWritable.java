@@ -12,8 +12,8 @@ public class DynamicMountWritable implements IWritableMount {
     private final File directory;
     private static final long MAX_SIZE = 1024 * 100;
 
-    DynamicMountWritable(String directory) {
-        this.directory = new File(directory);
+    DynamicMountWritable(File directory) {
+        this.directory = directory;
     }
 
     private File getFile(String path) {

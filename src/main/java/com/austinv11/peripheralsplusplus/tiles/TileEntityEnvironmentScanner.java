@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -8,8 +9,9 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityEnvironmentScanner extends MountedTileEntity {
+public class TileEntityEnvironmentScanner extends TileEntity implements IPlusPlusPeripheral {
 
 	public static String publicName = "environmentScanner";
 	private String name = "tileEntityEnvironmentScanner";

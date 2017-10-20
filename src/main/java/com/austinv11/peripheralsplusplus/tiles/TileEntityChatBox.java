@@ -2,6 +2,7 @@ package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.ChatUtil;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -12,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ITickable;
@@ -23,7 +25,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.HashMap;
 
-public class TileEntityChatBox extends MountedTileEntity implements ITickable {
+public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlusPeripheral {
 
 	public static String publicName = "chatBox";
 	private  String name = "tileEntityChatBox";
@@ -206,7 +208,6 @@ public class TileEntityChatBox extends MountedTileEntity implements ITickable {
 		if (computers.size() == 0)
 			ChatListener.chatBoxMap.put(this, true);
 		computers.put(computer, true);
-		super.attach(computer);
 	}
 
 	@Override
@@ -214,7 +215,6 @@ public class TileEntityChatBox extends MountedTileEntity implements ITickable {
 		computers.remove(computer);
 		if (computers.size() == 0)
 			ChatListener.chatBoxMap.remove(this);
-		super.detach(computer);
 	}
 
 	@Override

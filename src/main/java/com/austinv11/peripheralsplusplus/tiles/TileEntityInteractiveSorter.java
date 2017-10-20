@@ -1,8 +1,10 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
+import com.austinv11.collectiveframework.minecraft.tiles.TileEntityInventory;
 import com.austinv11.collectiveframework.minecraft.utils.Location;
 import com.austinv11.collectiveframework.minecraft.utils.WorldUtils;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TileEntityInteractiveSorter extends MountedTileEntityInventory {
+public class TileEntityInteractiveSorter extends TileEntityInventory implements IPlusPlusPeripheral {
 	
 	public static String publicName = "interactiveSorter";
 	private String name = "tileEntityInteractiveSorter";
@@ -213,13 +215,11 @@ public class TileEntityInteractiveSorter extends MountedTileEntityInventory {
 	
 	@Override
 	public void attach(IComputerAccess computer) {
-		super.attach(computer);
 		computers.add(computer);
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
-		super.detach(computer);
 		computers.remove(computer);
 	}
 	

@@ -5,6 +5,7 @@ import com.austinv11.collectiveframework.minecraft.utils.MinecraftTranslator;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.network.RidableTurtlePacket;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EntityRidableTurtle extends MountedEntity {
+public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 
 	private long lastUpdateTime = 0;
 	private ITurtleAccess turtle;

@@ -97,7 +97,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
                     if (newStack.isEmpty()) {
                         return new Object[0];
                     }
-                    if (addStackToInv(inv, newStack, 0)) {
+                    if (addStackToInv(inv, newStack, ((Double)arguments[0]).intValue())) {
                         return new Object[]{true};
                     } else {
                         getInputInventory().setInventorySlotContents(((Double) arguments[1]).intValue(), origStack);
@@ -238,7 +238,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
      */
     private ArrayList<Integer> getValidSlotsForStack(IInventory inv, ItemStack stack, int slot) {
         ArrayList<Integer> slots = new ArrayList<Integer>();
-        if (slot != -1) {
+        if (slot != -1 && slot < inv.getSizeInventory()) {
             slots.add(slot);
         }
         for (int i = 0; i < inv.getSizeInventory(); i++) {

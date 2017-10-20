@@ -1,7 +1,7 @@
 ---
 --- dyn.lua - PeripheralsPlusOne Package Manager
 --- Author: Rolando Islas
---- Version: 0.1
+--- Version: 0.2
 --- License: GPLv2
 ---
 
@@ -452,6 +452,9 @@ function Dyn:verify_index_file(file_contents, print_warnings)
         end
         if not program.version then
             error(string.format(error_message, program.name, "version"))
+        elseif not dyn.parseVersion(program.version) then
+            error(string.format("Program \"%s\" has an invalid version string: %s", program.name,
+            program.version))
         end
         if not program.depends or type(program.depends) ~= "table" then
             error(string.format(error_message, program.name, "depends"))
@@ -481,7 +484,7 @@ function Dyn:remove_program(name)
     for program_index, program in pairs(installed) do
         if program.name == name then
             local path = self.install_path .. program.name
-            fs.delete(path)
+            self:delete(path)
             table.remove(installed, program_index)
             self:write_installed_index(installed)
             print(string.format("Program \"%s\" removed.\nReattach peripherals or restart this device.", name))
@@ -489,6 +492,22 @@ function Dyn:remove_program(name)
         end
     end
     error(string.format("Program \"%s\" not installed.", name))
+end
+
+---
+--- Delete a file or a path recursivly
+---
+function Dyn:delete(path)
+    if not fs.exists(path) then
+        return
+    end
+    if fs.isDir(path) then
+        local list = fs.list(path)
+        for _, list_path in pairs(list) do
+            self:delete(path .. "/" .. list_path)
+        end
+    end
+    fs.delete(path)
 end
 
 ---
@@ -740,67 +759,15 @@ end
 --- @return boolean
 ---
 function Dyn:version_is_newer(lesser, greater)
-    local lesser_split = self:split(lesser:gsub("-.*", ""), "%d")
-    local greater_split = self:split(greater:gsub("-.*", ""), "%d")
-    local lesser_release = self:split(lesser:gsub("^.*-", "", 1), "%a+")[1] or "release"
-    local greater_release = self:split(greater:gsub("^.*-", "", 1), "%a+")[1] or "release"
-    local lesser_release_num = lesser:gsub("^.*-.*-", "") ~= lesser and lesser:gsub("^.*-.*-", "") or 0
-    local greater_release_num = greater:gsub("^.*-.*-", "") ~= greater and greater:gsub("^.*-.*-", "") or 0
-    -- Check if any version failed to parse
-    if table.getn(lesser_split) == 0 or table.getn(lesser_split) > 3 then
-        error("Error reading version number: " .. lesser)
+    local lesser_version = dyn.parseVersion(lesser)
+    local greater_version = dyn.parseVersion(greater)
+    if not lesser_version or not greater_version then
+        error("Failed to parse version string")
     end
-    if table.getn(greater_split) == 0 or table.getn(greater_split) > 3 then
-        error("Error reading version number: " .. greater)
-    end
-    -- Check if version is one number. Consider it the major number
-    if table.getn(lesser_split) == 1 then
-        table.insert(lesser_split, 0)
-        table.insert(lesser_split, 0)
-    end
-    if table.getn(greater_split) == 1 then
-        table.insert(greater_split, 0)
-        table.insert(greater_split, 0)
-    end
-    -- Check if version is two numbers. Consider it major.minor
-    if table.getn(lesser_split) == 2 then
-        table.insert(lesser_split, 0)
-    end
-    if table.getn(greater_split) == 2 then
-        table.insert(greater_split, 0)
-    end
-    -- Add release as a number
-    if lesser_release == "release" then
-        table.insert(lesser_split, 2)
-    elseif lesser_release == "beta" then
-        table.insert(lesser_split, 1)
-    elseif lesser_release == "alpha" then
-        table.insert(lesser_split, 0)
-    else
-        error("Invalid release type: " .. lesser_release)
-    end
-    if greater_release == "release" then
-        table.insert(greater_split, 2)
-    elseif greater_release == "beta" then
-        table.insert(greater_split, 1)
-    elseif greater_release == "alpha" then
-        table.insert(greater_split, 0)
-    else
-        error("Invalid release type: " .. greater_release)
-    end
-    -- Add release type version number
-    if tonumber(lesser_release_num) == nil then
-        error("Release number is not a number: " .. lesser_release_num)
-    end
-    if tonumber(greater_release_num) == nil then
-        error("Release number is not a number: " .. greater_release_num)
-    end
-    table.insert(lesser_split, lesser_release_num)
-    table.insert(greater_split, greater_release_num)
     -- Compare versions in the format major.minor.revision.release_type.release_number
     for version_number = 1, 5 do
-        local great_num = tonumber(greater_split[version_number])
-        local less_num = tonumber(lesser_split[version_number])
+        local great_num = tonumber(lesser_version[version_number])
+        local less_num = tonumber(greater_version[version_number])
         if great_num > less_num then
             return true
         elseif great_num < less_num then

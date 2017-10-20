@@ -2,7 +2,7 @@ package com.austinv11.peripheralsplusplus.pocket.peripherals;
 
 import com.austinv11.peripheralsplusplus.lua.LuaObjectPeripheralWrap;
 import com.austinv11.peripheralsplusplus.reference.Config;
-import com.austinv11.peripheralsplusplus.turtles.peripherals.MountedPeripheral;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PeripheralPeripheralContainer extends MountedPeripheral {
+public class PeripheralPeripheralContainer implements IPlusPlusPeripheral {
 
 	private final Map<IPocketUpgrade, IPeripheral> pocketUpgrades;
 	private Map<ResourceLocation, ItemStack> unequippedItems;
@@ -95,14 +95,12 @@ public class PeripheralPeripheralContainer extends MountedPeripheral {
 	
 	@Override
 	public void attach(IComputerAccess computer) {
-		super.attach(computer);
 		for (IPeripheral peripheral : getPeripherals())
 			peripheral.attach(computer);
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
-		super.detach(computer);
 		for (IPeripheral peripheral : getPeripherals())
 			peripheral.detach(computer);
 	}

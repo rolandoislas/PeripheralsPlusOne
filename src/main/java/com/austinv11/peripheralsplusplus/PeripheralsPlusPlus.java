@@ -2,7 +2,6 @@ package com.austinv11.peripheralsplusplus;
 
 import com.austinv11.collectiveframework.minecraft.config.ConfigException;
 import com.austinv11.collectiveframework.minecraft.config.ConfigRegistry;
-import com.austinv11.collectiveframework.multithreading.SimpleRunnable;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.init.ModItems;
 import com.austinv11.peripheralsplusplus.init.ModPeripherals;
@@ -74,6 +73,5 @@ public class PeripheralsPlusPlus {
 	public void postInit(FMLPostInitializationEvent event) {
 		Recipes.init();
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.NANO_SWARM, new ItemNanoSwarm.BehaviorNanoSwarm());
-		SimpleRunnable.RESTRICT_THREAD_USAGE = false;
 	}
 }

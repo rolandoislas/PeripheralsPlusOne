@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -18,7 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PeripheralDispenser extends MountedPeripheral {
+public class PeripheralDispenser implements IPlusPlusPeripheral {
 	
 	private ITurtleAccess turtle;
 	

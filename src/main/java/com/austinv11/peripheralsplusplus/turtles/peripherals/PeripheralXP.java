@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -21,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import java.util.List;
 import java.util.Random;
 
-public class PeripheralXP extends MountedPeripheral {//Beware, a lot of the math was taken from the mind of RichardG (meaning, I don't really understand all of it)
+public class PeripheralXP implements IPlusPlusPeripheral {
 
 	private static final int MAX_LEVEL = 30;
 	private static final double COLLECT_RANGE = 2.0D;

@@ -75,9 +75,6 @@ publishing {
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
-    manifest {
-        attributes 'FMLAT': 'ppp_at.cfg'
-    }
 }
 
 if (ext.tag) {
@@ -165,7 +162,6 @@ jar {
     manifest {
         attributes 'FMLAT': 'ppp_at.cfg'
     }
-    dependsOn deobfJar
     for (Object depToBundle : configurations.compileBundle.collect()) {
         if (depToBundle.isDirectory())
             from depToBundle
@@ -178,6 +174,10 @@ jar {
                 exclude "META-INF/LICENSE", "META-INF/NOTICE"
             })
     }
+}
+
+build {
+    dependsOn deobfJar
 }
 
 idea { 

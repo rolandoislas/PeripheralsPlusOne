@@ -2,6 +2,7 @@ package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -15,7 +16,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeripheralChunkLoader extends MountedPeripheral {
+public class PeripheralChunkLoader implements IPlusPlusPeripheral {
 
 	private ITurtleAccess turtle;
 	private ForgeChunkManager.Ticket ticket;
@@ -30,7 +31,6 @@ public class PeripheralChunkLoader extends MountedPeripheral {
 
 	@Override
 	public void attach(IComputerAccess computer) {
-		super.attach(computer);
 		attached = true;
 	}
 
@@ -45,7 +45,6 @@ public class PeripheralChunkLoader extends MountedPeripheral {
 
 	@Override
 	public void detach(IComputerAccess computer) {
-		super.detach(computer);
 		synchronized (this) {
 			ForgeChunkManager.releaseTicket(ticket);
 		}

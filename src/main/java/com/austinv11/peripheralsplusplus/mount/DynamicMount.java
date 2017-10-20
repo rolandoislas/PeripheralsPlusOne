@@ -1,26 +1,28 @@
 package com.austinv11.peripheralsplusplus.mount;
 
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
+import com.austinv11.peripheralsplusplus.lua.api.DynApi;
 import com.austinv11.peripheralsplusplus.reference.Reference;
+import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
+import com.austinv11.peripheralsplusplus.utils.proxy.PeripheralChangeListener;
 import com.google.gson.*;
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DynamicMount {
-
-	private static String BASE_MOD_DIR = Paths.get(".", "mods", Reference.MOD_ID).toString();
-	private static final String MOUNT_DIRECTORY = Paths.get(BASE_MOD_DIR, "mount").toString();
 
 	/**
 	 * Mount the programs that support the specified peripheral
@@ -30,7 +32,8 @@ public class DynamicMount {
 	 */
 	private static List<String> mount(IComputerAccess computer, IPeripheral peripheral) {
 		List<String> attached = new ArrayList<>();
-		File installed = new File(MOUNT_DIRECTORY, "installed");
+		File mountDirectory = new File(getMountDirectory(), String.valueOf(computer.getID()));
+		File installed = new File(mountDirectory, "installed");
 		File installedIndex = new File(installed, "index.json");
 		if (!installedIndex.isFile())
 			return attached;
@@ -136,6 +139,14 @@ public class DynamicMount {
 		return attached;
 	}
 
+	private static File getMountDirectory() {
+		return Paths.get(
+				DimensionManager.getWorld(0).getSaveHandler().getWorldDirectory().toString(),
+				Reference.MOD_ID,
+				"mount"
+		).toFile();
+	}
+
 	/**
 	 * Helper to aid peripherals to easily attach the mount
 	 * @param computer computer to attach to
@@ -143,6 +154,16 @@ public class DynamicMount {
 	 * @return list of paths attached
 	 */
 	public static List<String> attach(IComputerAccess computer, IPeripheral peripheral) {
+		try {
+			Object apiEnvironment = ReflectionHelper.getApiEnvironment(computer.getID());
+			if (apiEnvironment != null) {
+				ReflectionHelper.registerAPI(computer.getID(),
+						new DynApi(apiEnvironment));
+			}
+		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | NoSuchFieldException |
+				InvocationTargetException e) {
+			e.printStackTrace();
+		}
 		List<String> attached = new ArrayList<>();
 		IMount dynScript = ComputerCraftAPI.createResourceMount(PeripheralsPlusPlus.class, Reference.MOD_ID,
 				"lua/mount/dyn.lua");
@@ -176,12 +197,12 @@ public class DynamicMount {
 				if (path != null)
 					attached.add(path);
 			}
-			File mountDirectory = new File(MOUNT_DIRECTORY);
+			File mountDirectory = new File(getMountDirectory(), String.valueOf(computer.getID()));
 			if (!mountDirectory.exists())
 				if (!mountDirectory.mkdirs())
 					PeripheralsPlusPlus.LOGGER.error("Failed to create mount directory.");
 			String path = computer.mountWritable("/." + Reference.MOD_ID,
-					new DynamicMountWritable(MOUNT_DIRECTORY));
+					new DynamicMountWritable(mountDirectory));
 			if (path != null)
 				attached.add(path);
 			attached.addAll(mount(computer, peripheral));
@@ -202,5 +223,30 @@ public class DynamicMount {
 				computer.unmount(path);
 			} catch (RuntimeException ignore) {}
 		paths.clear();
+	}
+
+	/**
+	 * Handle checking the computer registry for computers that do not have the dynamic mount and attempt to mount it
+	 * @param event server tick
+	 */
+	@SubscribeEvent
+	public void serverTick(TickEvent.WorldTickEvent event) {
+		if (event.side.isClient())
+			return;
+		try {
+			Collection<Object> computers = ReflectionHelper.getServerComputers();
+			for (Object computer : computers) {
+				Object peripheralChangeListener = ReflectionHelper.getPeripheralChangeListener(computer);
+				if (peripheralChangeListener != null && (!Proxy.isProxyClass(peripheralChangeListener.getClass()) ||
+						!(Proxy.getInvocationHandler(peripheralChangeListener) instanceof PeripheralChangeListener))) {
+					DynamicMountPeripheralChangeListener dynamicMountPeripheralChangeListener =
+							new DynamicMountPeripheralChangeListener(computer, peripheralChangeListener);
+					if (dynamicMountPeripheralChangeListener.initializePeripherals())
+						ReflectionHelper.setPeripheralChangeListener(computer, dynamicMountPeripheralChangeListener);
+				}
+			}
+		}
+		catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | NoSuchFieldException |
+				InvocationTargetException ignore) {}
 	}
 }
