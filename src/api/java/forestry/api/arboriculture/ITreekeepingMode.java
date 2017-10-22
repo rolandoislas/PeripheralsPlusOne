@@ -5,7 +5,7 @@
  ******************************************************************************/
 package forestry.api.arboriculture;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface ITreekeepingMode extends ITreeModifier {
 
@@ -17,6 +17,6 @@ public interface ITreekeepingMode extends ITreeModifier {
 	/**
 	 * @return Localized list of strings outlining the behaviour of this treekeeping mode.
 	 */
-	List<String> getDescription();
+	ArrayList<String> getDescription();
 
 }

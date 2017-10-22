@@ -31,14 +31,14 @@ public class TileEntityPlayerSensor extends TileEntity implements IPlusPlusPerip
                 turtle.getWorld());
 		this.turtle = turtle;
 		this.setPos(turtle.getPosition());
-		this.setWorld(turtle.getWorld());
+		this.setWorldObj(turtle.getWorld());
 	}
 
     @Override
     public void validate() {
         super.validate();
 
-        if(world != null)
+        if(worldObj != null)
             location = new Location(this);
     }
 

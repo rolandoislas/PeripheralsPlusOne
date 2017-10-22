@@ -183,7 +183,7 @@ public class LuaObjectEntityControl implements ILuaObject {
 						if (!ItemNanoSwarm.doInstruction(id, player))
 							return new Object[]{false};
 						String sender = arguments.length > 1 ? "<"+arguments[1]+"> " : "";
-						player.sendMessage(new TextComponentString(sender+arguments[0]));
+						player.addChatMessage(new TextComponentString(sender+arguments[0]));
 						break;
 				}
 				
@@ -207,10 +207,10 @@ public class LuaObjectEntityControl implements ILuaObject {
 							throw new LuaException("Entity with id "+id+" cannot be interacted with");
 						Entity target;
 						if (arguments[0] instanceof String)
-							target = WorldUtils.getPlayerForWorld((String)arguments[0], entity.world);
+							target = WorldUtils.getPlayerForWorld((String)arguments[0], entity.worldObj);
 						else
 							target = WorldUtils.getNearestEntityToLocation(new Location((Double)arguments[0],
-									(Double)arguments[1], (Double)arguments[2], entity.world));
+									(Double)arguments[1], (Double)arguments[2], entity.worldObj));
 						if (!(target instanceof EntityLivingBase))
 						    throw new LuaException("Target must be living");
 						entity.setAttackTarget((EntityLivingBase) target);
@@ -229,10 +229,10 @@ public class LuaObjectEntityControl implements ILuaObject {
 							throw new LuaException("Entity with id "+id+" cannot be interacted with");
 						Entity attackTarget;
 						if (arguments[0] instanceof String)
-							attackTarget = WorldUtils.getPlayerForWorld((String)arguments[0], entity.world);
+							attackTarget = WorldUtils.getPlayerForWorld((String)arguments[0], entity.worldObj);
 						else
 							attackTarget = WorldUtils.getNearestEntityToLocation(new Location((Double)arguments[0],
-									(Double)arguments[1], (Double)arguments[2], entity.world));
+									(Double)arguments[1], (Double)arguments[2], entity.worldObj));
 						entity.setAttackTarget((EntityLivingBase) attackTarget);
 						return new Object[]{attackTarget != null};
 					

@@ -38,11 +38,11 @@ public class GuiPacket implements IMessage {
 		@Override
 		public IMessage onMessage(GuiPacket message, MessageContext ctx) {
 			if (message.close)
-				Minecraft.getMinecraft().player.closeScreen();
+				Minecraft.getMinecraft().thePlayer.closeScreen();
 			else
-				Minecraft.getMinecraft().player.openGui(PeripheralsPlusPlus.instance, Reference.GUIs.HELMET.ordinal(),
-						Minecraft.getMinecraft().player.world, (int) Minecraft.getMinecraft().player.posX,
-						(int) Minecraft.getMinecraft().player.posY, (int) Minecraft.getMinecraft().player.posZ);
+				Minecraft.getMinecraft().thePlayer.openGui(PeripheralsPlusPlus.instance, Reference.GUIs.HELMET.ordinal(),
+						Minecraft.getMinecraft().thePlayer.worldObj, (int) Minecraft.getMinecraft().thePlayer.posX,
+						(int) Minecraft.getMinecraft().thePlayer.posY, (int) Minecraft.getMinecraft().thePlayer.posZ);
 			return null;
 		}
 	}

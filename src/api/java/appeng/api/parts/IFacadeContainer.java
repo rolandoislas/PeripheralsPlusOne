@@ -46,17 +46,17 @@ public interface IFacadeContainer
 	 *
 	 * @return true if the facade as successfully added.
 	 */
-	boolean addFacade(IFacadePart a);
+	boolean addFacade( IFacadePart a );
 
 	/**
 	 * Removed the facade on the given side, or does nothing.
 	 */
-	void removeFacade(IPartHost host, AEPartLocation side);
+	void removeFacade( IPartHost host, AEPartLocation side );
 
 	/**
 	 * @return the {@link IFacadePart} for a given side, or null.
 	 */
-	IFacadePart getFacade(AEPartLocation s);
+	IFacadePart getFacade( AEPartLocation s );
 
 	/**
 	 * rotate the facades left.
@@ -68,7 +68,7 @@ public interface IFacadeContainer
 	 *
 	 * @param data to be written data
 	 */
-	void writeToNBT(NBTTagCompound data);
+	void writeToNBT( NBTTagCompound data );
 
 	/**
 	 * read from stream
@@ -79,14 +79,14 @@ public interface IFacadeContainer
 	 *
 	 * @throws IOException
 	 */
-	boolean readFromStream(ByteBuf data) throws IOException;
+	boolean readFromStream( ByteBuf data ) throws IOException;
 
 	/**
 	 * read from NBT
 	 *
 	 * @param data to be read data
 	 */
-	void readFromNBT(NBTTagCompound data);
+	void readFromNBT( NBTTagCompound data );
 
 	/**
 	 * write to stream
@@ -95,7 +95,7 @@ public interface IFacadeContainer
 	 *
 	 * @throws IOException
 	 */
-	void writeToStream(ByteBuf data) throws IOException;
+	void writeToStream( ByteBuf data ) throws IOException;
 
 	/**
 	 * @return true if there are no facades.

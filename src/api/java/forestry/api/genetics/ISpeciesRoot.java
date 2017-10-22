@@ -6,13 +6,13 @@
 package forestry.api.genetics;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -39,7 +39,6 @@ public interface ISpeciesRoot {
 
 	/**
 	 * Used to check whether a given itemstack contains genetic data corresponding to an {@link IIndividual} of this class.
-	 *
 	 * @param stack itemstack to check.
 	 * @return true if the itemstack contains an {@link IIndividual} of this class, false otherwise.
 	 */
@@ -47,43 +46,33 @@ public interface ISpeciesRoot {
 
 	/**
 	 * Used to check whether a given itemstack contains genetic data corresponding to an {@link IIndividual} of this class and matches the given type.
-	 *
 	 * @param stack itemstack to check.
-	 * @param type  Integer denoting the type needed to match. (i.e. butterfly vs. butterfly serum; bee queens, princesses, drones; etc.)
+	 * @param type Integer denoting the type needed to match. (i.e. butterfly vs. butterfly serum; bee queens, princesses, drones; etc.)
 	 * @return true if the itemstack contains an {@link IIndividual} of this class, false otherwise.
 	 */
 	boolean isMember(ItemStack stack, ISpeciesType type);
 
 	/**
 	 * Used to check whether the given {@link IIndividual} is member of this class.
-	 *
 	 * @param individual {@link IIndividual} to check.
 	 * @return true if the individual is member of this class, false otherwise.
 	 */
 	boolean isMember(IIndividual individual);
 
-	@Nullable
 	IIndividual getMember(ItemStack stack);
 
 	IIndividual getMember(NBTTagCompound compound);
-	
-	<O extends Object, I extends IIndividual> void registerTranslator(Object translatorKey, IIndividualTranslator<I, O> translator);
-	
-	@Nullable
-	<O extends Object, I extends IIndividual> IIndividualTranslator<I, O> getTranslator(Object translatorKey);
 
 	@Nullable
 	ISpeciesType getType(ItemStack itemStack);
 
-	/**
-	 * Species type used to represent this species in icons
-	 */
+	/** Species type used to represent this species in icons */
 	ISpeciesType getIconType();
 
 	ItemStack getMemberStack(IIndividual individual, ISpeciesType type);
 
 	/* BREEDING TRACKER */
-	IBreedingTracker getBreedingTracker(World world, @Nullable GameProfile player);
+	IBreedingTracker getBreedingTracker(World world, GameProfile player);
 
 	/* GENOME MANIPULATION */
 	IIndividual templateAsIndividual(IAllele[] template);
@@ -102,11 +91,15 @@ public interface ISpeciesRoot {
 
 	/**
 	 * Registers a bee template using the UID of the first allele as identifier.
+	 *
+	 * @param template
 	 */
 	void registerTemplate(IAllele[] template);
 
 	/**
 	 * Registers a bee template using the passed identifier.
+	 *
+	 * @param template
 	 */
 	void registerTemplate(String identifier, IAllele[] template);
 
@@ -116,16 +109,7 @@ public interface ISpeciesRoot {
 	 * @param identifier species UID
 	 * @return Array of {@link IAllele} representing a genome.
 	 */
-	@Nullable
 	IAllele[] getTemplate(String identifier);
-
-	/**
-	 * Retrieves a registered template using the passed species.
-	 *
-	 * @param species species
-	 * @return Array of {@link IAllele} representing a genome.
-	 */
-	IAllele[] getTemplate(IAlleleSpecies species);
 
 	/**
 	 * @return Default individual template for use when stuff breaks.
@@ -140,12 +124,14 @@ public interface ISpeciesRoot {
 
 	Map<String, IAllele[]> getGenomeTemplates();
 
-	List<? extends IIndividual> getIndividualTemplates();
+	ArrayList<? extends IIndividual> getIndividualTemplates();
 
 	/* MUTATIONS */
 
 	/**
 	 * Use to register mutations.
+	 *
+	 * @param mutation
 	 */
 	void registerMutation(IMutation mutation);
 
@@ -161,8 +147,8 @@ public interface ISpeciesRoot {
 	List<? extends IMutation> getCombinations(IAllele other);
 
 	/**
-	 * @return all possible mutations that result from breeding two species
 	 * @since Forestry 3.7
+	 * @return all possible mutations that result from breeding two species
 	 */
 	List<IMutation> getCombinations(IAlleleSpecies parentSpecies0, IAlleleSpecies parentSpecies1, boolean shuffle);
 
@@ -177,8 +163,7 @@ public interface ISpeciesRoot {
 
 	/**
 	 * Sets an item stack as a valid (generic) research catalyst for this class.
-	 *
-	 * @param itemstack   ItemStack to set as suitable.
+	 * @param itemstack ItemStack to set as suitable.
 	 * @param suitability Float between 0 and 1 to indicate suitability.
 	 */
 	void setResearchSuitability(ItemStack itemstack, float suitability);

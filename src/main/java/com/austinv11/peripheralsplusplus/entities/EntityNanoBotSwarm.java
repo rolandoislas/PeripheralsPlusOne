@@ -38,7 +38,7 @@ public class EntityNanoBotSwarm extends EntityThrowable {
 	
 	@Override
 	protected void onImpact(RayTraceResult mop) {
-		if (!world.isRemote) {
+		if (!worldObj.isRemote) {
 			if (mop.typeOfHit == RayTraceResult.Type.ENTITY) {
 				mop.entityHit.attackEntityFrom(new DamageSource(Reference.MOD_ID.toLowerCase()+".nanobots"), 0);
 				ItemNanoSwarm.addSwarmForEntity(this, mop.entityHit);
@@ -56,10 +56,10 @@ public class EntityNanoBotSwarm extends EntityThrowable {
 				
 				NBTHelper.setInfo(stack, info);
 				EnumFacing direction = mop.sideHit;
-				EntityItem entityItem = new EntityItem(this.world,
+				EntityItem entityItem = new EntityItem(this.worldObj,
 						this.posX+direction.getFrontOffsetX(), this.posY+direction.getFrontOffsetY(),
 								this.posZ+direction.getFrontOffsetZ(), stack);
-				world.spawnEntity(entityItem);
+				worldObj.spawnEntityInWorld(entityItem);
 			}
 			this.setDead();
 		}

@@ -5,6 +5,10 @@
  ******************************************************************************/
 package forestry.api.apiculture;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mojang.authlib.GameProfile;
 import forestry.api.genetics.IAllele;
 import forestry.api.genetics.ISpeciesRoot;
@@ -12,22 +16,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 public interface IBeeRoot extends ISpeciesRoot {
 
 	/**
-	 * @return true if passed item is a Forestry bee. Equal to getType(ItemStack stack) != null
+	 * @return true if passed item is a Forestry bee. Equal to getType(ItemStack stack) != EnumBeeType.NONE
 	 */
 	@Override
 	boolean isMember(ItemStack stack);
 
 	/**
-	 * @return {@link IBee} pattern parsed from the passed stack's nbt data. Null if the ItemStack is not a valid member.
+	 * @return {@link IBee} pattern parsed from the passed stack's nbt data.
 	 */
 	@Override
-	@Nullable
 	IBee getMember(ItemStack stack);
 
 	@Override
@@ -49,15 +49,16 @@ public interface IBeeRoot extends ISpeciesRoot {
 	/* BREEDING TRACKER */
 
 	/**
+	 * @param world
 	 * @return {@link IApiaristTracker} associated with the passed world.
 	 */
 	@Override
-	IApiaristTracker getBreedingTracker(World world, @Nullable GameProfile player);
+	IApiaristTracker getBreedingTracker(World world, GameProfile player);
 
 	/* BEE SPECIFIC */
 
 	/**
-	 * @return type of bee encoded on the itemstack. null if it isn't a bee.
+	 * @return type of bee encoded on the itemstack. EnumBeeType.NONE if it isn't a bee.
 	 */
 	@Nullable
 	@Override
@@ -74,7 +75,8 @@ public interface IBeeRoot extends ISpeciesRoot {
 	boolean isMated(ItemStack stack);
 
 	/**
-	 * @param genome Valid {@link IBeeGenome}
+	 * @param genome
+	 *            Valid {@link IBeeGenome}
 	 * @return {@link IBee} from the passed genome
 	 */
 	IBee getBee(IBeeGenome genome);
@@ -82,16 +84,17 @@ public interface IBeeRoot extends ISpeciesRoot {
 	/**
 	 * Creates an IBee suitable for a queen containing the necessary second genome for the mate.
 	 *
-	 * @param genome Valid {@link IBeeGenome}
-	 * @param mate   Valid {@link IBee} representing the mate.
+	 * @param genome
+	 *            Valid {@link IBeeGenome}
+	 * @param mate
+	 *            Valid {@link IBee} representing the mate.
 	 * @return Mated {@link IBee} from the passed genomes.
 	 */
 	IBee getBee(World world, IBeeGenome genome, IBee mate);
 
 	/* TEMPLATES */
-
 	@Override
-	List<IBee> getIndividualTemplates();
+	ArrayList<IBee> getIndividualTemplates();
 
 	/* MUTATIONS */
 	@Override
@@ -100,16 +103,15 @@ public interface IBeeRoot extends ISpeciesRoot {
 	/* GAME MODE */
 	void resetBeekeepingMode();
 
-	List<IBeekeepingMode> getBeekeepingModes();
+	ArrayList<IBeekeepingMode> getBeekeepingModes();
 
 	IBeekeepingMode getBeekeepingMode(World world);
 
-	@Nullable
 	IBeekeepingMode getBeekeepingMode(String name);
 
 	void registerBeekeepingMode(IBeekeepingMode mode);
 
-	void setBeekeepingMode(World world, IBeekeepingMode mode);
+	void setBeekeepingMode(World world, String name);
 
 	/* MISC */
 

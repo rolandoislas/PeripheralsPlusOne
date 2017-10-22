@@ -7,12 +7,15 @@ import com.austinv11.peripheralsplusplus.tiles.TileEntityInteractiveSorter;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class BlockInteractiveSorter extends BlockContainerPPP {
 	
@@ -31,7 +34,8 @@ public class BlockInteractiveSorter extends BlockContainerPPP {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-                                    EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+									EnumHand hand, @Nullable ItemStack heldItem, EnumFacing facing, float hitX,
+									float hitY, float hitZ) {
         if (!world.isRemote) {
             TileEntity te = world.getTileEntity(pos);
             if (te != null)

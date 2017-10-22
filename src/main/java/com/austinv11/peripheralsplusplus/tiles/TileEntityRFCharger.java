@@ -41,7 +41,8 @@ public class TileEntityRFCharger extends NetworkedTileEntity implements IEnergyS
 		if (nbttagcompound.hasKey("capacity")) {
             int capacity = nbttagcompound.getInteger("capacity");
             int energy = nbttagcompound.getInteger("energy");
-            storage = new EnergyStorage(capacity, capacity, capacity, energy);
+            storage = new EnergyStorage(capacity, capacity, capacity);
+            storage.receiveEnergy(energy, false);
         }
 	}
 
@@ -120,7 +121,7 @@ public class TileEntityRFCharger extends NetworkedTileEntity implements IEnergyS
     }
 
 	public void showFuel(EntityPlayer player) {
-		player.sendMessage(new TextComponentString(String.format("Energy: %d/%dRF",
+		player.addChatMessage(new TextComponentString(String.format("Energy: %d/%dRF",
 				getEnergyStored(), getMaxEnergyStored())));
 	}
 

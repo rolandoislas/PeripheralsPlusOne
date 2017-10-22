@@ -66,7 +66,7 @@ public class PeripheralDispenser implements IPlusPlusPeripheral {
 		
 		synchronized (this) {
 			ItemStack stack = turtle.getInventory().getStackInSlot(slot);
-			if (!stack.isEmpty()) {
+			if (stack != null) {
 				IBehaviorDispenseItem behavior = BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.getObject(stack.getItem());
 				if (behavior != IBehaviorDispenseItem.DEFAULT_BEHAVIOR) {
 					BlockSourceTurtle blockSource = new BlockSourceTurtle(direction);

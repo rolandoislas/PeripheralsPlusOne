@@ -5,8 +5,6 @@
  ******************************************************************************/
 package forestry.api.genetics;
 
-/**
- * Species types, implemented by enums and compared with ==
- */
+/** Species types, implemented by enums and compared with == */
 public interface ISpeciesType {
 }

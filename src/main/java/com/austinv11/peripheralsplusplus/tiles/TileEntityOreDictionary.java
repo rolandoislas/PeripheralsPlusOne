@@ -13,10 +13,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeripheral {
 
@@ -72,7 +72,7 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 		try {
 			if (method == 0) {
 				ItemStack slot = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot());
-				if (slot.isEmpty())
+				if (slot == null)
 					throw new LuaException("Empty slot");
 				return new Object[]{Util.getOreDictEntries(slot)};
 			} else if (method == 1) {
@@ -84,14 +84,18 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 				int argSlot2 = ((int)(double)arguments[1]) - 1;
 				if (argSlot1 == argSlot2)
 					return new Object[]{true};
-				ItemStack slot = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot()).copy();
-				ItemStack stack1 = turtle.getInventory().getStackInSlot(argSlot1).copy();
-				ItemStack stack2 = turtle.getInventory().getStackInSlot(argSlot2).copy();
-				if (stack1.isEmpty() || stack2.isEmpty())
+				ItemStack slot = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot());
+				if (slot != null)
+					slot = slot.copy();
+				ItemStack stack1 = turtle.getInventory().getStackInSlot(argSlot1);
+				ItemStack stack2 = turtle.getInventory().getStackInSlot(argSlot2);
+				if (stack1 == null || stack2 == null)
 					throw new LuaException("One or more selected slots have nil items");
+				stack1 = stack1.copy();
+				stack2 = stack2.copy();
 				if (!Util.compareItemStacksViaOreDict(stack1, stack2))
 					throw new LuaException("Stacks are not equivalent");
-				if (!Util.compareItemStacksViaOreDict(stack1, slot) && !slot.isEmpty())
+				if (!Util.compareItemStacksViaOreDict(stack1, slot) && slot != null)
 					throw new LuaException("The destination slot is incompatible");
 				// First slot is selected
 				if (argSlot1 == turtle.getSelectedSlot()) {
@@ -116,12 +120,12 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 				return new Object[]{true};
 			} else if (method == 2) {
 				ItemStack slot = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot()).copy();
-				if (slot.isEmpty())
+				if (slot == null)
 					throw new LuaException("Selected slot's item is nil");
 				ItemStack newStack = transmute(slot);
-				if (newStack.isEmpty() || newStack.isItemEqual(slot))
+				if (newStack == null || newStack.isItemEqual(slot))
 					return new Object[]{false};
-				newStack.setCount(slot.getCount());
+				newStack.stackSize = slot.stackSize;
 				turtle.getInventory().setInventorySlotContents(turtle.getSelectedSlot(), newStack);
 				return new Object[]{true};
 			} else if (method == 3) {
@@ -144,18 +148,22 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 	private void combineSlots(int outputSlotNum, int fillerSlotNum) {
 		ItemStack output = turtle.getInventory().getStackInSlot(outputSlotNum);
 		ItemStack filler = turtle.getInventory().getStackInSlot(fillerSlotNum);
-		int freeAmount = output.getMaxStackSize() -  output.getCount();
-		if (output.isEmpty()) {
+		if (filler == null)
+			return;
+
+		int freeAmount = output != null ? output.getMaxStackSize() -  output.stackSize :
+				turtle.getInventory().getInventoryStackLimit();
+		if (output == null) {
 			output = filler.copy();
-			output.setCount(0);
+			output.stackSize = 0;
 		}
-		if (filler.getCount() > freeAmount) {
-			output.setCount(output.getCount() + freeAmount);
-			filler.setCount(filler.getCount() - freeAmount);
+		if (filler.stackSize > freeAmount) {
+			output.stackSize += freeAmount;
+			filler.stackSize -= freeAmount;
 		}
 		else {
-			output.setCount(output.getCount() + filler.getCount());
-			filler.setCount(0);
+			output.stackSize += filler.stackSize;
+			filler.stackSize = 0;
 		}
 		turtle.getInventory().setInventorySlotContents(outputSlotNum, output);
 		turtle.getInventory().setInventorySlotContents(fillerSlotNum, filler);
@@ -182,7 +190,7 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 		HashMap<Integer, String> oreDictEntries = Util.getOreDictEntries(item);
 		boolean returnNextItem = false;
 		for (String oreDictName : oreDictEntries.values()) {
-			NonNullList<ItemStack> otherDictEntries = OreDictionary.getOres(oreDictName);
+			List<ItemStack> otherDictEntries = OreDictionary.getOres(oreDictName);
 			for (ItemStack stack : otherDictEntries) {
 				if (returnNextItem)
 					return stack.copy();
@@ -192,11 +200,11 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 			if (returnNextItem)
 				return otherDictEntries.get(0).copy();
 		}
-		return ItemStack.EMPTY;
+		return null;
 	}
 
 	public boolean blockActivated(EntityPlayer player) {
-		if (!player.getHeldItemMainhand().isEmpty()) {
+		if (player.getHeldItemMainhand() != null) {
 			for (IComputerAccess computer : computers.keySet()) {
 				computer.queueEvent("oreDict", new Object[]{Util.getOreDictEntries(player.getHeldItemMainhand())});
 			}

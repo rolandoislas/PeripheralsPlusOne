@@ -5,16 +5,17 @@
  ******************************************************************************/
 package forestry.api.recipes;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.NonNullList;
 
 /**
- * Replacement for IRecipe to give better access to the expected crafting inputs.
+ * Extension of IRecipe to give better access to the expected crafting inputs.
  * It can be matched against regular IInventory instead of just InventoryCrafting.
  * Useful for displaying crafting recipes.
  */
-public interface IDescriptiveRecipe {
+public interface IDescriptiveRecipe extends IRecipe {
 
 	/**
 	 * @return width of the crafting ingredients in the crafting table
@@ -28,14 +29,11 @@ public interface IDescriptiveRecipe {
 
 	/**
 	 * @return array of all the ingredients in the crafting table.
-	 * Each inner list represents one slot's accepted ItemStacks
+	 * Ingredients may be null, ItemStack, ItemStack[], or a List of ItemStack
 	 */
-	NonNullList<NonNullList<ItemStack>> getRawIngredients();
-	
-	NonNullList<String> getOreDicts();
+	Object[] getIngredients();
 
-	/**
-	 * Must not be named the same as {@link IRecipe#getRecipeOutput()} to avoid obfuscation for recipes that implement both.
-	 */
-	ItemStack getOutput();
+	@Nonnull
+	@Override
+	ItemStack getRecipeOutput();
 }

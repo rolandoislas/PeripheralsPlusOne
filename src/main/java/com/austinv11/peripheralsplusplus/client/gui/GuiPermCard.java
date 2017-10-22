@@ -5,9 +5,9 @@ import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.network.PermCardChangePacket;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import org.lwjgl.opengl.GL11;
 
 public class GuiPermCard extends GuiScreen
@@ -41,11 +41,11 @@ public class GuiPermCard extends GuiScreen
         drawTexturedModalRect(x + 10, y + 40, this.canGetStacks ? 0 : 9, 166, 9, 9);
         drawTexturedModalRect(x + 10, y + 60, this.canWithdraw ? 0 : 9, 166, 9, 9);
         drawTexturedModalRect(x + 10, y + 80, this.canDeposit ? 0 : 9, 166, 9, 9);
-        fontRenderer.drawString(I18n.translateToLocal("peripheralsplusone.inv.permCard"), x + 22, y + 5, 0x313131);
-        fontRenderer.drawString(I18n.translateToLocal("peripheralsplusone.inv.permCard.perms"), x + 32, y + 20, 0x313131);
-        fontRenderer.drawString(I18n.translateToLocal("peripheralsplusone.inv.permCard.get"), x + 25, y + 40, 0x313131);
-        fontRenderer.drawString(I18n.translateToLocal("peripheralsplusone.inv.permCard.withdraw"), x + 25, y + 60, 0x313131);
-        fontRenderer.drawString(I18n.translateToLocal("peripheralsplusone.inv.permCard.deposit"), x + 25, y + 80, 0x313131);
+        fontRendererObj.drawString(I18n.format("peripheralsplusone.inv.permCard"), x + 22, y + 5, 0x313131);
+        fontRendererObj.drawString(I18n.format("peripheralsplusone.inv.permCard.perms"), x + 32, y + 20, 0x313131);
+        fontRendererObj.drawString(I18n.format("peripheralsplusone.inv.permCard.get"), x + 25, y + 40, 0x313131);
+        fontRendererObj.drawString(I18n.format("peripheralsplusone.inv.permCard.withdraw"), x + 25, y + 60, 0x313131);
+        fontRendererObj.drawString(I18n.format("peripheralsplusone.inv.permCard.deposit"), x + 25, y + 80, 0x313131);
     }
 
     @Override

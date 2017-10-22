@@ -55,21 +55,21 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 
 	@Override
 	public boolean canBeCollidedWith() {
-		return this.world.isRemote && (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) ||
+		return this.worldObj.isRemote && (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) ||
 				playerIsHoldingRideEnablingItem());
 	}
 
 	private boolean playerIsHoldingRideEnablingItem() {
-		if (!this.world.isRemote) {
+		if (!this.worldObj.isRemote) {
 			return false;
 		}
-		ItemStack item = Minecraft.getMinecraft().player.getHeldItemMainhand();
-		return !item.isEmpty() && (item.isItemEqual(new ItemStack(Items.CARROT_ON_A_STICK)) ||
+		ItemStack item = Minecraft.getMinecraft().thePlayer.getHeldItemMainhand();
+		return item != null && (item.isItemEqual(new ItemStack(Items.CARROT_ON_A_STICK)) ||
 				item.isItemEqual(new ItemStack(Items.STICK)));
 	}
 
 	@Override
-	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
+	public boolean processInitialInteract(EntityPlayer player, @Nullable ItemStack stack, EnumHand hand) {
 		if (!hand.equals(EnumHand.MAIN_HAND))
 			return false;
 		if (this.isBeingRidden() && this.getControllingPassenger() instanceof EntityPlayer &&
@@ -78,7 +78,7 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 		else if (this.isBeingRidden() && this.getControllingPassenger() != player)
 			return false;
 		else {
-			if (!this.world.isRemote)
+			if (!this.worldObj.isRemote)
 				player.startRiding(this);
 			return true;
 		}
@@ -88,7 +88,7 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 	public void onUpdate() {
 		super.onUpdate();
 		if (!isTurtleInWorld()) {
-			world.removeEntity(this);
+			worldObj.removeEntity(this);
 			return;
 		}
 		checkPlayerMovementRequest();
@@ -105,11 +105,11 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 	 * @return false if the check fails
 	 */
 	private boolean isTurtleInWorld() {
-		if (world.isRemote)
+		if (worldObj.isRemote)
 			return true;
 		if (turtle == null)
 			return false;
-		TileEntity tileEntity = world.getTileEntity(turtle.getPosition());
+		TileEntity tileEntity = worldObj.getTileEntity(turtle.getPosition());
 		if (tileEntity == null)
 			return false;
 		try {
@@ -123,12 +123,12 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 	}
 
 	private void moveToTurtlePosition() {
-		if (world.isRemote || turtle == null)
+		if (worldObj.isRemote || turtle == null)
 			return;
 		Vec3d pos = new Vec3d(turtle.getPosition()).addVector(0.5, 0, 0.5);
-		posX = pos.x;
-		posY = pos.y;
-		posZ = pos.z;
+		posX = pos.xCoord;
+		posY = pos.yCoord;
+		posZ = pos.zCoord;
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;
@@ -136,7 +136,7 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 
 	public boolean tryMove(MovementCode action) {
 		boolean canPerformAction = System.currentTimeMillis() - lastUpdateTime > 500;
-		if ((!canPerformAction) || this.world.isRemote || turtle == null)
+		if ((!canPerformAction) || this.worldObj.isRemote || turtle == null)
 			return false;
 		switch (action) {
 			case FORWARD:
@@ -198,7 +198,7 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 				animation = TurtleAnimation.MoveUp;
 				break;
 		}
-		if (this.world.isAirBlock(new BlockPos(x, y, z)) &&
+		if (this.worldObj.isAirBlock(new BlockPos(x, y, z)) &&
 				(turtle.getFuelLevel() >= Config.fuelPerTurtleMovement || !turtle.isFuelNeeded())) {
 			turtle.teleportTo(turtle.getWorld(), new BlockPos(x, y, z));
 			turtle.playAnimation(animation);
@@ -207,8 +207,8 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 	}
 
 	private void checkPlayerMovementRequest() {
-		if (this.world.isRemote && this.getControllingPassenger() != null &&
-				this.getControllingPassenger() == Minecraft.getMinecraft().player) {
+		if (this.worldObj.isRemote && this.getControllingPassenger() != null &&
+				this.getControllingPassenger() == Minecraft.getMinecraft().thePlayer) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // TODO Forge keybinds
 				PeripheralsPlusPlus.NETWORK.sendToServer(new RidableTurtlePacket(getPersistentID(),
 					MovementCode.FORWARD, dimension));

@@ -20,8 +20,8 @@ public class RenderAntenna extends TileEntitySpecialRenderer<TileEntityAntenna> 
 	private ModelAntenna model = new ModelAntenna();
 
 	@Override
-	public void render(TileEntityAntenna tileEntity, double x, double y, double z, float partialTicks, int destroyStage,
-                       float alpha) {
+	public void renderTileEntityAt(TileEntityAntenna tileEntity, double x, double y, double z, float partialTicks,
+								   int destroyStage) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x+0.5F, (float) y+2.3F, (float) z+0.5F);
 		GL11.glRotatef(180F, 0, 0, 1);
@@ -34,7 +34,7 @@ public class RenderAntenna extends TileEntitySpecialRenderer<TileEntityAntenna> 
 		GL11.glPopMatrix();
 	}
 
-    private float getRotate(int meta) {
+	private float getRotate(int meta) {
 		switch (EnumFacing.getFront(meta)) {
 			case NORTH:
 				return 0.0F;//0
@@ -58,12 +58,12 @@ public class RenderAntenna extends TileEntitySpecialRenderer<TileEntityAntenna> 
         }
 
         @Override
-        public void renderByItem(ItemStack stack, float partialTicks) {
+        public void renderByItem(ItemStack stack) {
             if (!stack.getItem().equals(ModItems.ANTENNA)) {
-                previousInstance.renderByItem(stack, partialTicks);
+                previousInstance.renderByItem(stack);
                 return;
             }
-            TileEntityRendererDispatcher.instance.render(antenna, 0, 0, 0, partialTicks);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(antenna, 0, 0, 0, 0, 0);
         }
-    }
+	}
 }

@@ -18,7 +18,7 @@ public class PeripheralContainerHandler {
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent event) {
 		if (event instanceof PlayerInteractEvent.RightClickEmpty)
-			if (!event.getEntityPlayer().getHeldItemMainhand().isEmpty() &&
+			if (event.getEntityPlayer().getHeldItemMainhand() != null &&
 					event.getEntityPlayer().getHeldItemMainhand().getItem() instanceof ItemBlockPeripheralContainer) {
 				InventoryPlayer inv = event.getEntityPlayer().inventory;
 				List<String> text = new ArrayList<>();

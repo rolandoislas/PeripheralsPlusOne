@@ -5,11 +5,9 @@ import com.austinv11.peripheralsplusplus.nei.recipe.RecipePocketUpgrade;
 import com.austinv11.peripheralsplusplus.nei.recipe.RecipeTurtleUpgrade;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.*;
+import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 
 import java.util.ArrayList;
 
@@ -17,6 +15,16 @@ import java.util.ArrayList;
 public class JeiPlugin implements IModPlugin {
     public JeiPlugin() {
         super();
+    }
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+
+    }
+
+    @Override
+    public void registerIngredients(IModIngredientRegistration registry) {
+
     }
 
     @Override
@@ -33,6 +41,11 @@ public class JeiPlugin implements IModPlugin {
             recipes.add(new RecipePocketUpgrade(pocketUpgrade, true));
             recipes.add(new RecipePocketUpgrade(pocketUpgrade, false));
         }
-        registry.addRecipes(recipes, VanillaRecipeCategoryUid.CRAFTING);
+        registry.addRecipes(recipes);
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+
     }
 }

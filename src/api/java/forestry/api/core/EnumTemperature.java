@@ -5,25 +5,23 @@
  ******************************************************************************/
 package forestry.api.core;
 
-import forestry.api.climate.IClimateState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Many things Forestry use temperature and humidity of a biome to determine whether they can or how they can work or spawn at a given location.
- * <p>
- * This enum concerns temperature.
+ *  Many things Forestry use temperature and humidity of a biome to determine whether they can or how they can work or spawn at a given location.
+ *
+ *  This enum concerns temperature.
  */
 public enum EnumTemperature {
 	NONE("None", "habitats/ocean"), ICY("Icy", "habitats/snow"), COLD("Cold", "habitats/taiga"),
 	NORMAL("Normal", "habitats/plains"), WARM("Warm", "habitats/jungle"), HOT("Hot", "habitats/desert"), HELLISH("Hellish", "habitats/nether");
 
-	public static EnumTemperature[] VALUES = values();
-	
 	public final String name;
 	public final String iconIndex;
 
@@ -37,7 +35,7 @@ public enum EnumTemperature {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public TextureAtlasSprite getSprite() {
+	public TextureAtlasSprite getIcon() {
 		return ForestryAPI.textureManager.getDefault(iconIndex);
 	}
 
@@ -45,7 +43,6 @@ public enum EnumTemperature {
 	 * Determines the EnumTemperature given a floating point representation of
 	 * Minecraft temperature. Hellish biomes are handled based on their biome
 	 * type - check BiomeHelper.isBiomeHellish.
-	 *
 	 * @param rawTemp raw temperature value
 	 * @return EnumTemperature corresponding to value of rawTemp
 	 */
@@ -74,8 +71,7 @@ public enum EnumTemperature {
 		if (BiomeHelper.isBiomeHellish(biome)) {
 			return HELLISH;
 		}
-		IClimateState state = ForestryAPI.climateManager.getClimateState(world, pos);
-		float temperature = state.getTemperature();
+		float temperature = ForestryAPI.climateManager.getTemperature(world, pos);
 		return getFromValue(temperature);
 	}
 }

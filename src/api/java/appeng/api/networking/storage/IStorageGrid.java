@@ -26,11 +26,11 @@ package appeng.api.networking.storage;
 
 import appeng.api.networking.IGridCache;
 import appeng.api.networking.IGridHost;
-import appeng.api.networking.security.IActionSource;
+import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.ICellContainer;
 import appeng.api.storage.ICellProvider;
 import appeng.api.storage.IStorageMonitorable;
-import appeng.api.storage.IStorageChannel;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEStack;
 
 
@@ -50,7 +50,7 @@ public interface IStorageGrid extends IGridCache, IStorageMonitorable
 	 *
 	 * @param input injected items
 	 */
-	void postAlterationOfStoredItems(IStorageChannel chan, Iterable<? extends IAEStack> input, IActionSource src);
+	void postAlterationOfStoredItems( StorageChannel chan, Iterable<? extends IAEStack> input, BaseActionSource src );
 
 	/**
 	 * Used to add a cell provider to the storage system
@@ -60,10 +60,10 @@ public interface IStorageGrid extends IGridCache, IStorageMonitorable
 	 *
 	 * @param cc to be added cell provider
 	 */
-	void registerCellProvider(ICellProvider cc);
+	void registerCellProvider( ICellProvider cc );
 
 	/**
 	 * remove a provider added with addCellContainer
 	 */
-	void unregisterCellProvider(ICellProvider cc);
+	void unregisterCellProvider( ICellProvider cc );
 }

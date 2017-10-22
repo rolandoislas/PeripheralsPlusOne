@@ -5,19 +5,36 @@
  ******************************************************************************/
 package forestry.api.multiblock;
 
-import net.minecraft.util.math.BlockPos;
+import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import forestry.api.climate.IClimateControl;
+import forestry.api.climate.IClimateControlProvider;
+import forestry.api.climate.IClimateRegion;
 import forestry.api.core.ICamouflageHandler;
+import forestry.api.greenhouse.EnumGreenhouseEventType;
 import forestry.api.greenhouse.IGreenhouseHousing;
+import forestry.api.greenhouse.IGreenhouseLogic;
 
-public interface IGreenhouseController extends IMultiblockController, IGreenhouseHousing, ICamouflageHandler {
+public interface IGreenhouseController extends IMultiblockController, IGreenhouseHousing, ICamouflageHandler, IClimateControlProvider {
 	
 	/**
-	 *
-	 * @return the position of the block at the top of the greenhouse structure that shows the state of the greenhouse.
+	 * Handle change events.
 	 */
-	BlockPos getCenterCoordinates();
-
-	void setCenterCoordinates(BlockPos coordinates);
+	void onChange(EnumGreenhouseEventType type, Object event);
 	
+	/**
+	 * @return The logics of the greenhouse.
+	 */
+	List<IGreenhouseLogic> getLogics();
+	
+	@Nullable
+	IClimateRegion getRegion();
+	
+	@Override
+	@Nonnull
+	IClimateControl getClimateControl();
+
 }

@@ -23,7 +23,7 @@ public class MessageCommand extends HelmetCommand {
 		Stack<String> messages = (Stack<String>) messageStack.clone();
 		int y = 1;
 		while (!messages.empty()) {
-			gui.drawString(Minecraft.getMinecraft().fontRenderer, messages.pop(), 1, y, Color.white.getRGB());
+			gui.drawString(Minecraft.getMinecraft().fontRendererObj, messages.pop(), 1, y, Color.white.getRGB());
 			y += 8;
 		}
 	}

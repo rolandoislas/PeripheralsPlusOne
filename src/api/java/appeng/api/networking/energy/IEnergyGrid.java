@@ -79,7 +79,7 @@ public interface IEnergyGrid extends IGridCache, IEnergySource, IEnergyGridProvi
 	 *
 	 * @return the amount of power that the network has OVER the limit.
 	 */
-	double injectPower(double amt, Actionable mode);
+	double injectPower( double amt, Actionable mode );
 
 	/**
 	 * this is should be considered an estimate, and not relied upon for real calculations.
@@ -101,5 +101,5 @@ public interface IEnergyGrid extends IGridCache, IEnergySource, IEnergyGridProvi
 	 *
 	 * @return Amount of power required to charge the grid, in AE.
 	 */
-	double getEnergyDemand(double maxRequired);
+	double getEnergyDemand( double maxRequired );
 }

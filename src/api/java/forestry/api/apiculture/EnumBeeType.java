@@ -14,7 +14,7 @@ public enum EnumBeeType implements ISpeciesType {
 
 	public static final EnumBeeType[] VALUES = values();
 
-	private final String name;
+	String name;
 
 	EnumBeeType() {
 		this.name = this.toString().toLowerCase(Locale.ENGLISH);

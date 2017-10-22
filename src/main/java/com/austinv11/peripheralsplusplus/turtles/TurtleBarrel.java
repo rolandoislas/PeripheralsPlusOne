@@ -46,7 +46,7 @@ public class TurtleBarrel implements ITurtleUpgrade, ModelManager.ModelRegistrar
 	@Override
 	public ItemStack getCraftingItem() {
 		if (!Config.enableBarrelTurtle)
-			return ItemStack.EMPTY;
+			return null;
 		return new ItemStack(Blocks.LOG);
 	}
 

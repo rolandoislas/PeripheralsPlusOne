@@ -41,19 +41,19 @@ public interface IBiometricCard
 	/**
 	 * Set the {@link GameProfile} to null, to clear it.
 	 */
-	void setProfile(ItemStack itemStack, GameProfile username);
+	void setProfile( ItemStack itemStack, GameProfile username );
 
 	/**
 	 * @return {@link GameProfile} of the player encoded on this card, or a blank string.
 	 */
-	GameProfile getProfile(ItemStack is);
+	GameProfile getProfile( ItemStack is );
 
 	/**
 	 * @param itemStack card
 	 *
 	 * @return the full list of permissions encoded on the card.
 	 */
-	EnumSet<SecurityPermissions> getPermissions(ItemStack itemStack);
+	EnumSet<SecurityPermissions> getPermissions( ItemStack itemStack );
 
 	/**
 	 * Check if a permission is encoded on the card.
@@ -62,7 +62,7 @@ public interface IBiometricCard
 	 *
 	 * @return true if this permission is set on the card.
 	 */
-	boolean hasPermission(ItemStack is, SecurityPermissions permission);
+	boolean hasPermission( ItemStack is, SecurityPermissions permission );
 
 	/**
 	 * remove a permission from the item stack.
@@ -70,7 +70,7 @@ public interface IBiometricCard
 	 * @param itemStack card
 	 * @param permission to be removed permission
 	 */
-	void removePermission(ItemStack itemStack, SecurityPermissions permission);
+	void removePermission( ItemStack itemStack, SecurityPermissions permission );
 
 	/**
 	 * add a permission to the item stack.
@@ -78,7 +78,7 @@ public interface IBiometricCard
 	 * @param itemStack card
 	 * @param permission to be added permission
 	 */
-	void addPermission(ItemStack itemStack, SecurityPermissions permission);
+	void addPermission( ItemStack itemStack, SecurityPermissions permission );
 
 	/**
 	 * lets you handle submission of security values on the card for custom behavior.
@@ -87,5 +87,5 @@ public interface IBiometricCard
 	 * @param pr player registry
 	 * @param is card
 	 */
-	void registerPermissions(ISecurityRegistry registry, IPlayerRegistry pr, ItemStack is);
+	void registerPermissions( ISecurityRegistry registry, IPlayerRegistry pr, ItemStack is );
 }

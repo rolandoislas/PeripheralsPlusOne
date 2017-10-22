@@ -20,10 +20,10 @@ public class AddTextFieldCommand extends HelmetCommand {
 		GuiHelmet screen = (GuiHelmet)gui;
 		if (message.equals("@NULL@")) {
 			screen.addTextField(id, new GuiTextField(((GuiHelmet) gui).textFields.size(),
-                    Minecraft.getMinecraft().fontRenderer, x, y, width, height));
+                    Minecraft.getMinecraft().fontRendererObj, x, y, width, height));
 		} else {
 			GuiTextField field = new GuiTextField(((GuiHelmet) gui).textFields.size(),
-                    Minecraft.getMinecraft().fontRenderer, x, y, width, height);
+                    Minecraft.getMinecraft().fontRendererObj, x, y, width, height);
 			field.setText(message);
 			screen.addTextField(id, field);
 		}

@@ -47,7 +47,7 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 	}
 
 	public int getMaxLinks() {
-		int tier = world.getBlockState(getPos()).getValue(BlockTeleporter.TIER);
+		int tier = worldObj.getBlockState(getPos()).getValue(BlockTeleporter.TIER);
 		return tier == 0 ? 1 : 8;
 	}
 
@@ -112,9 +112,9 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 			LinkData link = links.get(index);
 			if (link == null)
 				throw new LuaException("No such link");
-			IBlockState blockState = world.getBlockState(getPos());
+			IBlockState blockState = worldObj.getBlockState(getPos());
 			EnumFacing direction = blockState.getValue(BlockPppDirectional.FACING);
-			TileEntity te = world.getTileEntity(getPos().offset(direction));
+			TileEntity te = worldObj.getTileEntity(getPos().offset(direction));
 			try {
 				if (ReflectionHelper.getTurtle(te) == null)
 					throw new LuaException("No turtle in front");
@@ -127,7 +127,7 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 			TileEntity dest = destWorld.getTileEntity(link.link);
 			if (!(dest instanceof TileEntityTeleporter))
 				throw new LuaException("Destination is not a teleporter");
-			IBlockState destinationBlockState = world.getBlockState(dest.getPos());
+			IBlockState destinationBlockState = worldObj.getBlockState(dest.getPos());
 			EnumFacing destinationDirection = destinationBlockState.getValue(BlockPppDirectional.FACING);
 			BlockPos destinationPos = dest.getPos().offset(destinationDirection);
 			if (!destinationBlockState.getBlock().isReplaceable(destWorld, destinationPos) ||
@@ -142,7 +142,7 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 				throw new LuaException("Could not get turtle");
 			double fuelUsed = distance *
 					Math.min(Math.max(Math.abs(
-							world.provider.getDimension() - destWorld.provider.getDimension()),
+							worldObj.provider.getDimension() - destWorld.provider.getDimension()),
 							100), 1) *
 					Config.teleporterPenalty;
 			if (!turtle.consumeFuel(Math.abs((int)Math.ceil(fuelUsed))))
@@ -150,7 +150,7 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 			boolean result = turtle.teleportTo(destWorld, destinationPos);
 			destWorld.markAndNotifyBlock(destinationPos, destWorld.getChunkFromBlockCoords(destinationPos),
 					destinationBlockState, destinationBlockState, 2);
-			world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), blockState, blockState, 2);
+			worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), blockState, blockState, 2);
 			if (result) {
 				BlockPos particlePos = pos.offset(direction);
 				PeripheralsPlusPlus.NETWORK.sendToAllAround(new ParticlePacket(
@@ -158,16 +158,16 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 						particlePos.getX(),
 						particlePos.getY(),
 						particlePos.getZ(),
-						world.rand.nextGaussian(),
+						worldObj.rand.nextGaussian(),
 						0,
-						world.rand.nextGaussian()
+						worldObj.rand.nextGaussian()
 				), new NetworkRegistry.TargetPoint(
-						world.provider.getDimension(),
+						worldObj.provider.getDimension(),
 						particlePos.getX(),
 						particlePos.getY(),
 						particlePos.getZ(),
 						16));
-				world.playSound(
+				worldObj.playSound(
 						particlePos.getX(),
 						particlePos.getY(),
 						particlePos.getZ(),
@@ -206,7 +206,7 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 
 	public void blockActivated(EntityPlayer player, EnumHand hand) {
 		ItemStack held = player.getHeldItem(hand);
-		if (!held.isEmpty() && held.isItemEqual(new ItemStack(Items.REPEATER))) {
+		if (held != null && held.isItemEqual(new ItemStack(Items.REPEATER))) {
 			if (held.getTagCompound() != null) {
 				if (held.getTagCompound().hasKey("p++LinkX") && held.getTagCompound().hasKey("p++LinkY") &&
 						held.getTagCompound().hasKey("p++LinkZ") && held.getTagCompound().hasKey("p++LinkDim")) {
@@ -216,21 +216,21 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 					int linkDim = held.getTagCompound().getInteger("p++LinkDim");
 					World srcWorld = DimensionManager.getWorld(linkDim);
 					if (srcWorld == null) {
-						player.sendMessage(new TextComponentString("Link failed: World is missing"));
+						player.addChatMessage(new TextComponentString("Link failed: World is missing"));
 					} else {
 						TileEntity te = srcWorld.getTileEntity(link);
 						if (!(te instanceof TileEntityTeleporter)) {
-							player.sendMessage(new TextComponentString("Link failed: Teleporter no longer exists"));
+							player.addChatMessage(new TextComponentString("Link failed: Teleporter no longer exists"));
 						} else {
 							TileEntityTeleporter src = (TileEntityTeleporter)te;
 							if (link.equals(getPos())) {
-								player.sendMessage(new TextComponentString("Link canceled"));
+								player.addChatMessage(new TextComponentString("Link canceled"));
 							} else {
 								boolean unlinked = false;
 								for (int i = 0; i < src.links.size(); i++) {
 									LinkData rlink = src.links.get(i);
-									if (rlink.link.equals(getPos()) && rlink.linkDim == world.provider.getDimension()) {
-										player.sendMessage(new TextComponentString("Unlinked teleporter at " +
+									if (rlink.link.equals(getPos()) && rlink.linkDim == worldObj.provider.getDimension()) {
+										player.addChatMessage(new TextComponentString("Unlinked teleporter at " +
 												rlink.linkDim + ":(" + rlink.link.getX() + "," + rlink.link.getY() + ","
 												+ rlink.link.getZ() + ") (link " + (i + 1) + ") from this teleporter"));
 										src.links.remove(i);
@@ -239,8 +239,8 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 									}
 								}
 								if (!unlinked) {
-									src.addLink(world.provider.getDimension(), getPos());
-									player.sendMessage(new TextComponentString("Linked teleporter at " + linkDim +
+									src.addLink(worldObj.provider.getDimension(), getPos());
+									player.addChatMessage(new TextComponentString("Linked teleporter at " + linkDim +
 											":(" + link.getX() + "," + link.getY() + "," + link.getZ() + ") (link " +
 											src.links.size() + ") to this teleporter"));
 								}
@@ -268,15 +268,15 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 			held.getTagCompound().setInteger("p++LinkX", getPos().getX());
 			held.getTagCompound().setInteger("p++LinkY", getPos().getY());
 			held.getTagCompound().setInteger("p++LinkZ", getPos().getZ());
-			held.getTagCompound().setInteger("p++LinkDim", world.provider.getDimension());
+			held.getTagCompound().setInteger("p++LinkDim", worldObj.provider.getDimension());
 			NBTTagCompound display = new NBTTagCompound();
 			NBTTagList lore = new NBTTagList();
 			lore.appendTag(new NBTTagString("Turtle Teleporter Link"));
-			lore.appendTag(new NBTTagString(world.provider.getDimension()+":("+pos.getX()+","+pos.getY()+","+
+			lore.appendTag(new NBTTagString(worldObj.provider.getDimension()+":("+pos.getX()+","+pos.getY()+","+
 					pos.getZ()+")"));
 			display.setTag("Lore", lore);
 			held.getTagCompound().setTag("display", display);
-			player.sendMessage(new TextComponentString("Link started"));
+			player.addChatMessage(new TextComponentString("Link started"));
 		}
 	}
 

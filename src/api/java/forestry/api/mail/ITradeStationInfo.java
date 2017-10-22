@@ -5,9 +5,9 @@
  ******************************************************************************/
 package forestry.api.mail;
 
-import com.mojang.authlib.GameProfile;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+
+import com.mojang.authlib.GameProfile;
 
 public interface ITradeStationInfo {
 	IMailAddress getAddress();
@@ -16,7 +16,7 @@ public interface ITradeStationInfo {
 
 	ItemStack getTradegood();
 
-	NonNullList<ItemStack> getRequired();
+	ItemStack[] getRequired();
 
 	EnumTradeStationState getState();
 }

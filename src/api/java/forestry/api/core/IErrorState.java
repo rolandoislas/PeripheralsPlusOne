@@ -10,12 +10,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
+ *
  * @author CovertJaguar <http://www.railcraft.info/>
  */
 public interface IErrorState {
-
+	
 	short getID();
-
+	
 	String getUniqueName();
 
 	String getUnlocalizedDescription();

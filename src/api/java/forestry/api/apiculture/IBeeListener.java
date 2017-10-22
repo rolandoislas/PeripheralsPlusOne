@@ -11,7 +11,6 @@ public interface IBeeListener {
 
 	/**
 	 * Called when the bees wear out the housing's equipment.
-	 *
 	 * @param amount Integer indicating the amount worn out.
 	 */
 	void wearOutEquipment(int amount);
@@ -23,7 +22,6 @@ public interface IBeeListener {
 
 	/**
 	 * Called when the bees have retrieved some pollen.
-	 *
 	 * @return true if this bee listener handled the pollen.
 	 */
 	boolean onPollenRetrieved(IIndividual pollen);

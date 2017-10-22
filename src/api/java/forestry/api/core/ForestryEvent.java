@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import com.mojang.authlib.GameProfile;
 
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 import forestry.api.genetics.IAlleleSpecies;
@@ -57,21 +56,6 @@ public abstract class ForestryEvent extends Event {
 			this.tracker = tracker;
 			this.player = player;
 		}
-	}
 
-	/**
-	 * Posted before forestry registers all items and block.
-	 */
-	public static class PreInit extends ForestryEvent{
-		/**
-		 * The main mod instance for Forestry.
-		 */
-		public Object instance;
-		public final FMLPreInitializationEvent event;
-
-		public PreInit(Object instance, FMLPreInitializationEvent event) {
-			this.instance = instance;
-			this.event = event;
-		}
 	}
 }

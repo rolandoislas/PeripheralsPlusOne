@@ -42,8 +42,8 @@ public class TileEntityAnalyzerBee extends TileEntityAnalyzer {
 		IBeeRoot root = (IBeeRoot) getRoot();
 		IBeeGenome genome = (IBeeGenome) origGenome;
 		ret.put("type", root.getType(stack) == null ? null : root.getType(stack).name());
-		ret.put("speciesPrimary", genome.getPrimary().getAlleleName());
-		ret.put("speciesSecondary", genome.getSecondary().getAlleleName());
+		ret.put("speciesPrimary", genome.getPrimary().getName());
+		ret.put("speciesSecondary", genome.getSecondary().getName());
 		ret.put("speed", genome.getSpeed());
 		ret.put("lifespan", genome.getLifespan());
 		ret.put("fertility", genome.getFertility());

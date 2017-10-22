@@ -42,5 +42,5 @@ public interface ICommonTile
 	 * @param pos location of the block
 	 * @param drops drops of tile entity
 	 */
-	void getDrops(World world, BlockPos pos, List<ItemStack> drops);
+	void getDrops( World world, BlockPos pos, List<ItemStack> drops );
 }

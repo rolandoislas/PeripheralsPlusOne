@@ -1,12 +1,17 @@
 /*******************************************************************************
- * Copyright 2011-2014 SirSengir
+ * Copyright (c) 2011-2014 SirSengir.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser Public License v3
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/lgpl-3.0.txt
  *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
+ * Various Contributors including, but not limited to:
+ * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
 package forestry.api.lepidopterology;
 
 public class ButterflyManager {
-
+	
 	/**
 	 * Convenient access to AlleleManager.alleleRegistry.getSpeciesRoot("rootButterflies")
 	 */
@@ -16,7 +21,7 @@ public class ButterflyManager {
 	 * Used to create new butterflies.
 	 */
 	public static IButterflyFactory butterflyFactory;
-
+	
 	/**
 	 * Used to create new butterfly mutations.
 	 */

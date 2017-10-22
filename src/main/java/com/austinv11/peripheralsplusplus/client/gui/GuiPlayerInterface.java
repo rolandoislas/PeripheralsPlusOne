@@ -17,7 +17,8 @@ public class GuiPlayerInterface extends GuiContainer
 
     public GuiPlayerInterface(EntityPlayer player, int x, int y, int z)
     {
-        super(new ContainerPlayerInterface(player, (IInventory) player.world.getTileEntity(new BlockPos(x, y, z)), 176, 133));
+        super(new ContainerPlayerInterface(player, (IInventory) player.worldObj.getTileEntity(new BlockPos(x, y, z)),
+                176, 133));
         sizeX = 176;
         sizeY = 133;
     }

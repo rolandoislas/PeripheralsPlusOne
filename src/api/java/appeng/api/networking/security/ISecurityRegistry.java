@@ -41,5 +41,5 @@ public interface ISecurityRegistry
 	 * @param playerID player id
 	 * @param permissions permissions of player
 	 */
-	void addPlayer(int playerID, EnumSet<SecurityPermissions> permissions);
+	void addPlayer( int playerID, EnumSet<SecurityPermissions> permissions );
 }

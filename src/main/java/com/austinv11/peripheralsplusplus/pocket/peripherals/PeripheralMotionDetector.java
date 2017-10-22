@@ -98,7 +98,7 @@ public class PeripheralMotionDetector implements IPlusPlusPeripheral {
 			return;
 		if (!event.isCanceled()) {
             ItemStack heldItem = event.getEntityPlayer().getHeldItemMainhand();
-            if (!heldItem.isEmpty()) {
+            if (heldItem != null) {
                 ItemStack pocket = TurtleUtil.getPocket(true);
                 if (heldItem.getItem() == pocket.getItem())
                     if (NBTHelper.hasTag(heldItem, "upgrade")) {

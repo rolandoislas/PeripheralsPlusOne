@@ -32,9 +32,9 @@ import appeng.api.storage.data.IAEStack;
  * Thin logic layer that can be swapped with different IMEInventory implementations, used to handle features related to
  * storage, that are Separate from the storage medium itself.
  *
- * @param <T>
+ * @param <StackType>
  */
-public interface IMEInventoryHandler<T extends IAEStack<T>> extends IMEInventory<T>
+public interface IMEInventoryHandler<StackType extends IAEStack> extends IMEInventory<StackType>
 {
 
 	/**
@@ -52,7 +52,7 @@ public interface IMEInventoryHandler<T extends IAEStack<T>> extends IMEInventory
 	 *
 	 * @return if its prioritized
 	 */
-	boolean isPrioritized(T input);
+	boolean isPrioritized( StackType input );
 
 	/**
 	 * determine if an item can be accepted and stored.
@@ -61,7 +61,7 @@ public interface IMEInventoryHandler<T extends IAEStack<T>> extends IMEInventory
 	 *
 	 * @return if the item can be added
 	 */
-	boolean canAccept(T input);
+	boolean canAccept( StackType input );
 
 	/**
 	 * determine what the priority of the inventory is.
@@ -88,5 +88,5 @@ public interface IMEInventoryHandler<T extends IAEStack<T>> extends IMEInventory
 	 *
 	 * @return true, if this inventory is valid for this pass.
 	 */
-	boolean validForPass(int i);
+	boolean validForPass( int i );
 }

@@ -7,6 +7,7 @@ import com.austinv11.peripheralsplusplus.tiles.TileEntityResupplyStation;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +27,8 @@ public class BlockResupplyStation extends BlockContainerPPP {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-                                    EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+                                    EnumHand hand, ItemStack itemStack, EnumFacing facing, float hitX, float hitY,
+                                    float hitZ) {
         TileEntity te = world.getTileEntity(pos);
         if (!world.isRemote) {
             if (te != null)

@@ -1,8 +1,3 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture;
 
 import net.minecraft.util.IStringSerializable;
@@ -17,16 +12,16 @@ public interface IWoodType extends IStringSerializable {
 	float getHardness();
 
 	int getCarbonization();
-
+	
 	float getCharcoalChance(int numberOfCharcoal);
-
+	
 	String getPlankTexture();
-
+	
 	String getDoorLowerTexture();
-
+	
 	String getDoorUpperTexture();
-
+	
 	String getBarkTexture();
-
+	
 	String getHeartTexture();
 }

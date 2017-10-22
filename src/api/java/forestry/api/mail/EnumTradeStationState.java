@@ -5,6 +5,8 @@
  ******************************************************************************/
 package forestry.api.mail;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.util.text.translation.I18n;
 
 public enum EnumTradeStationState implements IPostalState {
@@ -17,7 +19,7 @@ public enum EnumTradeStationState implements IPostalState {
 
 	private final String unlocalizedDescription;
 
-	EnumTradeStationState(String unlocalizedDescription) {
+	EnumTradeStationState(@Nonnull String unlocalizedDescription) {
 		this.unlocalizedDescription = unlocalizedDescription;
 	}
 

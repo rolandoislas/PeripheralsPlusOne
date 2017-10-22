@@ -34,6 +34,6 @@ import net.minecraft.util.EnumFacing;
 public interface BakingPipelineElement<F, T>
 {
 
-	public List<T> pipe(List<F> elements, IBakedModel parent, IBlockState state, EnumFacing side, long rand);
+	public List<T> pipe( List<F> elements, IBakedModel parent, IBlockState state, EnumFacing side, long rand );
 
 }

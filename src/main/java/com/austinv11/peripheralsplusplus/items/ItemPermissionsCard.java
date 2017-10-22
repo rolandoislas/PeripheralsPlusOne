@@ -27,7 +27,8 @@ public class ItemPermissionsCard extends ItemPPP
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player,
+                                                    EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (Config.enablePlayerInterface)
         {
@@ -45,12 +46,12 @@ public class ItemPermissionsCard extends ItemPPP
                         NBTHelper.setBoolean(stack, "getStacks", false);
                         NBTHelper.setBoolean(stack, "withdraw", false);
                         NBTHelper.setBoolean(stack, "deposit", false);
-                        player.sendMessage(new TextComponentTranslation(
+                        player.addChatMessage(new TextComponentTranslation(
                                 "peripheralsplusone.chat.permCard.set"));
                     }
                     else
                     {
-                        player.sendMessage(new TextComponentTranslation(
+                        player.addChatMessage(new TextComponentTranslation(
                                 "peripheralsplusone.chat.permCard.alreadySet"));
                         return new ActionResult<>(EnumActionResult.FAIL, stack);
                     }
@@ -62,7 +63,7 @@ public class ItemPermissionsCard extends ItemPPP
                 {
                     if (!world.isRemote)
                     {
-                        player.sendMessage(new TextComponentTranslation(
+                        player.addChatMessage(new TextComponentTranslation(
                                 "peripheralsplusone.chat.permCard.notSet"));
                     }
                     return new ActionResult<>(EnumActionResult.FAIL, stack);
@@ -73,7 +74,7 @@ public class ItemPermissionsCard extends ItemPPP
                 {
                     if (!world.isRemote)
                     {
-                        player.sendMessage(new TextComponentTranslation(
+                        player.addChatMessage(new TextComponentTranslation(
                                 "peripheralsplusone.chat.permCard.wrongOwner"));
                     }
                     return new ActionResult<>(EnumActionResult.FAIL, stack);

@@ -16,7 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 import java.util.HashMap;
 
@@ -120,9 +119,8 @@ public class PeripheralTank implements IPlusPlusPeripheral {
 		// Try the empty
 		boolean placed = FluidUtil.tryPlaceFluid(null,
 				turtle.getWorld(),
-				turtle.getPosition().offset(direction),
-				fluidTank,
-				fluidTank.getFluid());
+				fluidTank.getFluid(),
+				turtle.getPosition().offset(direction));
 		int amount = 0;
 		// Placed in world
 		if (placed) {
@@ -166,8 +164,12 @@ public class PeripheralTank implements IPlusPlusPeripheral {
 
 	private Object[] drain(int drainSlot) throws LuaException {
 		ItemStack drainStack = turtle.getInventory().getStackInSlot(drainSlot);
+		if (drainStack == null)
+			throw new LuaException("Empty item");
+		ItemStack result = FluidUtil.tryEmptyContainer(drainStack, fluidTank, Config.maxNumberOfMillibuckets,
+				null, false);
 		FluidStack drainFluidStack = FluidUtil.getFluidContained(drainStack);
-		IFluidHandlerItem drainFluidHandler = FluidUtil.getFluidHandler(drainStack);
+		IFluidHandler drainFluidHandler = FluidUtil.getFluidHandler(drainStack);
 		if (drainFluidStack == null || drainFluidHandler == null || drainFluidStack.amount <= 0)
 			throw new LuaException("Item does not contain fluid");
 		if (fluidTank.getFluid() != null && !fluidTank.getFluid().isFluidEqual(drainFluidStack))
@@ -176,15 +178,19 @@ public class PeripheralTank implements IPlusPlusPeripheral {
 				true);
 		if (transfer == null)
 			return new Object[]{0};
-		turtle.getInventory().setInventorySlotContents(drainSlot, drainFluidHandler.getContainer());
+		turtle.getInventory().setInventorySlotContents(drainSlot, result);
 		saveTankDataToTurtle();
 		return new Object[]{transfer.amount};
 	}
 
 	private Object[] fill(int fillSlot) throws LuaException {
 		ItemStack fillStack = turtle.getInventory().getStackInSlot(fillSlot);
+		if (fillStack == null)
+			throw new LuaException("Stack in empty");
+		ItemStack result = FluidUtil.tryFillContainer(fillStack, fluidTank, Config.maxNumberOfMillibuckets,
+				null, false);
 		FluidStack fillFluidStack = FluidUtil.getFluidContained(fillStack);
-		IFluidHandlerItem fillFluidHandler = FluidUtil.getFluidHandler(fillStack);
+		IFluidHandler fillFluidHandler = FluidUtil.getFluidHandler(fillStack);
 		if (fillFluidHandler == null)
 			throw new LuaException("Item cannot contain fluid");
 		if (fluidTank.getFluid() == null)
@@ -195,7 +201,7 @@ public class PeripheralTank implements IPlusPlusPeripheral {
 				true);
 		if (transfer == null)
 			return new Object[]{0};
-		turtle.getInventory().setInventorySlotContents(fillSlot, fillFluidHandler.getContainer());
+		turtle.getInventory().setInventorySlotContents(fillSlot, result);
 		saveTankDataToTurtle();
 		return new Object[]{transfer.amount};
 	}

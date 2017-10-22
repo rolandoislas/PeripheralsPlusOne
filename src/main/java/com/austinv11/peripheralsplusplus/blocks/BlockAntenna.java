@@ -19,6 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +58,7 @@ public class BlockAntenna extends BlockPppDirectional implements ITileEntityProv
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
 								ItemStack stack) {
 		worldIn.setBlockState(pos, state.withProperty(FACING,
-				EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
+				placer.getHorizontalFacing().getOpposite()), 2);
 	}
 
 	@Override
@@ -72,8 +73,9 @@ public class BlockAntenna extends BlockPppDirectional implements ITileEntityProv
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player.getHeldItemMainhand().isEmpty() ||
+									EnumHand hand, @Nullable ItemStack heldItem, EnumFacing facing, float hitX,
+									float hitY, float hitZ) {
+		if (player.getHeldItemMainhand() == null ||
 				!((player.getHeldItemMainhand().getItem() instanceof ItemSmartHelmet) ||
 						(player.getHeldItemMainhand().getItem() instanceof ItemNanoSwarm)))
 			return false;

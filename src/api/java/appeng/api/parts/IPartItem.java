@@ -60,6 +60,6 @@ public interface IPartItem<P extends IPart>
 	 * @return part from item
 	 */
 	@Nullable
-	P createPartFromItemStack(ItemStack is);
+	P createPartFromItemStack( ItemStack is );
 
 }

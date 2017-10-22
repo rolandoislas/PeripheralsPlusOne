@@ -50,7 +50,7 @@ public interface IChestOrDrive extends ICellContainer, IGridHost, IOrientable
 	 *
 	 * @return status of the slot, one of the above indices.
 	 */
-	int getCellStatus(int slot);
+	int getCellStatus( int slot );
 
 	/**
 	 * @return if the device is online you should check this before providing any other information.
@@ -62,5 +62,5 @@ public interface IChestOrDrive extends ICellContainer, IGridHost, IOrientable
 	 *
 	 * @return is the cell currently blinking to show activity.
 	 */
-	boolean isCellBlinking(int slot);
+	boolean isCellBlinking( int slot );
 }

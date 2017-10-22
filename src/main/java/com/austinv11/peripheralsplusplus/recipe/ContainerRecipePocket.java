@@ -33,7 +33,7 @@ public class ContainerRecipePocket implements IRecipe {
     @Override
     public boolean matches(InventoryCrafting inv, World worldIn) {
         ItemStack container = getPeripheralContainer(inv);
-        if (container.isEmpty())
+        if (container == null)
             return false;
         List<IPocketUpgrade> peripherals = getPeripherals(inv);
         if (peripherals.size() == 0)
@@ -41,7 +41,7 @@ public class ContainerRecipePocket implements IRecipe {
         // Check there are no extra items
         int items = 0;
         for (int itemStack = 0; itemStack < inv.getSizeInventory(); itemStack++)
-            if (!inv.getStackInSlot(itemStack).isEmpty())
+            if (inv.getStackInSlot(itemStack) != null)
                 items++;
         if (items != peripherals.size() + 1)
             return false;
@@ -71,7 +71,7 @@ public class ContainerRecipePocket implements IRecipe {
         List<IPocketUpgrade> peripherals = new ArrayList<>();
         for (int itemIndex = 0; itemIndex < inventory.getSizeInventory(); itemIndex++) {
             ItemStack itemStack = inventory.getStackInSlot(itemIndex);
-            if (itemStack.getCount() != 1)
+            if (itemStack == null || itemStack.stackSize != 1)
                 continue;
             for (IPocketUpgrade pocketUpgrade : ComputerCraftRegistry.getPocketUpgrades().values())
                 if (pocketUpgrade.getCraftingItem().isItemEqual(itemStack) &&
@@ -82,14 +82,18 @@ public class ContainerRecipePocket implements IRecipe {
         return peripherals;
     }
 
+    @Nullable
     private ItemStack getPeripheralContainer(InventoryCrafting inventory) {
-        ItemStack returnStack = ItemStack.EMPTY;
+        ItemStack returnStack = null;
         ItemStack pocket = TurtleUtil.getPocket(true);
         for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
-            ItemStack itemStack = inventory.getStackInSlot(slot).copy();
+            ItemStack itemStack = inventory.getStackInSlot(slot);
+            if (itemStack == null)
+                continue;
+            itemStack = itemStack.copy();
             if (pocket.getItem() == itemStack.getItem()) {
-                if (itemStack.getCount() != 1 || !returnStack.isEmpty())
-                    return ItemStack.EMPTY;
+                if (itemStack.stackSize != 1 || returnStack != null)
+                    return null;
                 NBTTagCompound tagCompound = itemStack.getTagCompound();
                 if (tagCompound == null)
                     continue;
@@ -119,8 +123,8 @@ public class ContainerRecipePocket implements IRecipe {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
-        return true;
+    public int getRecipeSize() {
+        return 9;
     }
 
     @Override
@@ -129,24 +133,7 @@ public class ContainerRecipePocket implements IRecipe {
     }
 
     @Override
-    public IRecipe setRegistryName(ResourceLocation name) {
-        this.name = name;
-        return this;
-    }
-
-    @Nullable
-    @Override
-    public ResourceLocation getRegistryName() {
-        return name;
-    }
-
-    @Override
-    public Class<IRecipe> getRegistryType() {
-        return IRecipe.class;
-    }
-
-    @Override
-    public String getGroup() {
-        return group.toString();
+    public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+        return new ItemStack[getRecipeSize()];
     }
 }

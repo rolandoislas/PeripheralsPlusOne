@@ -29,7 +29,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import appeng.api.implementations.TransitionResult;
-import appeng.api.storage.ISpatialDimension;
 import appeng.api.util.WorldCoord;
 
 
@@ -44,21 +43,21 @@ public interface ISpatialStorageCell
 	 *
 	 * @return true if this item is a spatial storage cell
 	 */
-	boolean isSpatialStorage(ItemStack is);
+	boolean isSpatialStorage( ItemStack is );
 
 	/**
 	 * @param is spatial storage cell
 	 *
 	 * @return the maximum size of the spatial storage cell along any given axis
 	 */
-	int getMaxStoredDim(ItemStack is);
+	int getMaxStoredDim( ItemStack is );
 
 	/**
 	 * @param is spatial storage cell
 	 *
 	 * @return the world for this cell
 	 */
-	ISpatialDimension getSpatialDimension();
+	World getWorld( ItemStack is );
 
 	/**
 	 * get the currently stored size.
@@ -67,16 +66,25 @@ public interface ISpatialStorageCell
 	 *
 	 * @return size of spatial
 	 */
-	WorldCoord getStoredSize(ItemStack is);
+	WorldCoord getStoredSize( ItemStack is );
 
 	/**
-	 * get the currently stored Dimension id.
+	 * Minimum coordinates in its world for the storage cell.
 	 *
 	 * @param is spatial storage cell
 	 *
-	 * @return dimension id or -1
+	 * @return minimum coordinate of dimension
 	 */
-	int getStoredDimensionID(ItemStack is);
+	WorldCoord getMin( ItemStack is );
+
+	/**
+	 * Maximum coordinates in its world for the storage cell.
+	 *
+	 * @param is spatial storage cell
+	 *
+	 * @return maximum coordinate of dimension
+	 */
+	WorldCoord getMax( ItemStack is );
 
 	/**
 	 * Perform a spatial swap with the contents of the cell, and the world.
@@ -85,9 +93,9 @@ public interface ISpatialStorageCell
 	 * @param w world of spatial
 	 * @param min min coord
 	 * @param max max coord
-	 * @param playerId owner of current grid or -1
+	 * @param doTransition transition
 	 *
 	 * @return result of transition
 	 */
-	TransitionResult doSpatialTransition(ItemStack is, World w, WorldCoord min, WorldCoord max, int playerId);
+	TransitionResult doSpatialTransition( ItemStack is, World w, WorldCoord min, WorldCoord max, boolean doTransition );
 }

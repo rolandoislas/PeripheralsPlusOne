@@ -5,18 +5,13 @@
  ******************************************************************************/
 package forestry.api.apiculture;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import forestry.api.core.IErrorState;
 import forestry.api.genetics.IEffectData;
@@ -33,6 +28,7 @@ public interface IBee extends IIndividualLiving {
 	/**
 	 * @return Bee's genetic information.
 	 */
+	@Nonnull
 	@Override
 	IBeeGenome getGenome();
 
@@ -55,12 +51,12 @@ public interface IBee extends IIndividualLiving {
 
 	/**
 	 * Set the natural flag on this bee.
+	 * @param flag
 	 */
 	void setIsNatural(boolean flag);
 
 	IEffectData[] doEffect(IEffectData[] storedData, IBeeHousing housing);
 
-	@SideOnly(Side.CLIENT)
 	IEffectData[] doFX(IEffectData[] storedData, IBeeHousing housing);
 
 	/**
@@ -70,7 +66,6 @@ public interface IBee extends IIndividualLiving {
 
 	/**
 	 * Determines whether the queen can work.
-	 *
 	 * @param housing the {@link IBeeHousing} the bee currently resides in.
 	 * @return an empty set if the queen can work, a set of error states if the queen can not work
 	 */
@@ -78,39 +73,18 @@ public interface IBee extends IIndividualLiving {
 
 	List<Biome> getSuitableBiomes();
 
-	NonNullList<ItemStack> getProduceList();
+	ItemStack[] getProduceList();
 
-	NonNullList<ItemStack> getSpecialtyList();
+	ItemStack[] getSpecialtyList();
 
-	NonNullList<ItemStack> produceStacks(IBeeHousing housing);
+	ItemStack[] produceStacks(IBeeHousing housing);
 
-	@Nullable
 	IBee spawnPrincess(IBeeHousing housing);
 
-	List<IBee> spawnDrones(IBeeHousing housing);
+	IBee[] spawnDrones(IBeeHousing housing);
 
-	/**
-	 * @deprecated since Forestry 5.5.4. Use {@link #plantFlowerRandom(IBeeHousing, List)}
-	 */
-	@Deprecated
 	void plantFlowerRandom(IBeeHousing housing);
 
-	/**
-	 * Plants a random flower from the given list near the housing
-	 *
-	 * @param housing          the location the bee is living
-	 * @param potentialFlowers the flowers to choose from
-	 * @return the position of the planted flower, or null of none were planted
-	 * @since Forestry 5.5.4
-	 */
-	@Nullable
-	default BlockPos plantFlowerRandom(IBeeHousing housing, List<IBlockState> potentialFlowers) {
-		//noinspection deprecation
-		plantFlowerRandom(housing);
-		return null;
-	}
-
-	@Nullable
 	IIndividual retrievePollen(IBeeHousing housing);
 
 	boolean pollinateRandom(IBeeHousing housing, IIndividual pollen);

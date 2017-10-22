@@ -46,7 +46,8 @@ public class TileEntityPeripheralContainer extends NetworkedTileEntity implement
 			if (!(peripheralsBase instanceof NBTTagList))
 				return;
 			NBTTagList peripherals = (NBTTagList) peripheralsBase;
-			for (NBTBase peripheralBase : peripherals) {
+			for (int peripheral = 0; peripheral < peripherals.tagCount(); peripheral++) {
+				NBTBase peripheralBase = peripherals.get(peripheral);
 				if (!(peripheralBase instanceof NBTTagCompound))
 					continue;
 				addPeripheral(new ContainedPeripheral((NBTTagCompound) peripheralBase));
@@ -106,15 +107,15 @@ public class TileEntityPeripheralContainer extends NetworkedTileEntity implement
 		        continue;
 			((ITickable) peripheral.getPeripheral()).update();
 			if (needsUpdate) {
-			    world.markAndNotifyBlock(
+				worldObj.markAndNotifyBlock(
 			            getPos(),
-                        world.getChunkFromBlockCoords(getPos()),
-                        world.getBlockState(getPos()),
-                        world.getBlockState(pos),
+						worldObj.getChunkFromBlockCoords(getPos()),
+						worldObj.getBlockState(getPos()),
+						worldObj.getBlockState(pos),
                         2);
 			    if (!(peripheral.getPeripheral() instanceof TileEntity))
 			        continue;
-				((TileEntity) peripheral.getPeripheral()).setWorld(world);
+				((TileEntity) peripheral.getPeripheral()).setWorldObj(worldObj);
                 ((TileEntity) peripheral.getPeripheral()).setPos(getPos());
 			}
 		}
@@ -125,15 +126,15 @@ public class TileEntityPeripheralContainer extends NetworkedTileEntity implement
 			return;
 		peripheralsContained.add(peripheral);
 		markDirty();
-		if (world != null) {
-            world.markAndNotifyBlock(
+		if (worldObj != null) {
+			worldObj.markAndNotifyBlock(
                     getPos(),
-                    world.getChunkFromBlockCoords(getPos()),
-                    world.getBlockState(getPos()),
-                    world.getBlockState(pos),
+					worldObj.getChunkFromBlockCoords(getPos()),
+					worldObj.getBlockState(getPos()),
+					worldObj.getBlockState(pos),
                     2);
             if (peripheral.getPeripheral() instanceof TileEntity) {
-				((TileEntity) peripheral.getPeripheral()).setWorld(world);
+				((TileEntity) peripheral.getPeripheral()).setWorldObj(worldObj);
 				((TileEntity) peripheral.getPeripheral()).setPos(getPos());
 			}
 		} else
@@ -162,7 +163,7 @@ public class TileEntityPeripheralContainer extends NetworkedTileEntity implement
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if (world.isRemote)
+		if (worldObj.isRemote)
 			return;
 		ItemStack container = new ItemStack(ModBlocks.PERIPHERAL_CONTAINER);
 		NBTTagCompound tag = new NBTTagCompound();
@@ -173,6 +174,7 @@ public class TileEntityPeripheralContainer extends NetworkedTileEntity implement
 		for (ContainedPeripheral peripheral : peripheralsContained)
 			text.add(Colors.RESET + peripheral.getBlockResourceLocation().toString());
 		NBTHelper.addInfo(container, text);
-		world.spawnEntity(new EntityItem(world, getPos().getX(), getPos().getY(), getPos().getZ(), container.copy()));
+		worldObj.spawnEntityInWorld(new EntityItem(worldObj, getPos().getX(), getPos().getY(), getPos().getZ(),
+				container.copy()));
 	}
 }

@@ -31,5 +31,5 @@ import net.minecraft.util.math.RayTraceResult;
 public interface INetworkToolAgent
 {
 
-	boolean showNetworkInfo(RayTraceResult where);
+	boolean showNetworkInfo( RayTraceResult where );
 }

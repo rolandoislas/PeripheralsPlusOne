@@ -1,5 +1,6 @@
 package com.austinv11.peripheralsplusplus.blocks;
 
+import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.recipe.ContainedPeripheral;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityPeripheralContainer;
@@ -11,10 +12,12 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockPeripheralContainer extends BlockPppBase implements ITileEntityProvider {
 
@@ -33,13 +36,15 @@ public class BlockPeripheralContainer extends BlockPppBase implements ITileEntit
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
                                 ItemStack itemStack) {
         NBTTagCompound tag = itemStack.getTagCompound();
-        if (tag == null || !tag.hasKey("peripherals"))
+        String key = ModBlocks.PERIPHERAL_CONTAINER.getRegistryName().toString();
+        if (tag == null || !tag.hasKey(key))
             return;
-        NBTBase peripheralsBase = tag.getTag("peripherals");
+        NBTBase peripheralsBase = tag.getTag(key);
         if (!(peripheralsBase instanceof NBTTagList))
             return;
         NBTTagList peripherals = (NBTTagList) peripheralsBase;
-        for (NBTBase peripheralBase : peripherals) {
+        for (int peripheralIndex = 0; peripheralIndex < peripherals.tagCount(); peripheralIndex++) {
+            NBTBase peripheralBase = peripherals.get(peripheralIndex);
             if (!(peripheralBase instanceof NBTTagCompound))
                 continue;
             ContainedPeripheral peripheral = new ContainedPeripheral((NBTTagCompound) peripheralBase);
@@ -50,8 +55,8 @@ public class BlockPeripheralContainer extends BlockPppBase implements ITileEntit
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
                          int fortune) {
-
+        return new ArrayList<>();
     }
 }

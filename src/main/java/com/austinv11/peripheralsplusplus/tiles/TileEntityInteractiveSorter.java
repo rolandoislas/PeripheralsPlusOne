@@ -11,6 +11,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -20,8 +21,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +66,7 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 			return new Object[]{getItemInfo(getStackInSlot(0))};
 			
 		} else if (method == 1) {
-			if (getStackInSlot(0).isEmpty())
+			if (getStackInSlot(0) == null)
 				return new Object[]{false};
 			EnumFacing dir;
 			if (arguments.length < 1)
@@ -76,41 +79,42 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 				dir = EnumFacing.valueOf(((String) arguments[0]).toUpperCase());
 			else
 				dir = EnumFacing.getFront((int) (double) (Double) arguments[0]);
-			int amount = arguments.length > 1 ? MathHelper.clamp((int) (double) (Double) arguments[1], 0,
-					getStackInSlot(0).getCount()) : getStackInSlot(0).getCount();
-			IInventory inventory = TileEntityMEBridge.getInventoryForSide(world, getPos(), dir);
+			int amount = arguments.length > 1 ? MathHelper.clamp_int((int) (double) (Double) arguments[1], 0,
+					getStackInSlot(0).stackSize) : getStackInSlot(0).stackSize;
+			IInventory inventory = getInventoryForSide(worldObj, getPos(), dir);
 			if (inventory == null) {
 				BlockPos pos = getPos().offset(dir);
-				WorldUtils.spawnItemInWorld(new Location(pos.getX(), pos.getY(), pos.getZ(), world),
+				WorldUtils.spawnItemInWorld(new Location(pos.getX(), pos.getY(), pos.getZ(), worldObj),
 						getStackInSlot(0).splitStack(amount));
 				markDirty();
 				return new Object[]{true};
 			}
 
-			int oldSize = getStackInSlot(0).getCount();
+			int oldSize = getStackInSlot(0).stackSize;
 			int[] slots = inventory instanceof ISidedInventory ? 
 					((ISidedInventory) inventory).getSlotsForFace(dir.getOpposite()) : getDefaultSlots(inventory);
 			int currentSlot = 0;
-			while (!getStackInSlot(0).isEmpty() && getStackInSlot(0).getCount() > oldSize-amount && currentSlot < slots.length) {
-				if (inventory.getStackInSlot(slots[currentSlot]).isEmpty()) {
+			while (getStackInSlot(0) != null && getStackInSlot(0).stackSize > oldSize-amount && currentSlot < slots.length) {
+				if (inventory.getStackInSlot(slots[currentSlot]) == null) {
 					inventory.setInventorySlotContents(slots[currentSlot], getStackInSlot(0));
-					setInventorySlotContents(0, ItemStack.EMPTY);
+					setInventorySlotContents(0, null);
 				} else {
 					if (!inventory.getStackInSlot(slots[currentSlot]).isItemEqual(getStackInSlot(0))) {
 						currentSlot++;
 						continue;
 					}
-					int transferred = MathHelper.clamp(inventory.getStackInSlot(slots[currentSlot]).getCount()+amount,
-							getStackInSlot(0).getCount(), getStackInSlot(0).getMaxStackSize());
+					int transferred = MathHelper.clamp_int(inventory.getStackInSlot(slots[currentSlot]).stackSize+amount,
+							getStackInSlot(0).stackSize, getStackInSlot(0).getMaxStackSize());
 					
-					getStackInSlot(0).setCount(getStackInSlot(0).getCount() - transferred);
-					inventory.getStackInSlot(0).setCount(inventory.getStackInSlot(0).getCount() + transferred);
+					getStackInSlot(0).stackSize = getStackInSlot(0).stackSize - transferred;
+					inventory.getStackInSlot(0).stackSize = inventory.getStackInSlot(0).stackSize +
+							transferred;
 				}
 				inventory.markDirty();
 				markDirty();
 				currentSlot++;
 			}
-			return new Object[]{getStackInSlot(0).isEmpty() || getStackInSlot(0).getCount() != oldSize};
+			return new Object[]{getStackInSlot(0) == null || getStackInSlot(0).stackSize != oldSize};
 			
 		} else if (method == 2) {
 			EnumFacing dir;
@@ -126,7 +130,7 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 				dir = EnumFacing.valueOf(((String) arguments[0]).toUpperCase());
 			else
 				dir = EnumFacing.getFront(((int) (double) (Double) arguments[0]));
-			IInventory inventory = TileEntityMEBridge.getInventoryForSide(world, getPos(), dir);
+			IInventory inventory = getInventoryForSide(worldObj, getPos(), dir);
 			if (inventory == null)
 				throw new LuaException("Block is not a valid inventory");
 			int slots[] = inventory instanceof ISidedInventory ? 
@@ -134,17 +138,17 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 			int slot = -1;
 			if (arguments.length > 2) {
 				slot = getNearestSlot((int)(double)(Double)arguments[2], slots);
-				if (inventory.getStackInSlot(slot).isEmpty())
+				if (inventory.getStackInSlot(slot) == null)
 					return new Object[]{false};
 			} else {
 				for (int slot1 : slots)
-					if (getStackInSlot(0).isEmpty()) {
-						if (!inventory.getStackInSlot(slot1).isEmpty()) {
+					if (getStackInSlot(0) == null) {
+						if (inventory.getStackInSlot(slot1) != null) {
 							slot = slot1;
 							break;
 						}
 					} else {
-						if (!inventory.getStackInSlot(slot1).isEmpty()) {
+						if (inventory.getStackInSlot(slot1) != null) {
 							if (inventory.getStackInSlot(slot1).isItemEqual(getStackInSlot(0))) {
 								slot = slot1;
 								break;
@@ -154,20 +158,20 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 			}
 			if (slot == -1)
 				return new Object[]{false};
-			int amount = arguments.length > 1 ? MathHelper.clamp((int) (double) (Double) arguments[1], 0,
-					inventory.getStackInSlot(slot).getCount()) : inventory.getStackInSlot(slot).getCount();
+			int amount = arguments.length > 1 ? MathHelper.clamp_int((int) (double) (Double) arguments[1], 0,
+					inventory.getStackInSlot(slot).stackSize) : inventory.getStackInSlot(slot).stackSize;
 			int transferred;
-			if (!getStackInSlot(0).isEmpty()) {
-				transferred = MathHelper.clamp(getStackInSlot(0).getCount()+amount,
-						getStackInSlot(0).getCount(), getStackInSlot(0).getMaxStackSize());
-				getStackInSlot(0).setCount(getStackInSlot(0).getCount() + transferred);
-				inventory.getStackInSlot(slot).setCount(inventory.getStackInSlot(slot).getCount() - transferred);
+			if (getStackInSlot(0) != null) {
+				transferred = MathHelper.clamp_int(getStackInSlot(0).stackSize+amount,
+						getStackInSlot(0).stackSize, getStackInSlot(0).getMaxStackSize());
+				getStackInSlot(0).stackSize += transferred;
+				inventory.getStackInSlot(slot).stackSize -= transferred;
 			} else {
 				transferred = amount;
 				setInventorySlotContents(0, inventory.getStackInSlot(slot).splitStack(transferred));
 			}
-			if (!inventory.getStackInSlot(slot).isEmpty() && inventory.getStackInSlot(slot).getCount() < 1)
-				inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
+			if (inventory.getStackInSlot(slot) != null && inventory.getStackInSlot(slot).stackSize < 1)
+				inventory.setInventorySlotContents(slot, null);
 			inventory.markDirty();
 			markDirty();
 			return new Object[]{true};
@@ -182,11 +186,24 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 				dir = EnumFacing.valueOf(((String) arguments[0]).toUpperCase());
 			else
 				dir = EnumFacing.getFront((int) (double) (Double) arguments[0]);
-			return new Object[]{TileEntityMEBridge.getInventoryForSide(world, getPos(), dir) != null};
+			return new Object[]{getInventoryForSide(worldObj, getPos(), dir) != null};
 		}
 		return new Object[0];
 	}
-	
+
+	@Nullable
+	static IInventory getInventoryForSide(World world, BlockPos origin, EnumFacing side) {
+		BlockPos pos = origin.offset(side);
+		if (!world.isAirBlock(pos)) {
+			Block block = world.getBlockState(pos).getBlock();
+			if (block instanceof IInventory)
+				return (IInventory) block;
+			if (block instanceof ITileEntityProvider && world.getTileEntity(pos) instanceof IInventory)
+				return (IInventory)world.getTileEntity(pos);
+		}
+		return null;
+	}
+
 	private int getNearestSlot(int requested, int[] slots) {
 		int difference = Integer.MAX_VALUE;
 		int currentSlot = slots[0];
@@ -226,16 +243,16 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
 		super.setInventorySlotContents(slot, stack);
-		if (!stack.isEmpty() && stack.getCount() > 0 && slot == 0)
+		if (stack != null && stack.stackSize > 0 && slot == 0)
 			for (IComputerAccess computer : computers)
 				computer.queueEvent("itemReady", null);
 	}
 	
 	private HashMap<String, Object> getItemInfo(ItemStack stack) {
-		if (stack.isEmpty())
+		if (stack == null)
 			return null;
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("amount", stack.getCount());
+		map.put("amount", stack.stackSize);
 		ResourceLocation id;
 		if (stack.getItem() instanceof ItemBlock) {
 			Block block = Block.getBlockFromItem(stack.getItem());

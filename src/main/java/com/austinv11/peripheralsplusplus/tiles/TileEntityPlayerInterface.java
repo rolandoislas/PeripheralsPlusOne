@@ -119,7 +119,7 @@ public class TileEntityPlayerInterface extends TileEntityInventory implements IP
     }
 
     private boolean hasPermissionsCardFor(EntityPlayer player) {
-        return !getPermCardFor(player).isEmpty();
+        return getPermCardFor(player) != null;
     }
 
     private ItemStack getPermCardFor(EntityPlayer player) {
@@ -128,7 +128,7 @@ public class TileEntityPlayerInterface extends TileEntityInventory implements IP
                 if (stack.hasTagCompound()) {
                     GameProfile profile = NBTUtil.readGameProfileFromNBT(NBTHelper.getCompoundTag(stack, "profile"));
                     if (profile == null)
-                        return ItemStack.EMPTY;
+                        return null;
                     UUID uuid = profile.getId();
                     if (uuid.equals(player.getGameProfile().getId())) {
                         return stack;
@@ -136,6 +136,6 @@ public class TileEntityPlayerInterface extends TileEntityInventory implements IP
                 }
             }
         }
-        return ItemStack.EMPTY;
+        return null;
     }
 }

@@ -92,14 +92,14 @@ public class PeripheralBarrel implements IPlusPlusPeripheral {
 			ItemStack slot = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot());
 			Item itemStored = ITEM_TYPE_STORED;
 			int stackCount = amount;
-			if (!slot.isEmpty()) {
+			if (slot != null) {
 				ItemStack compareStack = new ItemStack(itemStored, stackCount, ITEM_META_STORED);
 				compareStack.setTagCompound(itemStoredTag);
 				if (!slot.isItemEqual(compareStack) || !areItemStackTagsEqual(slot, compareStack))
 					throw new LuaException("Item mismatch");
-				if (amount + slot.getCount() > STACK_SIZE)
-					amount = STACK_SIZE - slot.getCount();
-				stackCount = amount + slot.getCount();
+				if (amount + slot.stackSize > STACK_SIZE)
+					amount = STACK_SIZE - slot.stackSize;
+				stackCount = amount + slot.stackSize;
 			}
 			ItemStack stack = new ItemStack(itemStored, stackCount, ITEM_META_STORED);
 			stack.setTagCompound(itemStoredTag);
@@ -115,11 +115,11 @@ public class PeripheralBarrel implements IPlusPlusPeripheral {
 					throw new LuaException("Bad argument #1 (expected number)");
                 amount = (int) (double) (Double) arguments[0];
 			}
-			if (turtle.getInventory().getStackInSlot(turtle.getSelectedSlot()).isEmpty())
+			if (turtle.getInventory().getStackInSlot(turtle.getSelectedSlot()) == null)
 				return new Object[]{0};
 			ItemStack items = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot()).copy();
-			if (amount > items.getCount())
-				amount = items.getCount();
+			if (amount > items.stackSize)
+				amount = items.stackSize;
 			if (amount > (MAX_SIZE - CURRENT_USAGE))
 				amount = MAX_SIZE - CURRENT_USAGE;
 			if (ITEM_TYPE_STORED != null) {
@@ -138,10 +138,10 @@ public class PeripheralBarrel implements IPlusPlusPeripheral {
 			CURRENT_USAGE = CURRENT_USAGE + amount;
 			ItemStack newStack = new ItemStack(items.getItem());
             newStack.setItemDamage(ITEM_META_STORED);
-			if (items.getCount() - amount <= 0) {
-				newStack = ItemStack.EMPTY;
+			if (items.stackSize - amount <= 0) {
+				newStack = null;
 			} else {
-				newStack.setCount(items.getCount() - amount);
+				newStack.stackSize = items.stackSize - amount;
 			}
 			turtle.getInventory().setInventorySlotContents(turtle.getSelectedSlot(), newStack);
 			changed = true;

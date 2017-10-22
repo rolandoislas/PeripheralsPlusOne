@@ -44,5 +44,5 @@ public interface IAEWrench
 	 *
 	 * @return true if wrench can be used
 	 */
-	boolean canWrench(ItemStack wrench, EntityPlayer player, BlockPos pos);
+	boolean canWrench( ItemStack wrench, EntityPlayer player, BlockPos pos );
 }

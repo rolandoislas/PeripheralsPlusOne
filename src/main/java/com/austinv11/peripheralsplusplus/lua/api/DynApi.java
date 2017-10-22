@@ -72,7 +72,7 @@ public class DynApi extends LuaApi {
         if (!matcher.matches())
             return new Object[0];
         Map<Integer, Integer> versionMap = new HashMap<>();
-        for (int groupIndex = 1; groupIndex < matcher.groupCount(); groupIndex++) {
+        for (int groupIndex = 1; groupIndex <= matcher.groupCount(); groupIndex++) {
             String group = matcher.group(groupIndex);
             if (group == null)
                 break;

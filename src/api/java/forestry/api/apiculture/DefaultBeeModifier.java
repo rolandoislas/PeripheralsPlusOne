@@ -5,8 +5,6 @@
  ******************************************************************************/
 package forestry.api.apiculture;
 
-import javax.annotation.Nullable;
-
 /**
  * Easily extendable default IBeeModifier.
  * By itself, this IBeeModifier does nothing.
@@ -25,7 +23,7 @@ public class DefaultBeeModifier implements IBeeModifier {
 	}
 
 	@Override
-	public float getLifespanModifier(IBeeGenome genome, @Nullable IBeeGenome mate, float currentModifier) {
+	public float getLifespanModifier(IBeeGenome genome, IBeeGenome mate, float currentModifier) {
 		return 1.0f;
 	}
 

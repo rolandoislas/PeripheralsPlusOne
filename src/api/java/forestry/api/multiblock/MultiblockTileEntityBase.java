@@ -5,13 +5,13 @@
  ******************************************************************************/
 package forestry.api.multiblock;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Base logic class for Multiblock-connected tile entities.
@@ -46,7 +46,8 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 		super.readFromNBT(data);
 		multiblockLogic.readFromNBT(data);
 	}
-
+	
+	@Nonnull
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound data) {
 		data = super.writeToNBT(data);
@@ -57,28 +58,30 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	@Override
 	public final void invalidate() {
 		super.invalidate();
-		multiblockLogic.invalidate(world, this);
+		multiblockLogic.invalidate(worldObj, this);
 	}
 
 	@Override
 	public final void onChunkUnload() {
 		super.onChunkUnload();
-		multiblockLogic.onChunkUnload(world, this);
+		multiblockLogic.onChunkUnload(worldObj, this);
 	}
 
 	@Override
 	public final void validate() {
 		super.validate();
-		multiblockLogic.validate(world, this);
+		multiblockLogic.validate(worldObj, this);
 	}
 
 	/* Network Communication */
 
+	@Nonnull
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
 	}
 
+	@Nonnull
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound updateTag = super.getUpdateTag();
@@ -88,7 +91,6 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
 	public final void onDataPacket(NetworkManager network, SPacketUpdateTileEntity packet) {
 		super.onDataPacket(network, packet);
 		NBTTagCompound nbtData = packet.getNbtCompound();
@@ -97,7 +99,7 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
+	public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
 		multiblockLogic.decodeDescriptionPacket(tag);
 		this.decodeDescriptionPacket(tag);

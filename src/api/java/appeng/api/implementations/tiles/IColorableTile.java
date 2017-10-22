@@ -35,5 +35,5 @@ public interface IColorableTile
 
 	AEColor getColor();
 
-	boolean recolourBlock(EnumFacing side, AEColor colour, EntityPlayer who);
+	boolean recolourBlock( EnumFacing side, AEColor colour, EntityPlayer who );
 }

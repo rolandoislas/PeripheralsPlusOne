@@ -5,8 +5,6 @@
  ******************************************************************************/
 package forestry.api.apiculture;
 
-import javax.annotation.Nullable;
-
 import com.mojang.authlib.GameProfile;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
@@ -19,7 +17,6 @@ public interface IBeeHousing extends IHousing, IErrorLogicSource, IClimateProvid
 	/**
 	 * Used by {@link IBeeRoot#createBeeHousingModifier(IBeeHousing)}
 	 * to combine bee modifiers from several sources that can change over time.
-	 *
 	 * @return IBeeModifiers from the housing, frames, etc.
 	 */
 	Iterable<IBeeModifier> getBeeModifiers();
@@ -27,7 +24,6 @@ public interface IBeeHousing extends IHousing, IErrorLogicSource, IClimateProvid
 	/**
 	 * Used by {@link IBeeRoot#createBeeHousingListener(IBeeHousing)}
 	 * to combine bee listeners from several sources that can change over time.
-	 *
 	 * @return IBeeListeners from the housing, multiblock parts, etc.
 	 */
 	Iterable<IBeeListener> getBeeListeners();
@@ -39,15 +35,14 @@ public interface IBeeHousing extends IHousing, IErrorLogicSource, IClimateProvid
 	int getBlockLightValue();
 
 	boolean canBlockSeeTheSky();
-
+	
 	boolean isRaining();
 
-	@Nullable
 	GameProfile getOwner();
 
 	/**
-	 * @return exact coordinates where bee particle FX should spawn from
 	 * @since Forestry 4.2
+	 * @return exact coordinates where bee particle FX should spawn from
 	 */
 	Vec3d getBeeFXCoordinates();
 }

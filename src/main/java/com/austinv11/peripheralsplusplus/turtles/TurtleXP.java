@@ -46,7 +46,7 @@ public class TurtleXP implements ITurtleUpgrade, ModelManager.ModelRegistrar {
 	public ItemStack getCraftingItem() {
 		if (Config.enableXPTurtle)
 			return new ItemStack(Blocks.ENCHANTING_TABLE);
-		return ItemStack.EMPTY;
+		return null;
 	}
 
 	@Override

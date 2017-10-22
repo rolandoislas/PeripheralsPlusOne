@@ -43,7 +43,7 @@ public interface IStorageComponent
 	 *
 	 * @return number of bytes
 	 */
-	int getBytes(ItemStack is);
+	int getBytes( ItemStack is );
 
 	/**
 	 * Just true or false for the item stack.
@@ -52,5 +52,5 @@ public interface IStorageComponent
 	 *
 	 * @return true if item is a storage component
 	 */
-	boolean isStorageComponent(ItemStack is);
+	boolean isStorageComponent( ItemStack is );
 }

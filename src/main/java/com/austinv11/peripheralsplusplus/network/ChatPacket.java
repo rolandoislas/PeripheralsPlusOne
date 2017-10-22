@@ -32,7 +32,7 @@ public class ChatPacket implements IMessage {
 
 		@Override
 		public IMessage onMessage(ChatPacket message, MessageContext ctx) {
-			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(message.text));
+			Minecraft.getMinecraft().thePlayer.addChatMessage(new TextComponentString(message.text));
 			return null;
 		}
 	}

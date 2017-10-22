@@ -16,7 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +31,14 @@ public class ContainerRecipe implements IRecipe {
     @Override
 	public boolean matches(InventoryCrafting craftingInventory, World world) {
 		ItemStack container = getPeripheralContainer(craftingInventory);
-		if (container.isEmpty())
+		if (container == null)
 			return false;
 		List<ContainedPeripheral> peripherals = getPeripherals(craftingInventory);
 		if (peripherals.size() == 0)
 			return false;
 		int items = 0;
 		for (int itemStack = 0; itemStack < craftingInventory.getSizeInventory(); itemStack++)
-			if (!craftingInventory.getStackInSlot(itemStack).isEmpty())
+			if (craftingInventory.getStackInSlot(itemStack) != null)
 				items++;
 		if (items != peripherals.size() + 1)
 			return false;
@@ -61,12 +60,15 @@ public class ContainerRecipe implements IRecipe {
 	}
 
 	private ItemStack getPeripheralContainer(InventoryCrafting inventory) {
-		ItemStack returnStack = ItemStack.EMPTY;
+		ItemStack returnStack = null;
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
-			ItemStack itemStack = inventory.getStackInSlot(slot).copy();
+			ItemStack itemStack = inventory.getStackInSlot(slot);
+			if (itemStack == null)
+				continue;
+			itemStack = itemStack.copy();
 			if (Block.getBlockFromItem(itemStack.getItem()) instanceof BlockPeripheralContainer) {
-				if (itemStack.getCount() != 1 || !returnStack.isEmpty())
-					return ItemStack.EMPTY;
+				if (itemStack.stackSize != 1 || returnStack != null)
+					return null;
 				returnStack = itemStack.copy();
 			}
 		}
@@ -90,17 +92,25 @@ public class ContainerRecipe implements IRecipe {
 		return container;
 	}
 
+	@Override
+	public int getRecipeSize() {
+		return 9;
+	}
+
 	private List<ContainedPeripheral> getPeripherals(InventoryCrafting inventory) {
 		List<ContainedPeripheral> peripherals = new ArrayList<>();
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
-			ItemStack itemStack = inventory.getStackInSlot(slot).copy();
+			ItemStack itemStack = inventory.getStackInSlot(slot);
+			if (itemStack == null)
+				continue;
+			itemStack = itemStack.copy();
 			// FIXME handle multi-blocks
 			// The "crafting" recipe may need to be changed to an in world method to make use of the peripheral provider
 			// interfaces. A possibility may just be creating a fake world, placing the block, and requesting peripheral
 			// providers to check that world in the check/create methods of the crafting recipe.
 			if (itemStack.getMetadata() != 0)
 				continue;
-			if (itemStack.getCount() != 1)
+			if (itemStack.stackSize != 1)
 				continue;
 			Block block = Block.getBlockFromItem(itemStack.getItem());
 			IPeripheral peripheral = ContainedPeripheral.getPeripheralForBlock(block);
@@ -113,34 +123,12 @@ public class ContainerRecipe implements IRecipe {
 	}
 
 	@Override
-    public boolean canFit(int width, int height) {
-        return true;
-    }
-
-	@Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(ModBlocks.PERIPHERAL_CONTAINER);
 	}
 
-    @Override
-    public IRecipe setRegistryName(ResourceLocation name) {
-	    this.name = name;
-        return this;
-    }
-
-    @Nullable
-    @Override
-    public ResourceLocation getRegistryName() {
-        return name;
-    }
-
-    @Override
-    public Class<IRecipe> getRegistryType() {
-        return IRecipe.class;
-    }
-
 	@Override
-	public String getGroup() {
-		return group.toString();
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+    	return new ItemStack[getRecipeSize()];
 	}
 }

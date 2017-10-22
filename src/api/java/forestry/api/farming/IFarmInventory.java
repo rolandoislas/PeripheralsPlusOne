@@ -7,12 +7,11 @@ package forestry.api.farming;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
 public interface IFarmInventory {
-	boolean hasResources(NonNullList<ItemStack> resources);
+	boolean hasResources(ItemStack[] resources);
 
-	void removeResources(NonNullList<ItemStack> resources);
+	void removeResources(ItemStack[] resources);
 
 	boolean acceptsAsGermling(ItemStack itemstack);
 

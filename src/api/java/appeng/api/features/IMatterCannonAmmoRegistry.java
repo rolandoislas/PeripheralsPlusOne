@@ -36,7 +36,7 @@ public interface IMatterCannonAmmoRegistry
 	 * @param ammo new ammo
 	 * @param weight atomic weight
 	 */
-	void registerAmmo(ItemStack ammo, double weight);
+	void registerAmmo( ItemStack ammo, double weight );
 
 	/**
 	 * get the penetration value for a particular ammo, 0 indicates a non-ammo.
@@ -45,5 +45,5 @@ public interface IMatterCannonAmmoRegistry
 	 *
 	 * @return 0 or a valid penetration value.
 	 */
-	float getPenetration(ItemStack is);
+	float getPenetration( ItemStack is );
 }

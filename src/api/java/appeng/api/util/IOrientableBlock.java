@@ -47,5 +47,5 @@ public interface IOrientableBlock
 	 *
 	 * @return a IOrientable if applicable
 	 */
-	IOrientable getOrientable(IBlockAccess world, BlockPos z);
+	IOrientable getOrientable( IBlockAccess world, BlockPos z );
 }

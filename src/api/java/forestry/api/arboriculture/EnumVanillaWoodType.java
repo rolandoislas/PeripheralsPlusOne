@@ -1,10 +1,6 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 import java.util.Random;
 
@@ -51,6 +47,7 @@ public enum EnumVanillaWoodType implements IWoodType {
 		return ordinal();
 	}
 
+	@Nonnull
 	public static EnumVanillaWoodType byMetadata(int meta) {
 		if (meta < 0 || meta >= VALUES.length) {
 			meta = 0;
@@ -67,14 +64,14 @@ public enum EnumVanillaWoodType implements IWoodType {
 	public int getCarbonization() {
 		return carbonization;
 	}
-
+	
 	@Override
 	public float getCharcoalChance(int numberOfCharcoal) {
-		if (numberOfCharcoal == 3) {
+		if(numberOfCharcoal == 3){
 			return 0.75F;
-		} else if (numberOfCharcoal == 4) {
+		}else if(numberOfCharcoal == 4){
 			return 0.5F;
-		} else if (numberOfCharcoal == 5) {
+		}else if(numberOfCharcoal == 5){
 			return 0.25F;
 		}
 		return 0.15F;
@@ -82,41 +79,41 @@ public enum EnumVanillaWoodType implements IWoodType {
 
 	@Override
 	public String getPlankTexture() {
-		if (this == DARK_OAK) {
-			return "block/planks_big_oak";
+		if(this == DARK_OAK){
+			return "blocks/planks_big_oak";
 		}
-		return "block/planks_" + getName();
+		return "blocks/planks_" + getName();
 	}
 
 	@Override
 	public String getDoorLowerTexture() {
-		if (this == OAK) {
-			return "block/door_wood_lower";
+		if(this == OAK){
+			return "blocks/door_wood_lower";
 		}
-		return "block/door_wood_lower";
+		return "blocks/door_wood_lower";
 	}
 
 	@Override
 	public String getDoorUpperTexture() {
-		if (this == OAK) {
-			return "block/door_wood_upper";
+		if(this == OAK){
+			return "blocks/door_wood_upper";
 		}
-		return "block/door_" + getName() + "_upper";
+		return "blocks/door_" + getName() + "_upper";
 	}
 
 	@Override
 	public String getBarkTexture() {
-		if (this == DARK_OAK) {
-			return "block/log_big_oak";
+		if(this == DARK_OAK){
+			return "blocks/log_big_oak";
 		}
-		return "block/log_" + getName();
+		return "blocks/log_" + getName();
 	}
 
 	@Override
 	public String getHeartTexture() {
-		if (this == DARK_OAK) {
-			return "block/log_big_oak_top";
+		if(this == DARK_OAK){
+			return "blocks/log_big_oak_top";
 		}
-		return "block/log_" + getName() + "_top";
+		return "blocks/log_" + getName() + "_top";
 	}
 }

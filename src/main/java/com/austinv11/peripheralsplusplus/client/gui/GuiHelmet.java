@@ -31,7 +31,7 @@ public class GuiHelmet extends GuiScreen {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float renderPartialTicks) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Iterable<ItemStack> armor = player.getArmorInventoryList();
 		for (ItemStack itemStack : armor) {
 			if (itemStack.getItem() instanceof ItemSmartHelmet &&
@@ -58,7 +58,7 @@ public class GuiHelmet extends GuiScreen {
 		super.initGui();
 		textFields.clear();
 		buttonList.clear();
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Iterable<ItemStack> armor = player.getArmorInventoryList();
 		for (ItemStack itemStack : armor) {
 			if (itemStack.getItem() instanceof ItemSmartHelmet &&
@@ -96,7 +96,7 @@ public class GuiHelmet extends GuiScreen {
 		super.mouseClicked(x, y, mouseEvent);
 		for (GuiTextField text : textFields.values())
 			text.mouseClicked(x, y, mouseEvent);
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Iterable<ItemStack> armor = player.getArmorInventoryList();
 		for (ItemStack armorPiece : armor) {
 			if (armorPiece.getItem() instanceof ItemSmartHelmet &&
@@ -106,7 +106,7 @@ public class GuiHelmet extends GuiScreen {
 						Mouse.getEventButton(),
 						Mouse.getEventButtonState(),
 						"mouseInput",
-						Minecraft.getMinecraft().player.getDisplayNameString()));
+						Minecraft.getMinecraft().thePlayer.getDisplayNameString()));
 				break;
 			}
 		}
@@ -122,7 +122,7 @@ public class GuiHelmet extends GuiScreen {
 	@Override
 	protected void keyTyped(char eventChar, int eventKey) throws IOException {
 		super.keyTyped(eventChar, eventKey);
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Iterable<ItemStack> armor = player.getArmorInventoryList();
 		for (ItemStack armorPiece : armor) {
 			if (armorPiece.getItem() instanceof ItemSmartHelmet &&

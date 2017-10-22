@@ -47,5 +47,5 @@ public interface IBlockDefinition extends IItemDefinition
 	 *
 	 * @return if the block is placed in the world at the specific location.
 	 */
-	boolean isSameAs(IBlockAccess world, BlockPos pos);
+	boolean isSameAs( IBlockAccess world, BlockPos pos );
 }

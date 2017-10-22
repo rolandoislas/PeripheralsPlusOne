@@ -64,7 +64,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
 
                 if (hasWithdrawPermission()) {
                     origStack = inv.getStackInSlot(((Double) arguments[0]).intValue());
-                    if (origStack.isEmpty()) {
+                    if (origStack == null) {
                         return new Object[0];
                     }
 
@@ -94,7 +94,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
                 if (hasDepositPermission()) {
                     origStack = getInputInventory().getStackInSlot(((Double) arguments[1]).intValue());
                     newStack = getInputInventory().decrStackSize(((Double) arguments[1]).intValue(), ((Double) arguments[2]).intValue());
-                    if (newStack.isEmpty()) {
+                    if (newStack == null) {
                         return new Object[0];
                     }
                     if (addStackToInv(inv, newStack, ((Double)arguments[0]).intValue())) {
@@ -119,7 +119,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
                 if (hasDepositPermission()) {
                     origStack = getInputInventory().getStackInSlot(((Double) arguments[0]).intValue());
                     newStack = getInputInventory().decrStackSize(((Double) arguments[0]).intValue(), ((Double) arguments[1]).intValue());
-                    if (newStack.isEmpty()) {
+                    if (newStack == null) {
                         return new Object[0];
                     }
                     if (addStackToInv(inv, newStack, -1)) {
@@ -156,7 +156,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
 
         ResourceLocation itemName = ForgeRegistries.ITEMS.getKey(stack.getItem());
         int meta = stack.getItemDamage();
-        long amount = stack.getCount();
+        long amount = stack.stackSize;
         String displayName = stack.getDisplayName();
         map.put("name", itemName == null ? "NOT REGISTERED" : itemName.toString());
         map.put("meta", meta);
@@ -203,18 +203,20 @@ public class LuaObjectPlayerInv implements ILuaObject {
     private boolean addStackToInv(IInventory inv, ItemStack addStack, int slot) {
         for (Integer slotNum : getValidSlotsForStack(inv, addStack, slot)) {
             ItemStack currentStack = inv.getStackInSlot(slotNum);
-            if (inv.getStackInSlot(slotNum).isEmpty()) {
+            if (currentStack == null)
+                continue;
+            if (inv.getStackInSlot(slotNum) == null) {
                 inv.setInventorySlotContents(slotNum, addStack);
                 return true;
             } else {
-                int add = currentStack.getMaxStackSize() - currentStack.getCount();
-                if (addStack.getCount() <= add) {
-                    currentStack.setCount(currentStack.getCount() + addStack.getCount());
+                int add = currentStack.getMaxStackSize() - currentStack.stackSize;
+                if (addStack.stackSize <= add) {
+                    currentStack.stackSize += addStack.stackSize;
                     return true;
                 } else {
                     // Was unable to add all of the stack to one slot and must add what it can to this slot and move on to the next.
-                    currentStack.setCount(currentStack.getCount() + add);
-                    currentStack.setCount(addStack.getCount() - add);
+                    currentStack.stackSize += add;
+                    currentStack.stackSize = addStack.stackSize - add;
 
                     // We should only move onto the next slot if the user specified that this is ok (slot == -1)
                     if (slot != -1) {
@@ -222,7 +224,7 @@ public class LuaObjectPlayerInv implements ILuaObject {
                     }
                 }
 
-                if (addStack.getCount() == 0) {
+                if (addStack.stackSize == 0) {
                     return true;
                 }
             }
@@ -242,8 +244,8 @@ public class LuaObjectPlayerInv implements ILuaObject {
             slots.add(slot);
         }
         for (int i = 0; i < inv.getSizeInventory(); i++) {
-            if ((inv.getStackInSlot(i).isEmpty() || (inv.getStackInSlot(i).getItem().equals(stack.getItem()) &&
-                    inv.getStackInSlot(i).getCount() != inv.getStackInSlot(i).getMaxStackSize() &&
+            if ((inv.getStackInSlot(i) == null || (inv.getStackInSlot(i).getItem().equals(stack.getItem()) &&
+                    inv.getStackInSlot(i).stackSize != inv.getStackInSlot(i).getMaxStackSize() &&
                     inv.getStackInSlot(i).getItemDamage() == stack.getItemDamage())) && i != slot) {
                 slots.add(i);
             }

@@ -6,6 +6,7 @@
 package forestry.api.lepidopterology;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;
@@ -14,7 +15,6 @@ import forestry.api.genetics.ISpeciesRoot;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface IButterflyRoot extends ISpeciesRoot {
@@ -23,7 +23,6 @@ public interface IButterflyRoot extends ISpeciesRoot {
 	boolean isMember(ItemStack stack);
 
 	@Override
-	@Nullable
 	IButterfly getMember(ItemStack stack);
 
 	@Override
@@ -44,16 +43,16 @@ public interface IButterflyRoot extends ISpeciesRoot {
 
 	/* BUTTERFLY SPECIFIC */
 	@Override
-	ILepidopteristTracker getBreedingTracker(World world, @Nullable GameProfile player);
+	ILepidopteristTracker getBreedingTracker(World world, GameProfile player);
 
 	/**
 	 * Spawns the given butterfly in the world.
-	 *
+	 * @param butterfly
 	 * @return butterfly entity on success, null otherwise.
 	 */
 	EntityLiving spawnButterflyInWorld(World world, IButterfly butterfly, double x, double y, double z);
-
-	BlockPos plantCocoon(World world, BlockPos pos, IButterfly caterpillar, GameProfile owner, int age, boolean createNursery);
+	
+	boolean plantCocoon(World world, IButterflyNursery nursery, GameProfile owner, int age);
 
 	/**
 	 * @return true if passed item is mated.
@@ -62,7 +61,7 @@ public interface IButterflyRoot extends ISpeciesRoot {
 
 	/* TEMPLATES */
 	@Override
-	List<IButterfly> getIndividualTemplates();
+	ArrayList<IButterfly> getIndividualTemplates();
 
 	/* MUTATIONS */
 	@Override

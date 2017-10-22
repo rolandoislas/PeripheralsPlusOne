@@ -22,10 +22,10 @@ public class GuiSmartHelmetOverlay extends Gui {
 	public void renderOverlay(RenderGameOverlayEvent.Post event) {
 		if (/*event.isCanceled() || */event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS)
 			return;
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Iterable<ItemStack> armor = player.getArmorInventoryList();
 		for (ItemStack armorPiece : armor) {
-			if (armorPiece.getItem() instanceof ItemSmartHelmet &&
+			if (armorPiece != null && armorPiece.getItem() instanceof ItemSmartHelmet &&
 					NBTHelper.hasTag(armorPiece, "identifier")) {
 				UUID uuid = UUID.fromString(NBTHelper.getString(armorPiece, "identifier"));
 				if (renderStack.containsKey(uuid)) {

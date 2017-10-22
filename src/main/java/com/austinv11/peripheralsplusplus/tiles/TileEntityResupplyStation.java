@@ -4,6 +4,7 @@ import com.austinv11.collectiveframework.minecraft.tiles.TileEntityInventory;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class TileEntityResupplyStation extends TileEntityInventory {
@@ -31,7 +31,7 @@ public class TileEntityResupplyStation extends TileEntityInventory {
     @Override
     public ITextComponent getDisplayName() {
         return new TextComponentString(
-        		I18n.translateToLocal(ModBlocks.RESUPPLY_STATION.getUnlocalizedName()+".name"));
+        		I18n.format(ModBlocks.RESUPPLY_STATION.getUnlocalizedName()+".name"));
     }
 
     public synchronized boolean resupply(ITurtleAccess turtle, int toSlot, ResourceLocation id, int meta) {
@@ -42,10 +42,10 @@ public class TileEntityResupplyStation extends TileEntityInventory {
 		if (item == null)
 			return false;
 		int amountToFill;
-		if (currentStack.isEmpty())
+		if (currentStack == null)
 			amountToFill = new ItemStack(item, 1, meta).getMaxStackSize();
 		else
-			amountToFill = currentStack.getMaxStackSize()-currentStack.getCount();
+			amountToFill = currentStack.getMaxStackSize()-currentStack.stackSize;
 		int currentSlot = 0;
 		ItemStack stackToMerge = null;
 		while (currentSlot < getSizeInventory() && amountToFill > 0) {
@@ -58,21 +58,21 @@ public class TileEntityResupplyStation extends TileEntityInventory {
 				continue;
 			}
 			if (stackToMerge == null) {
-				stackToMerge = getStackInSlot(currentSlot).splitStack(MathHelper.clamp(amountToFill, 0,
-						getStackInSlot(currentSlot).getCount()));
-				amountToFill -= stackToMerge.getCount();
+				stackToMerge = getStackInSlot(currentSlot).splitStack(MathHelper.clamp_int(amountToFill, 0,
+						getStackInSlot(currentSlot).stackSize));
+				amountToFill -= stackToMerge.stackSize;
 			} else {
-				int toTake = MathHelper.clamp(amountToFill, 0, getStackInSlot(currentSlot).getCount());
-				getStackInSlot(currentSlot).setCount(getStackInSlot(currentSlot).getCount() - toTake);
-				stackToMerge.setCount(stackToMerge.getCount() - toTake);
+				int toTake = MathHelper.clamp_int(amountToFill, 0, getStackInSlot(currentSlot).stackSize);
+				getStackInSlot(currentSlot).stackSize = getStackInSlot(currentSlot).stackSize - toTake;
+				stackToMerge.stackSize = stackToMerge.stackSize - toTake;
 				amountToFill -= toTake;
 			}
 			currentSlot++;
 		}
 		if (stackToMerge == null)
 			return false;
-		turtle.getInventory().setInventorySlotContents(toSlot, currentStack.isEmpty() ? stackToMerge :
-				new ItemStack(currentStack.getItem(), currentStack.getCount() + stackToMerge.getCount(), meta));
+		turtle.getInventory().setInventorySlotContents(toSlot, currentStack == null ? stackToMerge :
+				new ItemStack(currentStack.getItem(), currentStack.stackSize + stackToMerge.stackSize, meta));
 		markDirty();
 		turtle.getInventory().markDirty();
 		return true;

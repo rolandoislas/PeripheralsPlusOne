@@ -23,10 +23,10 @@ public class SmartHelmetHandler {
 
 	@SubscribeEvent
 	public void onClick(InputEvent.MouseInputEvent event) {
-        EntityPlayer player = Minecraft.getMinecraft().player;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         Iterable<ItemStack> armor = player.getArmorInventoryList();
         for (ItemStack armorPiece : armor) {
-            if (armorPiece.getItem() instanceof ItemSmartHelmet &&
+            if (armorPiece != null && armorPiece.getItem() instanceof ItemSmartHelmet &&
                     NBTHelper.hasTag(armorPiece, "identifier")) {
                 PeripheralsPlusPlus.NETWORK.sendToServer(new InputEventPacket(
                         UUID.fromString(armorPiece.getTagCompound().getString("identifier")),
@@ -41,10 +41,10 @@ public class SmartHelmetHandler {
 
 	@SubscribeEvent
 	public void onKeyPressed(InputEvent.KeyInputEvent event) {
-        EntityPlayer player = Minecraft.getMinecraft().player;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         Iterable<ItemStack> armor = player.getArmorInventoryList();
         for (ItemStack armorPiece : armor) {
-            if (armorPiece.getItem() instanceof ItemSmartHelmet &&
+            if (armorPiece != null && armorPiece.getItem() instanceof ItemSmartHelmet &&
                     NBTHelper.hasTag(armorPiece, "identifier")) {
                 PeripheralsPlusPlus.NETWORK.sendToServer(new InputEventPacket(
                         UUID.fromString(armorPiece.getTagCompound().getString("identifier")),
@@ -59,10 +59,10 @@ public class SmartHelmetHandler {
 	@SubscribeEvent
 	public void onButtonClick(GuiScreenEvent.ActionPerformedEvent.Post event) {
 		if (event.getGui() instanceof GuiHelmet) {
-            EntityPlayer player = Minecraft.getMinecraft().player;
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             Iterable<ItemStack> armor = player.getArmorInventoryList();
             for (ItemStack armorPiece : armor) {
-                if (armorPiece.getItem() instanceof ItemSmartHelmet &&
+                if (armorPiece != null && armorPiece.getItem() instanceof ItemSmartHelmet &&
                         NBTHelper.hasTag(armorPiece, "identifier")) {
                     PeripheralsPlusPlus.NETWORK.sendToServer(new InputEventPacket(
                             UUID.fromString(armorPiece.getTagCompound().getString("identifier")),

@@ -48,7 +48,7 @@ public class TurtleRidable implements ITurtleUpgrade, TextureManager.TextureRegi
 	public ItemStack getCraftingItem() {
 		if (Config.enableRidableTurtle)
 			return new ItemStack(Items.SADDLE);
-		return ItemStack.EMPTY;
+		return null;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class TurtleRidable implements ITurtleUpgrade, TextureManager.TextureRegi
 		EntityRidableTurtle entity = new EntityRidableTurtle(turtle.getWorld());
 		entity.setPosition(turtle.getPosition().getX(), turtle.getPosition().getY(), turtle.getPosition().getZ());
 		entity.setTurtle(turtle);
-		turtle.getWorld().spawnEntity(entity);
+		turtle.getWorld().spawnEntityInWorld(entity);
 		return entity;
 	}
 

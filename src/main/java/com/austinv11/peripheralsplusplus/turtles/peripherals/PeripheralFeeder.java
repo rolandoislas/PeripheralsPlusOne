@@ -37,7 +37,7 @@ public class PeripheralFeeder implements IPlusPlusPeripheral {
 			throw new LuaException("Feeder Turtles have been disabled");
 		if (method == 0) {
 			ItemStack curItem = turtle.getInventory().getStackInSlot(turtle.getSelectedSlot());
-			if (curItem.isEmpty() || curItem.getCount() <= 0)
+			if (curItem == null || curItem.stackSize <= 0)
 				return new Object[] {false};
 			BlockPos pos = turtle.getPosition();
 			for (EntityAnimal animal : turtle.getWorld().getEntitiesWithinAABB(EntityAnimal.class,
@@ -46,9 +46,9 @@ public class PeripheralFeeder implements IPlusPlusPeripheral {
 				if (animal.getGrowingAge() == 0 && !animal.isInLove() && animal.isBreedingItem(curItem)) {
 					animal.setAttackTarget(null);
 					animal.setInLove(null);//setting inLove to 600
-					curItem.setCount(curItem.getCount() - 1);
-					if (curItem.getCount() <= 0)
-						turtle.getInventory().setInventorySlotContents(turtle.getSelectedSlot(), ItemStack.EMPTY);
+					curItem.stackSize -= 1;
+					if (curItem.stackSize <= 0)
+						turtle.getInventory().setInventorySlotContents(turtle.getSelectedSlot(), null);
 					else
 						turtle.getInventory().setInventorySlotContents(turtle.getSelectedSlot(), curItem);
 					return new Object[]{true};

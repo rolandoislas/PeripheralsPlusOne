@@ -115,7 +115,7 @@ public class SynthPacket implements IMessage {
 					voice.deallocate();
 					synchronized (this) {
 						PeripheralsPlusPlus.NETWORK.sendToServer(new SynthResponsePacket(message.text, message.pos,
-                                Minecraft.getMinecraft().world, message.side, message.eventId));
+                                Minecraft.getMinecraft().theWorld, message.side, message.eventId));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

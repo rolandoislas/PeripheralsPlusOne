@@ -49,7 +49,7 @@ public interface IItemDefinition extends IComparableDefinition
 	/**
 	 * @return an {@link ItemStack} with specified quantity of this item.
 	 */
-	Optional<ItemStack> maybeStack(int stackSize);
+	Optional<ItemStack> maybeStack( int stackSize );
 
 	/**
 	 * @return <tt>true</tt> if definition is enabled

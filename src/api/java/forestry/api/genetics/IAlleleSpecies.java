@@ -5,12 +5,13 @@
  ******************************************************************************/
 package forestry.api.genetics;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+
 import com.mojang.authlib.GameProfile;
+
 import forestry.api.core.EnumHumidity;
 import forestry.api.core.EnumTemperature;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.world.World;
 
 /**
  * Basic species allele.
@@ -52,20 +53,24 @@ public interface IAlleleSpecies extends IAllele {
 	/**
 	 * Complexity determines the difficulty researching a species. The values of primary and secondary are
 	 * added together (and rounded) to determine the amount of pairs needed for successful research.
-	 *
 	 * @return Values between 3 - 11 are useful.
 	 */
 	int getComplexity();
 
 	/**
+	 * @param itemstack
 	 * @return A float signifying the chance for the passed itemstack to yield a research success.
 	 */
 	float getResearchSuitability(ItemStack itemstack);
 
 	/**
-	 * @return itemstacks representing the bounty for this research success.
+	 * @param world
+	 * @param gameProfile
+	 * @param individual
+	 * @param bountyLevel
+	 * @return Array of itemstacks representing the bounty for this research success.
 	 */
-	NonNullList<ItemStack> getResearchBounty(World world, GameProfile gameProfile, IIndividual individual, int bountyLevel);
+	ItemStack[] getResearchBounty(World world, GameProfile gameProfile, IIndividual individual, int bountyLevel);
 
 	/* CLIMATE */
 

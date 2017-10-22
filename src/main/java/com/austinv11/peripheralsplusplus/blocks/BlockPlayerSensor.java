@@ -6,6 +6,7 @@ import com.austinv11.peripheralsplusplus.tiles.TileEntityPlayerSensor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -27,7 +28,7 @@ public class BlockPlayerSensor extends BlockPppBase implements ITileEntityProvid
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-                                    EnumFacing facing, float hitX, float hitY, float hitZ) {
+                                    ItemStack itemStack, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (Config.enablePlayerSensor)
             ((TileEntityPlayerSensor)world.getTileEntity(pos)).blockActivated(player.getDisplayNameString());
         return true;

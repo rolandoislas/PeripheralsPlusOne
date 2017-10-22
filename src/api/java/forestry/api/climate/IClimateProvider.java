@@ -5,15 +5,14 @@
  ******************************************************************************/
 package forestry.api.climate;
 
-import net.minecraft.world.biome.Biome;
-
 import forestry.api.core.EnumHumidity;
 import forestry.api.core.EnumTemperature;
+import net.minecraft.world.biome.Biome;
 
 public interface IClimateProvider {
-	Biome getBiome();
+    Biome getBiome();
 
-	EnumTemperature getTemperature();
+    EnumTemperature getTemperature();
 
-	EnumHumidity getHumidity();
+    EnumHumidity getHumidity();
 }

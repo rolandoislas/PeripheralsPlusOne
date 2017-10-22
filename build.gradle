@@ -13,7 +13,7 @@ buildscript {
         maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.9"
     }
@@ -50,14 +50,14 @@ apply plugin: "com.matthewprenger.cursegradle"
 
 ext.build = System.getenv('TRAVIS_BUILD_NUMBER')
 ext.tag = System.getenv("TRAVIS_TAG")
-version = "1.12.2-1.0"
+version = "1.10.2-1.0"
 version =  version + "-build-T" + ext.build
-group= "com.austinv11.peripheralsplusplus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.rolandoislas.peripheralsplusone" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "PeripheralsPlusOne"
 
 minecraft {
-    version = "1.12.2-14.23.0.2491"
-    mappings = "snapshot_20170626"
+    version = "1.10.2-12.18.3.2185"
+    mappings = "snapshot_20161111"
     runDir = "run"
     replace("@VERSION@",project.version)
 }
@@ -75,6 +75,9 @@ publishing {
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
+    manifest {
+        attributes 'FMLAT': 'ppp_at.cfg'
+    }
 }
 
 if (ext.tag) {
@@ -125,9 +128,9 @@ configurations {
 
 ext.freettsVersion = "1.2.2"
 dependencies {
-    compile "com.austinv11.collectiveframework:TheFramework:1.12.2-1.0-build-T6:deobf"
-    compile "codechicken:NotEnoughItems:1.12-2.4.0.231:deobf"
-	compile "codechicken:CodeChickenLib:1.12-3.1.3.313:deobf"
+    compile "com.rolandoislas.theframework:TheFramework:1.10.2-1.0-build-T15:deobf"
+    compile "codechicken:NotEnoughItems:1.10.2-2.1.3.220:deobf"
+    compile "codechicken:CodeChickenLib:1.10.2-2.5.9.308:deobf"
     compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
     compileBundle "com.fasterxml.jackson.core:jackson-databind:2.9.1"
     compileBundle "org.mobicents.external.freetts:cmulex:$freettsVersion"
@@ -184,4 +187,9 @@ idea {
     module { 
         inheritOutputDirs = true 
     } 
+}
+
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
 }

@@ -80,7 +80,7 @@ public interface IGridBlock
 	/**
 	 * Notifies your IGridBlock that changes were made to your connections
 	 */
-	void onGridNotification(GridNotification notification);
+	void onGridNotification( GridNotification notification );
 
 	/**
 	 * Update Blocks network/connection/booting status. grid,
@@ -88,7 +88,7 @@ public interface IGridBlock
 	 * @param grid grid
 	 * @param channelsInUse used channels
 	 */
-	void setNetworkStatus(IGrid grid, int channelsInUse);
+	void setNetworkStatus( IGrid grid, int channelsInUse );
 
 	/**
 	 * Determine which sides of the block can be connected too, only used when isWorldAccessible returns true, not used

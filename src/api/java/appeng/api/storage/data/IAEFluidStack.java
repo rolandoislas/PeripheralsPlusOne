@@ -37,7 +37,7 @@ import net.minecraftforge.fluids.FluidStack;
  *
  * Don't Implement.
  *
- * Construct with AEApi.instance().storage().getStorageChannel( IFluidStorageChannel.class).createStack( FluidStack )
+ * Construct with Util.createFluidStack( FluidStack )
  */
 public interface IAEFluidStack extends IAEStack<IAEFluidStack>
 {
@@ -55,7 +55,7 @@ public interface IAEFluidStack extends IAEStack<IAEFluidStack>
 	 * @param option , to add to the current one.
 	 */
 	@Override
-	void add(IAEFluidStack option);
+	void add( IAEFluidStack option );
 
 	/**
 	 * create a AE Fluid clone.

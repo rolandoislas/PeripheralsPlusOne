@@ -6,7 +6,6 @@ import com.austinv11.collectiveframework.minecraft.utils.MinecraftTranslator;
 import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.utils.Util;
-import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -38,7 +37,7 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
 
     private class DungeonDisk implements EntityVillager.ITradeList {
         @Override
-        public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+        public void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random random) {
             // Empty floppy disk + 3 emeralds = dungeon disk
             ItemStack emeralds = new ItemStack(Items.EMERALD, 3);
             ItemStack floppy = getFloppyFromInt(random.nextInt(10));
@@ -110,7 +109,7 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
 
     private class Upgrades implements EntityVillager.ITradeList {
         @Override
-        public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+        public void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random random) {
             // Normal comp + emerald = advanced comp
             recipeList.add(new MerchantRecipe(
                     GameRegistry.makeItemStack("computercraft:computer",
@@ -146,7 +145,7 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
 
     public static class CcTrades implements EntityVillager.ITradeList {
         @Override
-        public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
+        public void modifyMerchantRecipeList(MerchantRecipeList recipeList, Random random) {
             // 64 emeralds (+64 diamonds) = portable computer (an IPhone basically)
             ItemStack iPhone = GameRegistry.makeItemStack("computercraft:pocket_computer",
                     1, 1, "");

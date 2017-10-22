@@ -53,11 +53,11 @@ public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral
 
 	public void update() {
 		if (turtle != null) {
-			this.setWorld(turtle.getWorld());
+			this.setWorldObj(turtle.getWorld());
 			this.setPos(turtle.getPosition());
 		}
-		if (world != null)
-			id = world.provider.getDimension();
+		if (worldObj != null)
+			id = worldObj.provider.getDimension();
 		synchronized (this) {
 			for (Map.Entry<UUID, Long> pendingEvent : pendingEvents.entrySet())
 				if (System.currentTimeMillis() - pendingEvent.getValue() > 30000) {

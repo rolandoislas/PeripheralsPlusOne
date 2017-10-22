@@ -33,12 +33,12 @@ public interface IEnergyWatcherHost
 	 *
 	 * @param newWatcher new watcher
 	 */
-	void updateWatcher(IEnergyWatcher newWatcher);
+	void updateWatcher( IEnergyWatcher newWatcher );
 
 	/**
 	 * Called when a threshold is crossed.
 	 *
 	 * @param energyGrid grid
 	 */
-	void onThresholdPass(IEnergyGrid energyGrid);
+	void onThresholdPass( IEnergyGrid energyGrid );
 }

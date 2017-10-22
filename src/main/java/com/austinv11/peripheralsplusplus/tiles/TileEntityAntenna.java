@@ -103,7 +103,7 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 					for (EntityPlayer player : players) {
 						Iterable<ItemStack> armor = player.getArmorInventoryList();
 						for (ItemStack itemStack : armor) {
-							if (itemStack.getItem() instanceof ItemSmartHelmet &&
+							if (itemStack != null && itemStack.getItem() instanceof ItemSmartHelmet &&
 									NBTHelper.hasTag(itemStack, "identifier") &&
 									identifier.equals(UUID.fromString(NBTHelper.getString(itemStack,
 											"identifier"))))
@@ -167,7 +167,7 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 				for (EntityPlayer player : worldServer.playerEntities) {
 					Iterable<ItemStack> armor = player.getArmorInventoryList();
 					for (ItemStack itemStack : armor) {
-						if (itemStack.getItem() instanceof ItemSmartHelmet)
+						if (itemStack != null && itemStack.getItem() instanceof ItemSmartHelmet)
 							players.add(player);
 					}
 				}
@@ -185,8 +185,8 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 
 	@Override
 	public void update() {
-		if (world != null) {
-			dimension = world.provider.getDimension();
+		if (worldObj != null) {
+			dimension = worldObj.provider.getDimension();
 			if (!ANTENNA_REGISTRY.containsKey(identifier))
 				ANTENNA_REGISTRY.put(identifier, this);
 		}

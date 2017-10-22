@@ -53,14 +53,14 @@ public class ContainerPlayerInterface extends Container
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return inv.isUsableByPlayer(player);
+        return inv.isUseableByPlayer(player);
     }
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotIndex)
     {
         // Create a new itemstack. This is the stack that will be manipulated and returned.
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemstack = null;
         // Get the slot that was just shift clicked. This is the slot that the itemstack will be transferring from.
         Slot slot = this.inventorySlots.get(slotIndex);
 
@@ -72,7 +72,7 @@ public class ContainerPlayerInterface extends Container
 
             if (!itemstack1.getItem().equals(ModItems.PERM_CARD))
             {
-                return ItemStack.EMPTY;
+                return null;
             }
 
             // Copy that stack to our return itemstack.
@@ -82,18 +82,18 @@ public class ContainerPlayerInterface extends Container
             {
                 if (!this.mergeItemStack(itemstack1, inv.getSizeInventory(), 36 + inv.getSizeInventory(), true)) // Tries to merge itemstack with any in the player's main inv. (slots 8-44) 36 is the player's main inv size (excludes armor slots)
                 {
-                    return ItemStack.EMPTY;
+                    return null;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 0, inv.getSizeInventory(), false)) // If the itemstack can't merge with any stacks in the force belt container, return.
             {                                                       // Implies that the stack being transferred is from a slot in the player's main inv
-                return ItemStack.EMPTY;
+                return null;
             }
 
             // After the merging has completed, if the itemstack has a size of 0, replace it with an empty slot.
-            if (itemstack1.getCount() == 0)
+            if (itemstack1.stackSize == 0)
             {
-                slot.putStack(ItemStack.EMPTY);
+                slot.putStack(null);
             }
             else
             {

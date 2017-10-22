@@ -20,8 +20,8 @@ public class RenderTurtle extends TileEntitySpecialRenderer<TileEntityTurtle> {
 	private ModelTurtle model = new ModelTurtle();
 
 	@Override
-	public void render(TileEntityTurtle te, double x, double y, double z, float partialTicks, int destroyStage,
-					   float alpha) {
+	public void renderTileEntityAt(TileEntityTurtle te, double x, double y, double z, float partialTicks,
+								   int destroyStage) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x+.5F, (float) y+1.2F, (float) z+.5F);
 		GL11.glRotatef(180F, 0, 0, 1);
@@ -57,12 +57,12 @@ public class RenderTurtle extends TileEntitySpecialRenderer<TileEntityTurtle> {
 		}
 
 		@Override
-		public void renderByItem(ItemStack stack, float partialTicks) {
+		public void renderByItem(ItemStack stack) {
 			if (!stack.getItem().equals(ModItems.TURTLE)) {
-				previousInstance.renderByItem(stack, partialTicks);
+				previousInstance.renderByItem(stack);
 				return;
 			}
-			TileEntityRendererDispatcher.instance.render(turtle, 0, 0, 0, partialTicks);
+			TileEntityRendererDispatcher.instance.renderTileEntityAt(turtle, 0, 0, 0, 0, 0);
 		}
 	}
 }

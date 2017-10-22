@@ -23,7 +23,8 @@
 
 package appeng.api.implementations.tiles;
 
-import net.minecraftforge.items.IItemHandler;
+
+import net.minecraft.inventory.IInventory;
 
 
 public interface ISegmentedInventory
@@ -37,5 +38,5 @@ public interface ISegmentedInventory
 	 *
 	 * @return inventory with inventory name
 	 */
-	IItemHandler getInventoryByName(String name);
+	IInventory getInventoryByName( String name );
 }

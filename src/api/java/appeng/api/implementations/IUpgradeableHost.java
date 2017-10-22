@@ -37,7 +37,7 @@ public interface IUpgradeableHost extends IConfigurableObject, ISegmentedInvento
 	/**
 	 * determine how many of an upgrade are installed.
 	 */
-	int getInstalledUpgrades(Upgrades u);
+	int getInstalledUpgrades( Upgrades u );
 
 	/**
 	 * the tile...

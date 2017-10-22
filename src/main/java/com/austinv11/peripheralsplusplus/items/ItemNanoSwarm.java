@@ -31,9 +31,10 @@ public class ItemNanoSwarm extends ItemPPP {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player,
+													EnumHand hand) {
 		if (NBTHelper.hasTag(player.getHeldItem(hand), "identifier")) {
-			if (!world.isRemote) {
+			if (!world.isRemote && player.getHeldItem(hand) != null) {
 				EntityNanoBotSwarm swarm = new EntityNanoBotSwarm(world, player);
 				swarm.antennaIdentifier = UUID.fromString(NBTHelper.getString(player.getHeldItem(hand),
 						"identifier"));
@@ -41,9 +42,9 @@ public class ItemNanoSwarm extends ItemPPP {
 					swarm.label = NBTHelper.getString(player.getHeldItem(hand), "label");
 				swarm.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw,
 						0, 1.1f, 6);
-				world.spawnEntity(swarm);
+				world.spawnEntityInWorld(swarm);
 			}
-			player.getHeldItem(hand).setCount(player.getHeldItem(hand).getCount() - 1);
+			player.getHeldItem(hand).stackSize -= - 1;
 			return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		}
 		return new ActionResult<>(EnumActionResult.FAIL, player.getHeldItem(hand));
@@ -96,7 +97,7 @@ public class ItemNanoSwarm extends ItemPPP {
 						enumfacing.getFrontOffsetZ(),
 						1.1f,
 						6);
-				world.spawnEntity(iprojectile);
+				world.spawnEntityInWorld(iprojectile);
 				stack.splitStack(1);
 			} else {
 				return super.dispenseStack(blockSource, stack);

@@ -48,7 +48,7 @@ public class TurtleCompass implements ITurtleUpgrade, TextureManager.TextureRegi
 	public ItemStack getCraftingItem() {
 		if (Config.enableNavigationTurtle)
 			return new ItemStack(Items.COMPASS);
-		return ItemStack.EMPTY;
+		return null;
 	}
 
 	@Override

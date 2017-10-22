@@ -5,8 +5,9 @@
  ******************************************************************************/
 package forestry.api.apiculture;
 
-import forestry.api.genetics.IAlleleSpeciesBuilder;
 import net.minecraft.item.ItemStack;
+
+import forestry.api.genetics.IAlleleSpeciesBuilder;
 
 public interface IAlleleBeeSpeciesBuilder extends IAlleleSpeciesBuilder {
 
@@ -37,13 +38,9 @@ public interface IAlleleBeeSpeciesBuilder extends IAlleleSpeciesBuilder {
 	 */
 	IAlleleBeeSpeciesBuilder setNocturnal();
 
-	/**
-	 * Use this if you have custom icons for bees.
-	 */
+	/** Use this if you have custom icons for bees. */
 	IAlleleBeeSpeciesBuilder setCustomBeeModelProvider(IBeeModelProvider beeIconProvider);
 
-	/**
-	 * Use this if you have custom icon colours for bees (other than the default static primary + secondary colours).
-	 */
+	/** Use this if you have custom icon colours for bees (other than the default static primary + secondary colours). */
 	IAlleleBeeSpeciesBuilder setCustomBeeSpriteColourProvider(IBeeSpriteColourProvider beeIconColourProvider);
 }

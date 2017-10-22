@@ -90,7 +90,7 @@ public class Util {
 	}
 
 	public static boolean compareItemStacksViaOreDict(ItemStack stack1, ItemStack stack2) {
-		if (!stack1.isEmpty() && !stack2.isEmpty())
+		if (stack1 != null && stack2 != null)
 			for (String key : getOreDictEntries(stack1).values()) {
 				if (getOreDictEntries(stack2).containsValue(key))
 					return true;
@@ -122,8 +122,8 @@ public class Util {
 	public static double getDamageAttribute(EntityEquipmentSlot slot, ItemStack item) {
 		double val = 0;
 		Multimap multimap = item.getItem().getAttributeModifiers(slot, item);
-		if (multimap.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
-			for (Object o : multimap.get(SharedMonsterAttributes.ATTACK_DAMAGE.getName()))
+		if (multimap.containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName()))
+			for (Object o : multimap.get(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName()))
 				if (o instanceof AttributeModifier) {
 					val = ((AttributeModifier) o).getAmount();
 					break;

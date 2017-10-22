@@ -32,7 +32,7 @@ import com.google.common.collect.ImmutableList;
 
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
-import appeng.api.networking.security.IActionSource;
+import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 
@@ -41,47 +41,47 @@ import appeng.api.storage.data.IItemList;
  * Common implementation of a simple class that monitors injection/extraction of a inventory to send events to a list of
  * listeners.
  *
- * @param <T>
+ * @param <StackType>
  * @deprecated
  *
  * TODO: Needs to be redesigned to solve performance issues. Also should not be part of the API as class.
  */
 @Deprecated
-public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
+public class MEMonitorHandler<StackType extends IAEStack> implements IMEMonitor<StackType>
 {
 
-	private final IMEInventoryHandler<T> internalHandler;
-	private final IItemList<T> cachedList;
-	private final HashMap<IMEMonitorHandlerReceiver<T>, Object> listeners = new HashMap<>();
+	private final IMEInventoryHandler<StackType> internalHandler;
+	private final IItemList<StackType> cachedList;
+	private final HashMap<IMEMonitorHandlerReceiver<StackType>, Object> listeners = new HashMap<IMEMonitorHandlerReceiver<StackType>, Object>();
 
 	protected boolean hasChanged = true;
 
-	public MEMonitorHandler( final IMEInventoryHandler<T> t )
+	public MEMonitorHandler( final IMEInventoryHandler<StackType> t )
 	{
 		this.internalHandler = t;
 		this.cachedList = t.getChannel().createList();
 	}
 
-	public MEMonitorHandler( final IMEInventoryHandler<T> t, final IStorageChannel<T> chan )
+	public MEMonitorHandler( final IMEInventoryHandler<StackType> t, final StorageChannel chan )
 	{
 		this.internalHandler = t;
 		this.cachedList = chan.createList();
 	}
 
 	@Override
-	public void addListener( final IMEMonitorHandlerReceiver<T> l, final Object verificationToken )
+	public void addListener( final IMEMonitorHandlerReceiver<StackType> l, final Object verificationToken )
 	{
 		this.listeners.put( l, verificationToken );
 	}
 
 	@Override
-	public void removeListener( final IMEMonitorHandlerReceiver<T> l )
+	public void removeListener( final IMEMonitorHandlerReceiver<StackType> l )
 	{
 		this.listeners.remove( l );
 	}
 
 	@Override
-	public T injectItems( final T input, final Actionable mode, final IActionSource src )
+	public StackType injectItems( final StackType input, final Actionable mode, final BaseActionSource src )
 	{
 		if( mode == Actionable.SIMULATE )
 		{
@@ -90,14 +90,14 @@ public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
 		return this.monitorDifference( input.copy(), this.getHandler().injectItems( input, mode, src ), false, src );
 	}
 
-	protected IMEInventoryHandler<T> getHandler()
+	protected IMEInventoryHandler<StackType> getHandler()
 	{
 		return this.internalHandler;
 	}
 
-	private T monitorDifference( final T original, final T leftOvers, final boolean extraction, final IActionSource src )
+	private StackType monitorDifference( final IAEStack original, final StackType leftOvers, final boolean extraction, final BaseActionSource src )
 	{
-		final T diff = original.copy();
+		final StackType diff = (StackType) original.copy();
 
 		if( extraction )
 		{
@@ -116,19 +116,19 @@ public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
 		return leftOvers;
 	}
 
-	protected void postChangesToListeners( final Iterable<T> changes, final IActionSource src )
+	protected void postChangesToListeners( final Iterable<StackType> changes, final BaseActionSource src )
 	{
 		this.notifyListenersOfChange( changes, src );
 	}
 
-	protected void notifyListenersOfChange( final Iterable<T> diff, final IActionSource src )
+	protected void notifyListenersOfChange( final Iterable<StackType> diff, final BaseActionSource src )
 	{
 		this.hasChanged = true;// need to update the cache.
-		final Iterator<Entry<IMEMonitorHandlerReceiver<T>, Object>> i = this.getListeners();
+		final Iterator<Entry<IMEMonitorHandlerReceiver<StackType>, Object>> i = this.getListeners();
 		while( i.hasNext() )
 		{
-			final Entry<IMEMonitorHandlerReceiver<T>, Object> o = i.next();
-			final IMEMonitorHandlerReceiver<T> receiver = o.getKey();
+			final Entry<IMEMonitorHandlerReceiver<StackType>, Object> o = i.next();
+			final IMEMonitorHandlerReceiver<StackType> receiver = o.getKey();
 			if( receiver.isValid( o.getValue() ) )
 			{
 				receiver.postChange( this, diff, src );
@@ -140,13 +140,13 @@ public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
 		}
 	}
 
-	protected Iterator<Entry<IMEMonitorHandlerReceiver<T>, Object>> getListeners()
+	protected Iterator<Entry<IMEMonitorHandlerReceiver<StackType>, Object>> getListeners()
 	{
 		return this.listeners.entrySet().iterator();
 	}
 
 	@Override
-	public T extractItems( final T request, final Actionable mode, final IActionSource src )
+	public StackType extractItems( final StackType request, final Actionable mode, final BaseActionSource src )
 	{
 		if( mode == Actionable.SIMULATE )
 		{
@@ -156,7 +156,7 @@ public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
 	}
 
 	@Override
-	public IStorageChannel<T> getChannel()
+	public StorageChannel getChannel()
 	{
 		return this.getHandler().getChannel();
 	}
@@ -168,7 +168,7 @@ public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
 	}
 
 	@Override
-	public IItemList<T> getStorageList()
+	public IItemList<StackType> getStorageList()
 	{
 		if( this.hasChanged )
 		{
@@ -181,19 +181,19 @@ public class MEMonitorHandler<T extends IAEStack<T>> implements IMEMonitor<T>
 	}
 
 	@Override
-	public boolean isPrioritized( final T input )
+	public boolean isPrioritized( final StackType input )
 	{
 		return this.getHandler().isPrioritized( input );
 	}
 
 	@Override
-	public boolean canAccept( final T input )
+	public boolean canAccept( final StackType input )
 	{
 		return this.getHandler().canAccept( input );
 	}
 
 	@Override
-	public IItemList<T> getAvailableItems( final IItemList<T> out )
+	public IItemList<StackType> getAvailableItems( final IItemList out )
 	{
 		return this.getHandler().getAvailableItems( out );
 	}

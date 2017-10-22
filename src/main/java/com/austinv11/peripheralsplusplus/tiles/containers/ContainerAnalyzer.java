@@ -35,7 +35,7 @@ public class ContainerAnalyzer extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
-		ItemStack var2 = ItemStack.EMPTY;
+		ItemStack var2 = null;
 		Slot var3 = this.inventorySlots.get(p_82846_2_);
 
 		if (var3 != null && var3.getHasStack()) {
@@ -44,11 +44,11 @@ public class ContainerAnalyzer extends Container {
 
 			if (p_82846_2_ < 1) {
 				if (!this.mergeItemStack(var4, 1, this.inventorySlots.size(), true)) {
-					return ItemStack.EMPTY;
+					return null;
 				}
-			} else if (!this.mergeItemStack(var4, 0, 1, false)) return ItemStack.EMPTY;
+			} else if (!this.mergeItemStack(var4, 0, 1, false)) return null;
 
-			if (var4.getCount() == 0) var3.putStack(ItemStack.EMPTY);
+			if (var4.stackSize == 0) var3.putStack(null);
 			else var3.onSlotChanged();
 		}
 
@@ -57,6 +57,6 @@ public class ContainerAnalyzer extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return inv.isUsableByPlayer(player);
+		return inv.isUseableByPlayer(player);
 	}
 }

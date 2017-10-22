@@ -65,7 +65,7 @@ public class ParticlePacket implements IMessage {
 		@Override
 		public IMessage onMessage(final ParticlePacket message, MessageContext ctx) {
 			new Thread(() -> {
-                World world = Minecraft.getMinecraft().world;
+                World world = Minecraft.getMinecraft().theWorld;
                 EnumParticleTypes particle = EnumParticleTypes.getByName(message.name);
                 if (particle != null)
                 world.spawnParticle(particle, message.x, message.y, message.z, message.xVel, message.yVel,

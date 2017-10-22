@@ -48,7 +48,7 @@ public interface IRecipeHandlerRegistry
 	 * @param name name of crafthandler
 	 * @param handler class of crafthandler
 	 */
-	void addNewCraftHandler(String name, Class<? extends ICraftHandler> handler);
+	void addNewCraftHandler( String name, Class<? extends ICraftHandler> handler );
 
 	/**
 	 * Add a new resolver to the parser.
@@ -57,7 +57,7 @@ public interface IRecipeHandlerRegistry
 	 *
 	 * @param sir sub item resolver
 	 */
-	void addNewSubItemResolver(ISubItemResolver sir);
+	void addNewSubItemResolver( ISubItemResolver sir );
 
 	/**
 	 * @param name name of crafting handler
@@ -65,7 +65,7 @@ public interface IRecipeHandlerRegistry
 	 * @return A recipe handler by name, returns null on failure.
 	 */
 	@Nullable
-	ICraftHandler getCraftHandlerFor(String name);
+	ICraftHandler getCraftHandlerFor( String name );
 
 	/**
 	 * @return a new recipe handler, which can be used to parse, and read recipe files.
@@ -81,5 +81,5 @@ public interface IRecipeHandlerRegistry
 	 * @return ResolverResult or ResolverResultSet or null if could not resolve
 	 */
 	@Nullable
-	Object resolveItem(String nameSpace, String itemName);
+	Object resolveItem( String nameSpace, String itemName );
 }

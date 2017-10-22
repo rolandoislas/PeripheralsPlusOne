@@ -60,7 +60,7 @@ public interface IPartHost extends ICustomCableConnection
 	 *
 	 * @return returns false if the part cannot be added.
 	 */
-	boolean canAddPart(ItemStack part, AEPartLocation side);
+	boolean canAddPart( ItemStack part, AEPartLocation side );
 
 	/**
 	 * try to add a new part to the specified side, returns false if it failed to be added.
@@ -72,7 +72,7 @@ public interface IPartHost extends ICustomCableConnection
 	 * @return null if the item failed to add, the side it was placed on other wise ( may different for cables,
 	 * {@link AEPartLocation}.UNKNOWN )
 	 */
-	AEPartLocation addPart(ItemStack is, AEPartLocation side, EntityPlayer owner, EnumHand hand);
+	AEPartLocation addPart( ItemStack is, AEPartLocation side, EntityPlayer owner, EnumHand hand  );
 
 	/**
 	 * Get part by side ( center is {@link AEPartLocation}.UNKNOWN )
@@ -81,7 +81,7 @@ public interface IPartHost extends ICustomCableConnection
 	 *
 	 * @return the part located on the specified side, or null if there is no part.
 	 */
-	IPart getPart(AEPartLocation side);
+	IPart getPart( AEPartLocation side );
 
 	/**
 	 * Get part by side, this method cannot aquire the center part, you must use the other varient of getPart.
@@ -90,7 +90,7 @@ public interface IPartHost extends ICustomCableConnection
 	 *
 	 * @return the part located on the specified side, or null if there is no part.
 	 */
-	IPart getPart(EnumFacing side);
+	IPart getPart( EnumFacing side );
 
 	/**
 	 * removes the part on the side, this doesn't drop it or anything, if you don't do something with it, its just
@@ -101,7 +101,7 @@ public interface IPartHost extends ICustomCableConnection
 	 * @param side side of part
 	 * @param suppressUpdate - used if you need to replace a part's INSTANCE, without really removing it first.
 	 */
-	void removePart(AEPartLocation side, boolean suppressUpdate);
+	void removePart( AEPartLocation side, boolean suppressUpdate );
 
 	/**
 	 * something changed, might want to send a packet to clients to update state.
@@ -134,7 +134,7 @@ public interface IPartHost extends ICustomCableConnection
 	 *
 	 * @return returns if microblocks are blocking this cable path.
 	 */
-	boolean isBlocked(EnumFacing side);
+	boolean isBlocked( EnumFacing side );
 
 	/**
 	 * finds the part located at the position ( pos must be relative, not global )
@@ -143,7 +143,7 @@ public interface IPartHost extends ICustomCableConnection
 	 *
 	 * @return a new SelectedPart, this is never null.
 	 */
-	SelectedPart selectPart(Vec3d pos);
+	SelectedPart selectPart( Vec3d pos );
 
 	/**
 	 * can be used by parts to trigger the tile or part to save.
@@ -162,7 +162,7 @@ public interface IPartHost extends ICustomCableConnection
 	 *
 	 * @return true of the part host is receiving redstone from an external source.
 	 */
-	boolean hasRedstone(AEPartLocation side);
+	boolean hasRedstone( AEPartLocation side );
 
 	/**
 	 * returns false if this block contains any parts or facades, true other wise.

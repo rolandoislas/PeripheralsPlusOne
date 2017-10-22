@@ -5,13 +5,11 @@
  ******************************************************************************/
 package forestry.api.mail;
 
-import javax.annotation.Nullable;
 import java.util.Locale;
 
 public enum EnumAddressee {
 	PLAYER, TRADER;
-
-	@Nullable
+	
 	public static EnumAddressee fromString(String ident) {
 		ident = ident.toLowerCase(Locale.ENGLISH);
 		for (EnumAddressee addr : values()) {
@@ -19,7 +17,7 @@ public enum EnumAddressee {
 				return addr;
 			}
 		}
-
+		
 		return null;
 	}
 

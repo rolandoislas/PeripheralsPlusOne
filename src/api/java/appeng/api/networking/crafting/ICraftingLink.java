@@ -55,7 +55,7 @@ public interface ICraftingLink
 	 *
 	 * @param tag to be written data
 	 */
-	void writeToNBT(NBTTagCompound tag);
+	void writeToNBT( NBTTagCompound tag );
 
 	/**
 	 * @return the crafting ID for this link.

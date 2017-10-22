@@ -46,7 +46,7 @@ public class TurtleChatBox implements ITurtleUpgrade, ModelManager.ModelRegistra
 	public ItemStack getCraftingItem() {
     	if (Config.enableChatBox)
 			return new ItemStack(ModBlocks.CHAT_BOX);
-    	return ItemStack.EMPTY;
+    	return null;
 	}
 
 	@Override

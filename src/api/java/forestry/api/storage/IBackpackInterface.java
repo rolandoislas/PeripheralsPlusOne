@@ -5,17 +5,16 @@
  ******************************************************************************/
 package forestry.api.storage;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
+import forestry.api.genetics.ISpeciesRoot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import forestry.api.genetics.ISpeciesRoot;
 
 /**
  * The Backpack Interface allows you to add items to Forestry backpacks or create your own backpacks.
@@ -39,18 +38,18 @@ public interface IBackpackInterface {
 	 * @param itemStack   The itemStack that the backpack should accept.
 	 *                    {@link OreDictionary#WILDCARD_VALUE} can be used for meta value.
 	 */
-	void addItemToForestryBackpack(String backpackUid, ItemStack itemStack);
+	void addItemToForestryBackpack(@Nonnull String backpackUid, @Nonnull ItemStack itemStack);
 
 	/**
 	 * Register a backpack definition with a given uid.
 	 */
-	void registerBackpackDefinition(String backpackUid, IBackpackDefinition definition);
+	void registerBackpackDefinition(@Nonnull String backpackUid, @Nonnull IBackpackDefinition definition);
 
 	/**
 	 * Get a backpack definition with a given uid.
 	 */
 	@Nullable
-	IBackpackDefinition getBackpackDefinition(String backpackUid);
+	IBackpackDefinition getBackpackDefinition(@Nonnull String backpackUid);
 
 	/**
 	 * Creates a backpack with the given UID and type, returning the item.
@@ -60,7 +59,8 @@ public interface IBackpackInterface {
 	 * @param type        Type of backpack.
 	 * @return Created backpack item.
 	 */
-	Item createBackpack(String backpackUid, EnumBackpackType type);
+	@Nonnull
+	Item createBackpack(@Nonnull String backpackUid, @Nonnull EnumBackpackType type);
 
 	/**
 	 * Create a backpack that can hold items from a specific {@link ISpeciesRoot}.
@@ -70,7 +70,7 @@ public interface IBackpackInterface {
 	 * @param speciesRoot The species root.
 	 * @return Created backpack item.
 	 */
-	Item createNaturalistBackpack(String backpackUid, ISpeciesRoot speciesRoot);
+	Item createNaturalistBackpack(@Nonnull String backpackUid, @Nonnull ISpeciesRoot speciesRoot);
 
 	/**
 	 * Makes a new configurable backpack filter. Useful for implementing {@link IBackpackDefinition}.

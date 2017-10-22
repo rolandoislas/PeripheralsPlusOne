@@ -92,7 +92,7 @@ public class PeripheralResupply implements IPlusPlusPeripheral {
 				if (arguments.length > 1 && arguments[1] instanceof String)
 					id = new ResourceLocation((String)arguments[1]);
 				else {
-					if (turtle.getInventory().getStackInSlot(slot).isEmpty())
+					if (turtle.getInventory().getStackInSlot(slot) == null)
 						return new Object[]{false};
 					if (turtle.getInventory().getStackInSlot(slot).getItem() instanceof ItemBlock) {
 						Block itemBlock = Block.getBlockFromItem(turtle.getInventory().getStackInSlot(slot).getItem());
@@ -103,7 +103,7 @@ public class PeripheralResupply implements IPlusPlusPeripheral {
 					}
 				}
 				int meta = arguments.length > 2 ? ((Double)arguments[2]).intValue() :
-                        turtle.getInventory().getStackInSlot(slot).isEmpty() ?
+                        turtle.getInventory().getStackInSlot(slot) == null ?
 						0 : turtle.getInventory().getStackInSlot(slot).getItemDamage();
 				synchronized (this) {
 					TileEntityResupplyStation station = (TileEntityResupplyStation) world.getTileEntity(linkedStation);

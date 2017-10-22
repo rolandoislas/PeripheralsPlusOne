@@ -37,5 +37,5 @@ public interface IAlphaPassItem
 	 *
 	 * @return true to enable a second pass for your parts in the bus rendering pipe line.
 	 */
-	boolean useAlphaPass(ItemStack is);
+	boolean useAlphaPass( ItemStack is );
 }

@@ -42,7 +42,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
@@ -69,7 +68,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return item of part
 	 */
-	ItemStack getItemStack(PartItemStack type);
+	ItemStack getItemStack( PartItemStack type );
 
 	/**
 	 * Render dynamic portions of this part, as part of the cable bus TESR. This part has to return true for
@@ -77,7 +76,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 * this method to be called.
 	 */
 	@SideOnly( Side.CLIENT )
-	default void renderDynamic(double x, double y, double z, float partialTicks, int destroyStage)
+	default void renderDynamic( double x, double y, double z, float partialTicks, int destroyStage )
 	{
 	}
 
@@ -104,14 +103,14 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @param data to be written nbt data
 	 */
-	void writeToNBT(NBTTagCompound data);
+	void writeToNBT( NBTTagCompound data );
 
 	/**
 	 * Read the previously written NBT Data. this is the mirror for writeToNBT
 	 *
 	 * @param data to be read nbt data
 	 */
-	void readFromNBT(NBTTagCompound data);
+	void readFromNBT( NBTTagCompound data );
 
 	/**
 	 * @return get the amount of light produced by the bus
@@ -125,12 +124,12 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return true if entity can climb
 	 */
-	boolean isLadder(EntityLivingBase entity);
+	boolean isLadder( EntityLivingBase entity );
 
 	/**
 	 * a block around the bus's host has been changed.
 	 */
-	void onNeighborChanged(IBlockAccess w, BlockPos pos, BlockPos neighbor);
+	void onNeighborChanged();
 
 	/**
 	 * @return output redstone on facing side
@@ -149,7 +148,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @throws IOException
 	 */
-	void writeToStream(ByteBuf data) throws IOException;
+	void writeToStream( ByteBuf data ) throws IOException;
 
 	/**
 	 * read data from bus packet.
@@ -160,7 +159,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @throws IOException
 	 */
-	boolean readFromStream(ByteBuf data) throws IOException;
+	boolean readFromStream( ByteBuf data ) throws IOException;
 
 	/**
 	 * get the Grid Node for the Bus, be sure your IGridBlock is NOT isWorldAccessible, if it is your going to cause
@@ -177,7 +176,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @param entity colliding entity
 	 */
-	void onEntityCollision(Entity entity);
+	void onEntityCollision( Entity entity );
 
 	/**
 	 * called when your part is being removed from the world.
@@ -203,7 +202,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 * @param host part side
 	 * @param tile tile entity of part
 	 */
-	void setPartHostInfo(AEPartLocation side, IPartHost host, TileEntity tile);
+	void setPartHostInfo( AEPartLocation side, IPartHost host, TileEntity tile );
 
 	/**
 	 * Called when you right click the part, very similar to Block.onActivateBlock
@@ -213,7 +212,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return if your activate method performed something.
 	 */
-	boolean onActivate(EntityPlayer player, EnumHand hand, Vec3d pos);
+	boolean onActivate( EntityPlayer player, EnumHand hand, Vec3d pos );
 
 	/**
 	 * Called when you right click the part, very similar to Block.onActivateBlock
@@ -223,7 +222,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return if your activate method performed something, you should use false unless you really need it.
 	 */
-	boolean onShiftActivate(EntityPlayer player, EnumHand hand, Vec3d pos);
+	boolean onShiftActivate( EntityPlayer player, EnumHand hand, Vec3d pos );
 
 	/**
 	 * Add drops to the items being dropped into the world, if your item stores its contents when wrenched use the
@@ -232,14 +231,14 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 * @param drops item drops if wrenched
 	 * @param wrenched control flag for wrenched vs broken
 	 */
-	void getDrops(List<ItemStack> drops, boolean wrenched);
+	void getDrops( List<ItemStack> drops, boolean wrenched );
 
 	/**
 	 * @return 0 - 8, reasonable default 3-4, this controls the cable connection to the node. -1 to render connection
 	 * yourself.
 	 */
 	@Override
-	public float getCableConnectionLength(AECableType cable);
+	public float getCableConnectionLength( AECableType cable );
 
 	/**
 	 * same as Block.randomDisplayTick, for but parts.
@@ -248,7 +247,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 * @param pos location of block
 	 * @param r random
 	 */
-	void randomDisplayTick(World world, BlockPos pos, Random r);
+	void randomDisplayTick( World world, BlockPos pos, Random r );
 
 	/**
 	 * Called when placed in the world by a player, this happens before addWorld.
@@ -257,7 +256,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 * @param held held item
 	 * @param side placing side
 	 */
-	void onPlacement(EntityPlayer player, EnumHand hand, ItemStack held, AEPartLocation side);
+	void onPlacement( EntityPlayer player, EnumHand hand, ItemStack held, AEPartLocation side );
 
 	/**
 	 * Used to determine which parts can be placed on what cables.
@@ -266,7 +265,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return true if the part can be placed on this support.
 	 */
-	boolean canBePlacedOn(BusSupport what);
+	boolean canBePlacedOn( BusSupport what );
 
 	/**
 	 * This method is used when a chunk is rebuilt to determine how this part should be rendered. The returned models
@@ -306,7 +305,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return True if your part has the requested capability.
 	 */
-	default boolean hasCapability(Capability<?> capabilityClass)
+	default boolean hasCapability( Capability<?> capabilityClass )
 	{
 		return false;
 	}
@@ -320,7 +319,7 @@ public interface IPart extends IBoxProvider, ICustomCableConnection
 	 *
 	 * @return The capability or null.
 	 */
-	default <T> T getCapability(Capability<T> capabilityClass)
+	default <T> T getCapability( Capability<T> capabilityClass )
 	{
 		return null;
 	}

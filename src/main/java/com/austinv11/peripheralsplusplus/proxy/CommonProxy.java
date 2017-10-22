@@ -1,5 +1,6 @@
 package com.austinv11.peripheralsplusplus.proxy;
 
+import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolder;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolderDefault;
@@ -15,9 +16,9 @@ import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.tiles.*;
 import com.austinv11.peripheralsplusplus.villagers.VillagerProfessionPPP;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -43,20 +44,24 @@ public class CommonProxy {
 		GameRegistry.registerTileEntity(TileEntityPlayerSensor.class, TileEntityPlayerSensor.publicName);
 		GameRegistry.registerTileEntity(TileEntityRFCharger.class, TileEntityRFCharger.publicName);
 		GameRegistry.registerTileEntity(TileEntityOreDictionary.class, TileEntityOreDictionary.publicName);
-		GameRegistry.registerTileEntity(TileEntityAnalyzerBee.class, TileEntityAnalyzerBee.publicName);
-		GameRegistry.registerTileEntity(TileEntityAnalyzerButterfly.class, TileEntityAnalyzerButterfly.publicName);
-		GameRegistry.registerTileEntity(TileEntityAnalyzerTree.class, TileEntityAnalyzerTree.publicName);
+		if (Loader.isModLoaded(ModIds.FORESTRY)) {
+			GameRegistry.registerTileEntity(TileEntityAnalyzerBee.class, TileEntityAnalyzerBee.publicName);
+			GameRegistry.registerTileEntity(TileEntityAnalyzerButterfly.class, TileEntityAnalyzerButterfly.publicName);
+			GameRegistry.registerTileEntity(TileEntityAnalyzerTree.class, TileEntityAnalyzerTree.publicName);
+		}
 		GameRegistry.registerTileEntity(TileEntityTeleporter.class, TileEntityTeleporter.publicName);
 		GameRegistry.registerTileEntity(TileEntityEnvironmentScanner.class, TileEntityEnvironmentScanner.publicName);
 		GameRegistry.registerTileEntity(TileEntitySpeaker.class, TileEntitySpeaker.publicName);
 		GameRegistry.registerTileEntity(TileEntityAntenna.class, TileEntityAntenna.publicName);
 		GameRegistry.registerTileEntity(TileEntityPeripheralContainer.class, TileEntityPeripheralContainer.publicName);
-		GameRegistry.registerTileEntity(TileEntityMEBridge.class, TileEntityMEBridge.publicName);
+		if (Loader.isModLoaded(ModIds.APPLIED_ENGERGISTICS))
+			GameRegistry.registerTileEntity(TileEntityMEBridge.class, TileEntityMEBridge.publicName);
 		GameRegistry.registerTileEntity(TileEntityTurtle.class, TileEntityTurtle.publicName);
 		GameRegistry.registerTileEntity(TileEntityTimeSensor.class, TileEntityTimeSensor.publicName);
 		GameRegistry.registerTileEntity(TileEntityInteractiveSorter.class, TileEntityInteractiveSorter.publicName);
         GameRegistry.registerTileEntity(TileEntityPlayerInterface.class, TileEntityPlayerInterface.publicName);
 		GameRegistry.registerTileEntity(TileEntityResupplyStation.class, TileEntityResupplyStation.publicName);
+		GameRegistry.registerTileEntity(TileEntityModNotLoaded.class, TileEntityModNotLoaded.publicName);
     }
 
 	public void textureAndModelInit() {}
@@ -77,11 +82,11 @@ public class CommonProxy {
 	}
 
 	public void registerEntities() {
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "ridable_turtle"),
-				EntityRidableTurtle.class, "ridable_turtle", 1, PeripheralsPlusPlus.instance,
+		EntityRegistry.registerModEntity(
+				EntityRidableTurtle.class, "ridable_turtle", 0, PeripheralsPlusPlus.instance,
 				64, 20, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(Reference.MOD_ID, "nano_bot_swarm"),
-				EntityNanoBotSwarm.class, "nano_bot_swarm", 2, PeripheralsPlusPlus.instance,
+		EntityRegistry.registerModEntity(
+				EntityNanoBotSwarm.class, "nano_bot_swarm", 0, PeripheralsPlusPlus.instance,
 				64, 20, true);
 	}
 

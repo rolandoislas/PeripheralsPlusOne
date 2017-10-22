@@ -49,7 +49,7 @@ public interface IGridHost
 	 * @return a new IGridNode, create these with
 	 * AEApi.INSTANCE().createGridNode( MyIGridBlock )
 	 */
-	IGridNode getGridNode(AEPartLocation dir);
+	IGridNode getGridNode( AEPartLocation dir );
 
 	/**
 	 * Determines how cables render when they connect to this block. Priority is
@@ -57,7 +57,7 @@ public interface IGridHost
 	 *
 	 * @param dir direction
 	 */
-	AECableType getCableConnectionType(AEPartLocation dir);
+	AECableType getCableConnectionType( AEPartLocation dir );
 
 	/**
 	 * break this host, its violating security rules, just break your block, or part.

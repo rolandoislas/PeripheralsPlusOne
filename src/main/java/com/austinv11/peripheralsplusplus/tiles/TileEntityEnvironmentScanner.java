@@ -45,14 +45,14 @@ public class TileEntityEnvironmentScanner extends TileEntity implements IPlusPlu
 	}
 
 	public void update() {
-		if (world != null) {
-			isRaining = world.isRaining();
-			biome = world.getBiome(getPos()).getBiomeName();
-			temp = world.getBiome(getPos()).getTempCategory().name();
-			isSnow = world.getBiome(getPos()).getEnableSnow();
+		if (worldObj != null) {
+			isRaining = worldObj.isRaining();
+			biome = worldObj.getBiome(getPos()).getBiomeName();
+			temp = worldObj.getBiome(getPos()).getTempCategory().name();
+			isSnow = worldObj.getBiome(getPos()).getEnableSnow();
 		}
 		if (turtle != null) {
-			this.setWorld(turtle.getWorld());
+			this.setWorldObj(turtle.getWorld());
 			this.setPos(turtle.getPosition());
 		}
 		else

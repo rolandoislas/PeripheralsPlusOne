@@ -5,11 +5,13 @@
  ******************************************************************************/
 package forestry.api.apiculture.hives;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Locale;
 
-import forestry.api.apiculture.IHiveDrop;
 import net.minecraft.util.IStringSerializable;
+
+import forestry.api.apiculture.IHiveDrop;
 
 public interface IHiveRegistry {
 
@@ -23,23 +25,25 @@ public interface IHiveRegistry {
 		SNOW("forestry:snow", "forestry.speciesWintry"),
 		SWAMP("forestry:swamp", "forestry.speciesMarshy"),
 		SWARM("forestry:swarm", "forestry.speciesForest");
-
+		
 		public static final HiveType[] VALUES = values();
 
+		@Nonnull
 		private final String hiveUid;
+		@Nonnull
 		private final String speciesUid;
 
-		HiveType(String hiveUid, String speciesUid) {
+		HiveType(@Nonnull String hiveUid, @Nonnull String speciesUid) {
 			this.hiveUid = hiveUid;
 			this.speciesUid = speciesUid;
 		}
 
-
+		@Nonnull
 		public String getHiveUid() {
 			return hiveUid;
 		}
 
-
+		@Nonnull
 		public String getSpeciesUid() {
 			return speciesUid;
 		}
@@ -52,6 +56,7 @@ public interface IHiveRegistry {
 		public int getMeta() {
 			return ordinal();
 		}
+		
 	}
 
 	/**

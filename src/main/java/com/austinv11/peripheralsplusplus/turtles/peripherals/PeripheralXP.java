@@ -138,9 +138,9 @@ public class PeripheralXP implements IPlusPlusPeripheral {
 						throw new LuaException("Bad argument #1 (expected number)");
 					amount = (int)Math.floor((Double)arguments[0]);
 				}
-				if (slot.getCount() < 1)
+				if (slot.stackSize < 1)
 					return new Object[] {0};
-				amount = Math.min(amount, slot.getCount());
+				amount = Math.min(amount, slot.stackSize);
 				int recharge = 0;
 				if (slot.isItemEqual(new ItemStack(Items.EXPERIENCE_BOTTLE))) {
 					recharge = 3 + random.nextInt(5) + random.nextInt(5);
@@ -148,9 +148,9 @@ public class PeripheralXP implements IPlusPlusPeripheral {
 				recharge *= amount;
 				addExperience(recharge);
 				if (recharge > 0) {
-				    slot.setCount(slot.getCount() - amount);
-					if (slot.getCount() <= 0)
-						slot = ItemStack.EMPTY;
+				    slot.stackSize -= amount;
+					if (slot.stackSize <= 0)
+						slot = null;
 					turtle.getInventory().setInventorySlotContents(turtle.getSelectedSlot(), slot);
 				}
 				changed = true;
@@ -196,13 +196,13 @@ public class PeripheralXP implements IPlusPlusPeripheral {
 					NBTTagList storedEnchantments = new NBTTagList();
 					NBTTagCompound enchantment = new NBTTagCompound();
 					EnchantmentData data = (EnchantmentData)enchants.get(0);
-					enchantment.setShort("id", (short) Enchantment.getEnchantmentID(data.enchantment));
+					enchantment.setShort("id", (short) Enchantment.getEnchantmentID(data.enchantmentobj));
 					enchantment.setShort("lvl", (short)data.enchantmentLevel);
 					storedEnchantments.appendTag(enchantment);
 					enchanted.getTagCompound().setTag("StoredEnchantments", storedEnchantments);
 				} else {
 					for (EnchantmentData data : (List<EnchantmentData>)enchants) {
-						enchanted.addEnchantment(data.enchantment, data.enchantmentLevel);
+						enchanted.addEnchantment(data.enchantmentobj, data.enchantmentLevel);
 					}
 				}
 				addLevels(-levels, true);

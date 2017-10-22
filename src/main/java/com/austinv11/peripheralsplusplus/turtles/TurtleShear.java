@@ -50,7 +50,7 @@ public class TurtleShear implements ITurtleUpgrade, ModelManager.ModelRegistrar 
 	public ItemStack getCraftingItem() {
 		if (Config.enableShearTurtle)
 			return new ItemStack(Items.SHEARS);
-		return ItemStack.EMPTY;
+		return null;
 	}
 
 	@Override
@@ -70,9 +70,9 @@ public class TurtleShear implements ITurtleUpgrade, ModelManager.ModelRegistrar 
 				List<Entity> entities = TurtleUtil.getEntitiesNearTurtle(turtle, player, direction);
 				Entity ent = TurtleUtil.getClosestShearableEntity(entities, player);
 				if (ent != null)
-					if (((IShearable) ent).isShearable(new ItemStack(Items.SHEARS), ent.world, ent.getPosition())) {
-						TurtleUtil.addItemListToInv(((IShearable) ent).onSheared(new ItemStack(Items.SHEARS), ent.world,
-								ent.getPosition(), 0), turtle);
+					if (((IShearable) ent).isShearable(new ItemStack(Items.SHEARS), ent.worldObj, ent.getPosition())) {
+						TurtleUtil.addItemListToInv(((IShearable) ent).onSheared(new ItemStack(Items.SHEARS),
+								ent.worldObj, ent.getPosition(), 0), turtle);
 						return TurtleCommandResult.success();
 					}
 				return TurtleCommandResult.failure();

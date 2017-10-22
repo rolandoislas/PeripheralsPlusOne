@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -40,8 +39,8 @@ public class TurtleUtil {
 			player.setHeldItem(EnumHand.MAIN_HAND, itemToUse);
 			if (blockState.getBlockHardness(turtle.getWorld(), new BlockPos(x,y,z)) >= 0 &&
 					blockState.getBlock().canHarvestBlock(turtle.getWorld(), new BlockPos(x,y,z), player)) {
-				NonNullList<ItemStack> items = NonNullList.create();
-				blockState.getBlock().getDrops(items, turtle.getWorld(), new BlockPos(x,y,z), blockState, 0);;
+				List<ItemStack> items = blockState.getBlock().getDrops(turtle.getWorld(), new BlockPos(x, y, z),
+						blockState, 0);
 				turtle.getWorld().setBlockToAir(new BlockPos(x,y,z));
 				return items;
 			}
@@ -91,7 +90,7 @@ public class TurtleUtil {
 	public static ArrayList<ItemStack> entityItemsToItemStack(ArrayList<EntityItem> entities) {
 		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
 		for (EntityItem e : entities) {
-			stacks.add(e.getItem());
+			stacks.add(e.getEntityItem());
 		}
 		return stacks;
 	}
@@ -102,20 +101,20 @@ public class TurtleUtil {
 		BlockPos coords = turtle.getPosition();
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack currentStack = inv.getStackInSlot(i);
-			if (currentStack.isEmpty()) {
+			if (currentStack == null) {
 				inv.setInventorySlotContents(i, stack);
 				drop = false;
 				break;
 			}
 			if (currentStack.isStackable() && currentStack.isItemEqual(stack)) {
-				int space = currentStack.getMaxStackSize() - currentStack.getCount();
-				if (stack.getCount() > space) {
-					currentStack.setCount(currentStack.getMaxStackSize());
-					stack.setCount(stack.getCount() - space);
+				int space = currentStack.getMaxStackSize() - currentStack.stackSize;
+				if (stack.stackSize > space) {
+					currentStack.stackSize = currentStack.getMaxStackSize();
+					stack.stackSize -= space;
 					drop = true;
 				} else {
-					currentStack.setCount(currentStack.getCount() + stack.getCount());
-					stack.setCount(0);
+					currentStack.stackSize += stack.stackSize;
+					stack.stackSize = 0;
 					drop = false;
 					break;
 				}
@@ -123,7 +122,7 @@ public class TurtleUtil {
 		}
 		if (drop) {
 			EnumFacing dir = turtle.getDirection();
-			turtle.getWorld().spawnEntity(new EntityItem(turtle.getWorld(), coords.getX()+dir.getFrontOffsetX(),
+			turtle.getWorld().spawnEntityInWorld(new EntityItem(turtle.getWorld(), coords.getX()+dir.getFrontOffsetX(),
 					coords.getY()+dir.getFrontOffsetY()+1, coords.getZ()+dir.getFrontOffsetZ(), stack.copy()));
 		}
 	}
@@ -179,15 +178,15 @@ public class TurtleUtil {
 		try {
 			Class pocketServer = Class.forName("dan200.computercraft.shared.pocket.core.PocketServerComputer");
 			if (!pocketServer.isInstance(access))
-				return ItemStack.EMPTY;
+				return null;
 			Field stack = pocketServer.getDeclaredField("m_stack");
 			stack.setAccessible(true);
 			ItemStack itemStack = (ItemStack) stack.get(access);
 			if (itemStack == null)
-				return ItemStack.EMPTY;
+				return null;
 			return itemStack;
 		} catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
-			return ItemStack.EMPTY;
+			return null;
 		}
 	}
 

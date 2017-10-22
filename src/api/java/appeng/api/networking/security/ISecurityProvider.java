@@ -48,7 +48,7 @@ public interface ISecurityProvider
 	 *
 	 * @param playerPerms player permissions
 	 */
-	void readPermissions(HashMap<Integer, EnumSet<SecurityPermissions>> playerPerms);
+	void readPermissions( HashMap<Integer, EnumSet<SecurityPermissions>> playerPerms );
 
 	/**
 	 * @return is security on or off?

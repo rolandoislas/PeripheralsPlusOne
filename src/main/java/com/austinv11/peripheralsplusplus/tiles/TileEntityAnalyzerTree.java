@@ -49,7 +49,6 @@ public class TileEntityAnalyzerTree extends TileEntityAnalyzer {
 		ret.put("girth", genome.getGirth());
 		ret.put("effect", genome.getEffect().getUID());
 		ret.put("decorativeLeaves", genome.getDecorativeLeaves().getDisplayName());
-		ret.put("matchesTemplateGenome", genome.matchesTemplateGenome());
 	}
 
 	@Override

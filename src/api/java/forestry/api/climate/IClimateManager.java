@@ -5,37 +5,39 @@
  ******************************************************************************/
 package forestry.api.climate;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface IClimateManager {
 
-	/**
-	 * @deprecated Use {@link IClimateStates#create(float, float)}
-	 */
-	@Deprecated
-	IClimateInfo createInfo(float temperature, float humidity);
-
-	/**
-	 * @deprecated Use {@link #getClimateState(World, BlockPos)}
-	 */
-	@Deprecated
-	IClimateInfo getInfo(World world, BlockPos pos);
-
-	/**
-	 * Gets the current state of a container at this position or setSettings one with the datas from the biome.
-	 * @since 5.3.4
-	 */
-	IClimateState getClimateState(World world, BlockPos pos);
+	float getTemperature(World world, BlockPos pos);
 	
-	/**
-	 * Creates a climate state with the help of the biome on this position.
-	 * @since 5.3.4
-	 */
-	IClimateState getBiomeState(World world, BlockPos pos);
-
-	/**
-	 * @return Create a climate manager.
-	 */
+	float getHumidity(World world, BlockPos pos);
+	
+	@Nonnull
 	IClimateProvider getDefaultClimate(World world, BlockPos pos);
+	
+	void addRegion(IClimateRegion region);
+	
+	void removeRegion(IClimateRegion region);
+	
+	void addSource(IClimateSourceProvider source);
+	
+	void removeSource(IClimateSourceProvider source);
+	
+	@Nullable
+	IClimatePosition getPosition(World world, BlockPos pos);
+	
+	@Nullable
+	IClimateRegion getRegionForPos(World world, BlockPos pos);
+	
+	@Nonnull
+	Map<Integer, List<IClimateRegion>> getRegions();
+	
 }

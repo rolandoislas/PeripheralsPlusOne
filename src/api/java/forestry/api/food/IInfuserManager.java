@@ -6,20 +6,19 @@
 package forestry.api.food;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
 public interface IInfuserManager {
 
 	void addMixture(int meta, ItemStack ingredient, IBeverageEffect effect);
 
-	void addMixture(int meta, NonNullList<ItemStack> ingredients, IBeverageEffect effect);
+	void addMixture(int meta, ItemStack[] ingredients, IBeverageEffect effect);
 
-	ItemStack getSeasoned(ItemStack base, NonNullList<ItemStack> ingredients);
+	ItemStack getSeasoned(ItemStack base, ItemStack[] ingredients);
 
-	boolean hasMixtures(NonNullList<ItemStack> ingredients);
+	boolean hasMixtures(ItemStack[] ingredients);
 
 	boolean isIngredient(ItemStack itemstack);
 
-	NonNullList<ItemStack> getRequired(NonNullList<ItemStack> ingredients);
+	ItemStack[] getRequired(ItemStack[] ingredients);
 
 }

@@ -37,5 +37,5 @@ public interface IUpgradeModule
 	 *
 	 * @return null, or a valid upgrade type.
 	 */
-	Upgrades getType(ItemStack itemstack);
+	Upgrades getType( ItemStack itemstack );
 }

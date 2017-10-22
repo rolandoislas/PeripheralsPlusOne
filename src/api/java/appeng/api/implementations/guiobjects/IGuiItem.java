@@ -36,5 +36,5 @@ import net.minecraft.world.World;
 public interface IGuiItem
 {
 
-	IGuiItemObject getGuiObject(ItemStack is, World world, BlockPos pos);
+	IGuiItemObject getGuiObject( ItemStack is, World world, BlockPos pos );
 }

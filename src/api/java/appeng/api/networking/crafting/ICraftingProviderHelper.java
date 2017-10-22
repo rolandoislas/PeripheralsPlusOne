@@ -36,10 +36,10 @@ public interface ICraftingProviderHelper
 	/**
 	 * Add new Pattern to AE's crafting cache.
 	 */
-	void addCraftingOption(ICraftingMedium medium, ICraftingPatternDetails api);
+	void addCraftingOption( ICraftingMedium medium, ICraftingPatternDetails api );
 
 	/**
 	 * Set an item can Emitable
 	 */
-	void setEmitable(IAEItemStack what);
+	void setEmitable( IAEItemStack what );
 }

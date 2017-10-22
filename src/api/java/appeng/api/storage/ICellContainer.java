@@ -38,5 +38,5 @@ public interface ICellContainer extends IActionHost, ICellProvider, ISaveProvide
 	 *
 	 * @param slot slot index
 	 */
-	void blinkCell(int slot);
+	void blinkCell( int slot );
 }

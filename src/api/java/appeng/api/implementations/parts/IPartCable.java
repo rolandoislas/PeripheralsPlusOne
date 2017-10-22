@@ -67,7 +67,7 @@ public interface IPartCable extends IPart, IGridHost
 	 *
 	 * @return if the color change was successful.
 	 */
-	boolean changeColor(AEColor newColor, EntityPlayer who);
+	boolean changeColor( AEColor newColor, EntityPlayer who );
 
 	/**
 	 * Change sides on the cables node.
@@ -76,7 +76,7 @@ public interface IPartCable extends IPart, IGridHost
 	 *
 	 * @param sides sides of cable
 	 */
-	void setValidSides(EnumSet<EnumFacing> sides);
+	void setValidSides( EnumSet<EnumFacing> sides );
 
 	/**
 	 * used to tests if a cable connects to neighbors visually.
@@ -85,6 +85,6 @@ public interface IPartCable extends IPart, IGridHost
 	 *
 	 * @return true if this side is currently connects to an external block.
 	 */
-	boolean isConnected(EnumFacing side);
+	boolean isConnected( EnumFacing side );
 
 }
