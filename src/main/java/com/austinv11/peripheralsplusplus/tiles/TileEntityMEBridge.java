@@ -22,8 +22,6 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -34,15 +32,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -211,7 +206,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		else
 			direction = EnumFacing.getFront((int) (double) arguments[3]);
 		// Check inventory to output to
-		IInventory inventory = getInventoryForSide(world, getPos(), direction);
+		IInventory inventory = TileEntityInteractiveSorter.getInventoryForSide(world, getPos(), direction);
 		if (inventory == null)
 			throw new LuaException("Block is not a valid inventory");
 		// Check item is valid
@@ -273,19 +268,6 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		for (int i = 0; i < inventory.getSizeInventory(); i++)
 			array[i] = i;
 		return array;
-	}
-
-	@Nullable
-	public static IInventory getInventoryForSide(World world, BlockPos origin, EnumFacing side) {
-		BlockPos pos = origin.offset(side);
-		if (!world.isAirBlock(pos)) {
-			Block block = world.getBlockState(pos).getBlock();
-			if (block instanceof IInventory)
-				return (IInventory) block;
-			if (block instanceof ITileEntityProvider && world.getTileEntity(pos) instanceof IInventory)
-				return (IInventory)world.getTileEntity(pos);
-		}
-		return null;
 	}
 
 	private int getRemainingSlots(Item item, IInventory inventory) {

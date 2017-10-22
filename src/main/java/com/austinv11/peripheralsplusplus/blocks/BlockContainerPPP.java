@@ -38,7 +38,7 @@ public abstract class BlockContainerPPP extends BlockContainer
     private void dropItems(World world, BlockPos pos, IBlockState state)
     {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity == null)
+        if (!(tileEntity instanceof IInventory))
             return;
         IInventory inventory = (IInventory) tileEntity;
 

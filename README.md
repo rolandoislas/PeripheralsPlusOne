@@ -25,7 +25,7 @@ repositories {
     }
 }
 dependencies {
-    compile "com.austinv11.peripheralsplusplus:PeripheralsPlusOne:$VERSION"
+    compile "com.rolandoislas.peripheralsplusone:PeripheralsPlusOne:$VERSION"
 }
 ```
 
