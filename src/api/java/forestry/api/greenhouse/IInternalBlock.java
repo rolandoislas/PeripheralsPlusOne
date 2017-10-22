@@ -3,19 +3,20 @@
  *
  * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
  ******************************************************************************/
-package forestry.greenhouse.api.greenhouse;
+package forestry.api.greenhouse;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 
-import forestry.greenhouse.api.climate.IGreenhouseClimateManager;
+import net.minecraft.util.math.BlockPos;
 
-public class GreenhouseManager {
+public interface IInternalBlock {
+
+	BlockPos getPos();
 
 	@Nullable
-	public static IGreenhouseHelper helper;
-	@Nullable
-	public static IGreenhouseBlockManager blockManager;
-	@Nullable
-	public static IGreenhouseClimateManager climateManager;
+	IInternalBlock getRoot();
+
+	Collection<IInternalBlockFace> getFaces();
 
 }

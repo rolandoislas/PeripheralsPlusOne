@@ -58,5 +58,5 @@ public interface IOrientable
 	 * @param Forward new forward direction
 	 * @param Up new upwards direction
 	 */
-	void setOrientation(EnumFacing Forward, EnumFacing Up);
+	void setOrientation( EnumFacing Forward, EnumFacing Up );
 }

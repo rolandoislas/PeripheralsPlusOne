@@ -38,5 +38,5 @@ public interface IComparableDefinition
 	 *
 	 * @return true if the item stack is a matching item.
 	 */
-	boolean isSameAs(ItemStack comparableStack);
+	boolean isSameAs( ItemStack comparableStack );
 }

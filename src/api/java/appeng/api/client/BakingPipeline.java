@@ -24,13 +24,12 @@
 package appeng.api.client;
 
 
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.util.EnumFacing;
+
+import java.util.List;
 
 /**
  * TODO: Needs to be moved to an internal class. API is only allowed to contain interfaces and/or data.
@@ -54,7 +53,7 @@ public class BakingPipeline<F, T> implements BakingPipelineElement<F, T>
 	@Override
 	public List pipe( List things, IBakedModel parent, IBlockState state, EnumFacing side, long rand )
 	{
-		for( BakingPipelineElement pipe : this.pipeline )
+		for( BakingPipelineElement pipe : pipeline )
 		{
 			things = pipe.pipe( things, parent, state, side, rand );
 		}

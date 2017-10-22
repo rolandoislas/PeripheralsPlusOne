@@ -3,11 +3,11 @@ package com.austinv11.peripheralsplusplus.client.gui;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.tiles.containers.ContainerAnalyzer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
@@ -38,7 +38,7 @@ public class GuiAnalyzer extends GuiContainer {
 		int x = (width - sizeX) / 2;
 		int y = (height - sizeY) / 2;
 		drawTexturedModalRect(x, y, 0, 0, sizeX, sizeY);
-		fontRenderer.drawString(I18n.translateToLocal(Reference.MOD_ID + ".inv.analyzer"), x+65, y+3, 0x313131);
+		fontRendererObj.drawString(I18n.format(Reference.MOD_ID + ".inv.analyzer"), x+65, y+3, 0x313131);
 	}
 
 	@Override

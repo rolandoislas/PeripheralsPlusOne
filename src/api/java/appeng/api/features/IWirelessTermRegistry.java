@@ -40,14 +40,14 @@ public interface IWirelessTermRegistry
 	 *
 	 * @param handler wireless handler
 	 */
-	void registerWirelessHandler(IWirelessTermHandler handler);
+	void registerWirelessHandler( IWirelessTermHandler handler );
 
 	/**
 	 * @param is item which might have a handler
 	 *
 	 * @return true if there is a handler for this item
 	 */
-	boolean isWirelessTerminal(ItemStack is);
+	boolean isWirelessTerminal( ItemStack is );
 
 	/**
 	 * @param is item with handler
@@ -55,11 +55,11 @@ public interface IWirelessTermRegistry
 	 * @return a register handler for the item in question, or null if there
 	 * isn't one
 	 */
-	IWirelessTermHandler getWirelessTerminalHandler(ItemStack is);
+	IWirelessTermHandler getWirelessTerminalHandler( ItemStack is );
 
 	/**
 	 * opens the wireless terminal gui, the wireless terminal item, must be in
 	 * the active slot on the tool bar.
 	 */
-	void openWirelessTerminalGui(ItemStack item, World w, EntityPlayer player);
+	void openWirelessTerminalGui( ItemStack item, World w, EntityPlayer player );
 }

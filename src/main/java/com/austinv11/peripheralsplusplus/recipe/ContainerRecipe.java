@@ -12,11 +12,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +90,11 @@ public class ContainerRecipe implements IRecipe {
 		return container;
 	}
 
+	@Override
+	public int getRecipeSize() {
+		return 9;
+	}
+
 	private List<ContainedPeripheral> getPeripherals(InventoryCrafting inventory) {
 		List<ContainedPeripheral> peripherals = new ArrayList<>();
 		for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
@@ -113,34 +118,12 @@ public class ContainerRecipe implements IRecipe {
 	}
 
 	@Override
-    public boolean canFit(int width, int height) {
-        return true;
-    }
-
-	@Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(ModBlocks.PERIPHERAL_CONTAINER);
 	}
 
-    @Override
-    public IRecipe setRegistryName(ResourceLocation name) {
-	    this.name = name;
-        return this;
-    }
-
-    @Nullable
-    @Override
-    public ResourceLocation getRegistryName() {
-        return name;
-    }
-
-    @Override
-    public Class<IRecipe> getRegistryType() {
-        return IRecipe.class;
-    }
-
 	@Override
-	public String getGroup() {
-		return group.toString();
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
+    	return NonNullList.withSize(getRecipeSize(), ItemStack.EMPTY);
 	}
 }

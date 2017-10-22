@@ -42,7 +42,7 @@ public interface IPartCollisionHelper
 	 * @param maxY maximal y collision
 	 * @param maxZ maximal z collision
 	 */
-	void addBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ);
+	void addBox( double minX, double minY, double minZ, double maxX, double maxY, double maxZ );
 
 	/**
 	 * @return east in world space.

@@ -1,8 +1,3 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture;
 
 import java.util.Locale;
@@ -83,40 +78,40 @@ public enum EnumVanillaWoodType implements IWoodType {
 	@Override
 	public String getPlankTexture() {
 		if (this == DARK_OAK) {
-			return "block/planks_big_oak";
+			return "blocks/planks_big_oak";
 		}
-		return "block/planks_" + getName();
+		return "blocks/planks_" + getName();
 	}
 
 	@Override
 	public String getDoorLowerTexture() {
 		if (this == OAK) {
-			return "block/door_wood_lower";
+			return "blocks/door_wood_lower";
 		}
-		return "block/door_wood_lower";
+		return "blocks/door_wood_lower";
 	}
 
 	@Override
 	public String getDoorUpperTexture() {
 		if (this == OAK) {
-			return "block/door_wood_upper";
+			return "blocks/door_wood_upper";
 		}
-		return "block/door_" + getName() + "_upper";
+		return "blocks/door_" + getName() + "_upper";
 	}
 
 	@Override
 	public String getBarkTexture() {
 		if (this == DARK_OAK) {
-			return "block/log_big_oak";
+			return "blocks/log_big_oak";
 		}
-		return "block/log_" + getName();
+		return "blocks/log_" + getName();
 	}
 
 	@Override
 	public String getHeartTexture() {
 		if (this == DARK_OAK) {
-			return "block/log_big_oak_top";
+			return "blocks/log_big_oak_top";
 		}
-		return "block/log_" + getName() + "_top";
+		return "blocks/log_" + getName() + "_top";
 	}
 }

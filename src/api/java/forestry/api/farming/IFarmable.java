@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * IFarmable describes a crop or other harvestable object and can be used to inspect item stacks and block for matches.
+ * IFarmable describes a crop or other harvestable object and can be used to inspect item stacks and blocks for matches.
  */
 public interface IFarmable {
 

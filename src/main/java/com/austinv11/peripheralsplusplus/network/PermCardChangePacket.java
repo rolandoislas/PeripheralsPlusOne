@@ -41,7 +41,7 @@ public class PermCardChangePacket implements IMessage
         @Override
         public IMessage onMessage(PermCardChangePacket message, MessageContext ctx)
         {
-            ItemStack permCard = ctx.getServerHandler().player.getHeldItemMainhand();
+            ItemStack permCard = ctx.getServerHandler().playerEntity.getHeldItemMainhand();
             if (!permCard.isEmpty()) {
                 NBTTagCompound permCardTag = permCard.getTagCompound();
                 if (permCardTag != null) {

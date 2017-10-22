@@ -36,7 +36,7 @@ import net.minecraft.item.ItemStack;
  *
  * Don't Implement.
  *
- * Construct with AEApi.instance().storage().getStorageChannel( IItemStorageChannel.class).createStack( ItemStack )
+ * Construct with Util.createItemStack( ItemStack )
  */
 public interface IAEItemStack extends IAEStack<IAEItemStack>
 {
@@ -46,7 +46,7 @@ public interface IAEItemStack extends IAEStack<IAEItemStack>
 	 *
 	 * @return new ItemStack
 	 */
-	ItemStack createItemStack();
+	ItemStack getItemStack();
 
 	/**
 	 * is there NBT Data for this item?
@@ -61,7 +61,7 @@ public interface IAEItemStack extends IAEStack<IAEItemStack>
 	 * @param option to add to the current one.
 	 */
 	@Override
-	void add(IAEItemStack option);
+	void add( IAEItemStack option );
 
 	/**
 	 * create a AE Item clone
@@ -86,7 +86,7 @@ public interface IAEItemStack extends IAEStack<IAEItemStack>
 	/**
 	 * Compare the Ore Dictionary ID for this to another item.
 	 */
-	boolean sameOre(IAEItemStack is);
+	boolean sameOre( IAEItemStack is );
 
 	/**
 	 * compare the item/damage/nbt of the stack.
@@ -95,7 +95,7 @@ public interface IAEItemStack extends IAEStack<IAEItemStack>
 	 *
 	 * @return true if it is the same type (same item, damage, nbt)
 	 */
-	boolean isSameType(IAEItemStack otherStack);
+	boolean isSameType( IAEItemStack otherStack );
 
 	/**
 	 * compare the item/damage/nbt of the stack.
@@ -104,12 +104,5 @@ public interface IAEItemStack extends IAEStack<IAEItemStack>
 	 *
 	 * @return true if it is the same type (same item, damage, nbt)
 	 */
-	boolean isSameType(ItemStack stored);
-
-	/**
-	 * DO NOT MODIFY THIS STACK! NEVER. If you think about it .. DON'T
-	 * 
-	 * @return definition stack
-	 */
-	ItemStack getDefinition();
+	boolean isSameType( ItemStack stored );
 }

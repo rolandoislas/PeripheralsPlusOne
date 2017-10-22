@@ -42,5 +42,5 @@ public interface IItemGroup
 	 *
 	 * @return an unlocalized string to use for the items group name.
 	 */
-	String getUnlocalizedGroupName(Set<ItemStack> otherItems, ItemStack is);
+	String getUnlocalizedGroupName( Set<ItemStack> otherItems, ItemStack is );
 }

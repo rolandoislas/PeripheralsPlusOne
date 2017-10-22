@@ -1,17 +1,12 @@
-/*******************************************************************************
- * Copyright 2011-2014 SirSengir
- *
- * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
- ******************************************************************************/
 package forestry.api.arboriculture;
-
-import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
 import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.ModelProcessingHelper;
 
 public enum WoodBlockKind {
 	LOG, PLANKS, SLAB, FENCE, FENCE_GATE, STAIRS, DOOR;
@@ -62,6 +57,6 @@ public enum WoodBlockKind {
 				break;
 		}
 		textures.putAll(customTextures);
-		return model.retexture(ImmutableMap.copyOf(textures));
+		return ModelProcessingHelper.retexture(model, new ImmutableMap.Builder<String, String>().putAll(textures).build());
 	}
 }

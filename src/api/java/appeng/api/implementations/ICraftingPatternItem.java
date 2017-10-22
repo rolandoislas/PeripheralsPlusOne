@@ -45,5 +45,5 @@ public interface ICraftingPatternItem
 	 *
 	 * @return details of pattern
 	 */
-	ICraftingPatternDetails getPatternForItem(ItemStack is, World w);
+	ICraftingPatternDetails getPatternForItem( ItemStack is, World w );
 }

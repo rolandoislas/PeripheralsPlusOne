@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -40,8 +39,8 @@ public class TurtleUtil {
 			player.setHeldItem(EnumHand.MAIN_HAND, itemToUse);
 			if (blockState.getBlockHardness(turtle.getWorld(), new BlockPos(x,y,z)) >= 0 &&
 					blockState.getBlock().canHarvestBlock(turtle.getWorld(), new BlockPos(x,y,z), player)) {
-				NonNullList<ItemStack> items = NonNullList.create();
-				blockState.getBlock().getDrops(items, turtle.getWorld(), new BlockPos(x,y,z), blockState, 0);;
+				List<ItemStack> items = blockState.getBlock().getDrops(turtle.getWorld(), new BlockPos(x, y, z),
+						blockState, 0);
 				turtle.getWorld().setBlockToAir(new BlockPos(x,y,z));
 				return items;
 			}
@@ -91,7 +90,7 @@ public class TurtleUtil {
 	public static ArrayList<ItemStack> entityItemsToItemStack(ArrayList<EntityItem> entities) {
 		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
 		for (EntityItem e : entities) {
-			stacks.add(e.getItem());
+			stacks.add(e.getEntityItem());
 		}
 		return stacks;
 	}

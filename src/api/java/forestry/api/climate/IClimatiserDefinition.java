@@ -3,15 +3,16 @@
  *
  * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
  ******************************************************************************/
-package forestry.greenhouse.api.greenhouse;
+package forestry.api.climate;
 
-import forestry.api.core.INbtReadable;
-import forestry.api.core.INbtWritable;
+public interface IClimatiserDefinition {
 
-public interface IGreenhouseLogic extends INbtReadable, INbtWritable{
+	float getChange();
 
-	void work(int ticks);
-	
-	String getUID();
-	
+	float getRange();
+
+	EnumClimatiserModes getMode();
+
+	EnumClimatiserTypes getType();
+
 }

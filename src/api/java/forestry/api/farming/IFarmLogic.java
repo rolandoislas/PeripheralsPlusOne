@@ -7,7 +7,6 @@ package forestry.api.farming;
 
 import java.util.Collection;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -34,8 +33,6 @@ public interface IFarmLogic {
 
 	IFarmLogic setManual(boolean manual);
 
-	void addSoil(ItemStack resource, IBlockState soilState, boolean hasMetaData);
-	
 	@SideOnly(Side.CLIENT)
 	ResourceLocation getTextureMap();
 

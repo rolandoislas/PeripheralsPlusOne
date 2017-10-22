@@ -52,7 +52,7 @@ public interface IConfigManager
 	 * @param settingName name of setting
 	 * @param defaultValue default value of setting
 	 */
-	void registerSetting(Settings settingName, Enum<?> defaultValue);
+	void registerSetting( Settings settingName, Enum<?> defaultValue );
 
 	/**
 	 * Get Value of a particular setting
@@ -61,7 +61,7 @@ public interface IConfigManager
 	 *
 	 * @return value of setting
 	 */
-	Enum<?> getSetting(Settings settingName);
+	Enum<?> getSetting( Settings settingName );
 
 	/**
 	 * Change setting
@@ -71,19 +71,19 @@ public interface IConfigManager
 	 *
 	 * @return changed setting
 	 */
-	Enum<?> putSetting(Settings settingName, Enum<?> newValue);
+	Enum<?> putSetting( Settings settingName, Enum<?> newValue );
 
 	/**
 	 * write all settings to the NBT Tag so they can be read later.
 	 *
 	 * @param destination to be written nbt tag
 	 */
-	void writeToNBT(NBTTagCompound destination);
+	void writeToNBT( NBTTagCompound destination );
 
 	/**
 	 * Only works after settings have been registered
 	 *
 	 * @param src to be read nbt tag
 	 */
-	void readFromNBT(NBTTagCompound src);
+	void readFromNBT( NBTTagCompound src );
 }

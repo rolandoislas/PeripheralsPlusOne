@@ -44,7 +44,7 @@ public interface IInscriberRecipeBuilder
 	 * @return currently used builder
 	 */
 	@Nonnull
-	IInscriberRecipeBuilder withInputs(@Nonnull Collection<ItemStack> inputs);
+	IInscriberRecipeBuilder withInputs( @Nonnull Collection<ItemStack> inputs );
 
 	/**
 	 * Creates an inscriber recipe with output.
@@ -55,7 +55,7 @@ public interface IInscriberRecipeBuilder
 	 * @return currently used builder
 	 */
 	@Nonnull
-	IInscriberRecipeBuilder withOutput(@Nonnull ItemStack output);
+	IInscriberRecipeBuilder withOutput( @Nonnull ItemStack output );
 
 	/**
 	 * Creates an inscriber recipe with top.
@@ -66,7 +66,7 @@ public interface IInscriberRecipeBuilder
 	 * @return currently used builder
 	 */
 	@Nonnull
-	IInscriberRecipeBuilder withTopOptional(@Nonnull ItemStack topOptional);
+	IInscriberRecipeBuilder withTopOptional( @Nonnull ItemStack topOptional );
 
 	/**
 	 * Creates an inscriber recipe with bot.
@@ -77,7 +77,7 @@ public interface IInscriberRecipeBuilder
 	 * @return currently used builder
 	 */
 	@Nonnull
-	IInscriberRecipeBuilder withBottomOptional(@Nonnull ItemStack bottomOptional);
+	IInscriberRecipeBuilder withBottomOptional( @Nonnull ItemStack bottomOptional );
 
 	/**
 	 * Creates an inscriber recipe with type.
@@ -88,7 +88,7 @@ public interface IInscriberRecipeBuilder
 	 * @return currently used builder
 	 */
 	@Nonnull
-	IInscriberRecipeBuilder withProcessType(@Nonnull InscriberProcessType type);
+	IInscriberRecipeBuilder withProcessType( @Nonnull InscriberProcessType type );
 
 	/**
 	 * Finalizes the process of making the recipe.

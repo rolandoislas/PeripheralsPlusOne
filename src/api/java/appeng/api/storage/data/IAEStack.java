@@ -28,14 +28,13 @@ import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import appeng.api.config.FuzzyMode;
-import appeng.api.storage.IStorageChannel;
+import appeng.api.storage.StorageChannel;
 
 
-public interface IAEStack<StackType extends IAEStack<StackType>>
+public interface IAEStack<StackType extends IAEStack>
 {
 
 	/**
@@ -43,7 +42,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @param is added item
 	 */
-	void add(StackType is);
+	void add( StackType is );
 
 	/**
 	 * number of items in the stack.
@@ -57,7 +56,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @param stackSize , ItemStack.stackSize = N
 	 */
-	StackType setStackSize(long stackSize);
+	StackType setStackSize( long stackSize );
 
 	/**
 	 * Same as getStackSize, but for requestable items. ( LP )
@@ -71,7 +70,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @return basically itemStack.stackSize = N but for setStackSize items.
 	 */
-	StackType setCountRequestable(long countRequestable);
+	StackType setCountRequestable( long countRequestable );
 
 	/**
 	 * true, if the item can be crafted.
@@ -85,7 +84,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @param isCraftable can item be crafted
 	 */
-	StackType setCraftable(boolean isCraftable);
+	StackType setCraftable( boolean isCraftable );
 
 	/**
 	 * clears, requestable, craftable, and stack sizes.
@@ -104,33 +103,33 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @param i additional stack size
 	 */
-	void incStackSize(long i);
+	void incStackSize( long i );
 
 	/**
 	 * removes some from the stack size.
 	 */
-	void decStackSize(long i);
+	void decStackSize( long i );
 
 	/**
 	 * adds items to the requestable
 	 *
 	 * @param i increased amount of requested items
 	 */
-	void incCountRequestable(long i);
+	void incCountRequestable( long i );
 
 	/**
 	 * removes items from the requestable
 	 *
 	 * @param i decreased amount of requested items
 	 */
-	void decCountRequestable(long i);
+	void decCountRequestable( long i );
 
 	/**
 	 * write to a NBTTagCompound.
 	 *
 	 * @param i to be written data
 	 */
-	void writeToNBT(NBTTagCompound i);
+	void writeToNBT( NBTTagCompound i );
 
 	/**
 	 * Compare stacks using precise logic.
@@ -146,7 +145,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 * @return true if they are the same.
 	 */
 	@Override
-	boolean equals(Object obj);
+	boolean equals( Object obj );
 
 	/**
 	 * compare stacks using fuzzy logic
@@ -158,7 +157,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @return true if two stacks are equal based on AE Fuzzy Comparison.
 	 */
-	boolean fuzzyComparison(Object st, FuzzyMode mode);
+	boolean fuzzyComparison( Object st, FuzzyMode mode );
 
 	/**
 	 * Slower for disk saving, but smaller/more efficient for packets.
@@ -167,7 +166,7 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	 *
 	 * @throws IOException
 	 */
-	void writeToPacket(ByteBuf data) throws IOException;
+	void writeToPacket( ByteBuf data ) throws IOException;
 
 	/**
 	 * Clone the Item / Fluid Stack
@@ -184,6 +183,13 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	StackType empty();
 
 	/**
+	 * obtain the NBT Data for the item.
+	 *
+	 * @return nbt data
+	 */
+	IAETagCompound getTagCompound();
+
+	/**
 	 * @return true if the stack is a {@link IAEItemStack}
 	 */
 	boolean isItem();
@@ -196,12 +202,5 @@ public interface IAEStack<StackType extends IAEStack<StackType>>
 	/**
 	 * @return ITEM or FLUID
 	 */
-	IStorageChannel getChannel();
-
-	/**
-	 * Returns itemstack for display and similar purposes. Always has a count of 1.
-	 * 
-	 * @return itemstack
-	 */
-	ItemStack asItemStackRepresentation();
+	StorageChannel getChannel();
 }

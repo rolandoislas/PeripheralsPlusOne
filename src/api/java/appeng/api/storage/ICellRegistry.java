@@ -27,7 +27,6 @@ package appeng.api.storage;
 import net.minecraft.item.ItemStack;
 
 import appeng.api.IAppEngApi;
-import appeng.api.storage.data.IAEStack;
 
 
 /**
@@ -44,7 +43,7 @@ public interface ICellRegistry
 	 *
 	 * @param handler cell handler
 	 */
-	void addCellHandler(ICellHandler handler);
+	void addCellHandler( ICellHandler handler );
 
 	/**
 	 * return true, if you can get a InventoryHandler for the item passed.
@@ -54,7 +53,7 @@ public interface ICellRegistry
 	 * @return true if the provided item, can be handled by a handler in AE, ( AE May choose to skip this and just get
 	 * the handler instead. )
 	 */
-	boolean isCellHandled(ItemStack is);
+	boolean isCellHandled( ItemStack is );
 
 	/**
 	 * get the handler, for the requested type.
@@ -63,7 +62,7 @@ public interface ICellRegistry
 	 *
 	 * @return the handler registered for this item type.
 	 */
-	ICellHandler getHandler(ItemStack is);
+	ICellHandler getHandler( ItemStack is );
 
 	/**
 	 * returns an IMEInventoryHandler for the provided item.
@@ -74,5 +73,5 @@ public interface ICellRegistry
 	 *
 	 * @return new IMEInventoryHandler, or null if there isn't one.
 	 */
-	<T extends IAEStack<T>> IMEInventoryHandler<T> getCellInventory(ItemStack is, ISaveProvider host, IStorageChannel<T> chan);
+	IMEInventoryHandler getCellInventory( ItemStack is, ISaveProvider host, StorageChannel chan );
 }

@@ -38,7 +38,7 @@ public abstract class BlockContainerPPP extends BlockContainer
     private void dropItems(World world, BlockPos pos, IBlockState state)
     {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity == null)
+        if (!(tileEntity instanceof IInventory))
             return;
         IInventory inventory = (IInventory) tileEntity;
 
@@ -57,7 +57,7 @@ public abstract class BlockContainerPPP extends BlockContainer
                         pos.getZ() + dZ, itemStack.copy());
                 if (itemStack.hasTagCompound())
                 {
-                    entityItem.getItem().setTagCompound(itemStack.getTagCompound().copy());
+                    entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
                 }
 
                 float motionFactor = 0.05F;

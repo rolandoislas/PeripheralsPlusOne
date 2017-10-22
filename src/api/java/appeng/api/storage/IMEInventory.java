@@ -25,7 +25,7 @@ package appeng.api.storage;
 
 
 import appeng.api.config.Actionable;
-import appeng.api.networking.security.IActionSource;
+import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 
@@ -40,7 +40,7 @@ import appeng.api.storage.data.IItemList;
  * If you want to request a stack of an item, you should should determine that prior to requesting the stack from the
  * inventory.
  */
-public interface IMEInventory<T extends IAEStack<T>>
+public interface IMEInventory<StackType extends IAEStack>
 {
 
 	/**
@@ -52,7 +52,7 @@ public interface IMEInventory<T extends IAEStack<T>>
 	 *
 	 * @return returns the number of items not added.
 	 */
-	T injectItems(T input, Actionable type, IActionSource src);
+	StackType injectItems( StackType input, Actionable type, BaseActionSource src );
 
 	/**
 	 * Extract the specified item from the ME Inventory
@@ -62,7 +62,7 @@ public interface IMEInventory<T extends IAEStack<T>>
 	 *
 	 * @return returns the number of items extracted, null
 	 */
-	T extractItems(T request, Actionable mode, IActionSource src);
+	StackType extractItems( StackType request, Actionable mode, BaseActionSource src );
 
 	/**
 	 * request a full report of all available items, storage.
@@ -71,10 +71,10 @@ public interface IMEInventory<T extends IAEStack<T>>
 	 *
 	 * @return returns same list that was passed in, is passed out
 	 */
-	IItemList<T> getAvailableItems(IItemList<T> out);
+	IItemList<StackType> getAvailableItems( IItemList<StackType> out );
 
 	/**
 	 * @return the type of channel your handler should be part of
 	 */
-	IStorageChannel<T> getChannel();
+	StorageChannel getChannel();
 }

@@ -42,7 +42,7 @@ public interface ICraftHandler
 	 *
 	 * @throws RecipeError
 	 */
-	void setup(List<List<IIngredient>> input, List<List<IIngredient>> output) throws RecipeError;
+	void setup( List<List<IIngredient>> input, List<List<IIngredient>> output ) throws RecipeError;
 
 	/**
 	 * called when all recipes are parsed, and your required to register your recipe.

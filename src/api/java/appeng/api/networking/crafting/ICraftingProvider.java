@@ -39,5 +39,5 @@ public interface ICraftingProvider extends ICraftingMedium
 	 *
 	 * @param craftingTracker crafting helper
 	 */
-	void provideCrafting(ICraftingProviderHelper craftingTracker);
+	void provideCrafting( ICraftingProviderHelper craftingTracker );
 }

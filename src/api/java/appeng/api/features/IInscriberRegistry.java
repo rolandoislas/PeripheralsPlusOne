@@ -31,19 +31,11 @@ import net.minecraft.item.ItemStack;
  * Lets you manipulate Inscriber Recipes, by adding or editing existing ones.
  *
  * @author thatsIch
- * @version rv5
+ * @version rv3
  * @since rv2
  */
 public interface IInscriberRegistry
 {
-	/**
-	 * Extensible way to create an inscriber recipe.
-	 *
-	 * @return builder for inscriber recipes
-	 */
-	@Nonnull
-	IInscriberRecipeBuilder builder();
-
 	/**
 	 * An immutable copy of currently registered recipes.
 	 *
@@ -74,24 +66,28 @@ public interface IInscriberRegistry
 	Set<ItemStack> getInputs();
 
 	/**
+	 * Extensible way to create an inscriber recipe.
+	 *
+	 * @return builder for inscriber recipes
+	 */
+	@Nonnull
+	IInscriberRecipeBuilder builder();
+
+	/**
 	 * add a new recipe the easy way, duplicates will not be added.
 	 * Added recipes will be automatically added to the optionals and inputs.
 	 *
 	 * @param recipe new recipe
-	 * 
-	 * @return true, when successfully added
 	 *
 	 * @throws IllegalArgumentException if null is added
 	 */
-	boolean addRecipe(IInscriberRecipe recipe);
+	void addRecipe( IInscriberRecipe recipe );
 
 	/**
 	 * Removes all equal recipes from the registry.
-	 * 
+	 *
 	 * @param toBeRemovedRecipe to be removed recipe, can be null, makes just no sense.
-	 * 
-	 * @return true, when successfully removed
 	 */
-	boolean removeRecipe(IInscriberRecipe toBeRemovedRecipe);
+	void removeRecipe( IInscriberRecipe toBeRemovedRecipe );
 
 }

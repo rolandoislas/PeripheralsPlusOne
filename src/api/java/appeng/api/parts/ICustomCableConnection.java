@@ -33,6 +33,6 @@ public interface ICustomCableConnection
 	/**
 	 * @return This controls the cable connection to the node. -1 to render connection yourself.
 	 */
-	public float getCableConnectionLength(AECableType cable);
+	public float getCableConnectionLength( AECableType cable );
 
 }

@@ -82,7 +82,7 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 	public void onDeath(EntityPlayer player, DamageSource source) {
 		String killer = null;
 		if (source instanceof EntityDamageSource) {
-			Entity ent = source.getTrueSource();
+			Entity ent = source.getSourceOfDamage();
 			if (ent != null)
 				killer = ent.getName();
 		}

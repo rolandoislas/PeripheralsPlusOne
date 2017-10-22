@@ -5,20 +5,16 @@
  ******************************************************************************/
 package forestry.api.apiculture;
 
-import java.io.IOException;
 import java.util.List;
-
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Stores beekeeping logic for bee housings.
@@ -83,12 +79,4 @@ public interface IBeekeepingLogic extends INbtWritable, INbtReadable {
 	 * These positions are synced to the client from the server.
 	 */
 	List<BlockPos> getFlowerPositions();
-
-	default void readData(PacketBuffer data) throws IOException {
-
-	}
-
-	default void writeData(PacketBuffer data) {
-
-	}
 }

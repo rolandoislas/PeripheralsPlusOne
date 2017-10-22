@@ -24,6 +24,8 @@
 package appeng.api.parts;
 
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -51,7 +53,7 @@ public interface IFacadePart
 	 * @param ch collision helper
 	 * @param e colliding entity
 	 */
-	void getBoxes(IPartCollisionHelper ch, Entity e);
+	void getBoxes( IPartCollisionHelper ch, Entity e );
 
 	/**
 	 * @return side the facade is in
@@ -69,6 +71,7 @@ public interface IFacadePart
 	/**
 	 * The item that this facade masquerades as.
 	 */
+	@Nullable
 	ItemStack getTextureItem();
 
 	/**

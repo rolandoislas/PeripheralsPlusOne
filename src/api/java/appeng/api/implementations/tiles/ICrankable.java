@@ -55,5 +55,5 @@ public interface ICrankable
 	/**
 	 * @return true if the crank can attach on the given side.
 	 */
-	boolean canCrankAttach(EnumFacing directionToCrank);
+	boolean canCrankAttach( EnumFacing directionToCrank );
 }

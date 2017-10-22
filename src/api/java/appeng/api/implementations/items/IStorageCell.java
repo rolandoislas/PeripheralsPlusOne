@@ -51,7 +51,7 @@ public interface IStorageCell extends ICellWorkbenchItem
 	 *
 	 * @return number of bytes
 	 */
-	int getBytes(ItemStack cellItem);
+	int getBytes( ItemStack cellItem );
 
 	/**
 	 * Determines the number of bytes used for any type included on the cell.
@@ -60,7 +60,7 @@ public interface IStorageCell extends ICellWorkbenchItem
 	 *
 	 * @return number of bytes
 	 */
-	int getBytesPerType(ItemStack cellItem);
+	int getBytesPerType( ItemStack cellItem );
 
 	/**
 	 * Must be between 1 and 63, indicates how many types you want to store on
@@ -70,7 +70,7 @@ public interface IStorageCell extends ICellWorkbenchItem
 	 *
 	 * @return number of types
 	 */
-	int getTotalTypes(ItemStack cellItem);
+	int getTotalTypes( ItemStack cellItem );
 
 	/**
 	 * Allows you to fine tune which items are allowed on a given cell, if you
@@ -82,7 +82,7 @@ public interface IStorageCell extends ICellWorkbenchItem
 	 *
 	 * @return true to preventAdditionOfItem
 	 */
-	boolean isBlackListed(ItemStack cellItem, IAEItemStack requestedAddition);
+	boolean isBlackListed( ItemStack cellItem, IAEItemStack requestedAddition );
 
 	/**
 	 * Allows you to specify if this storage cell can be stored inside other
@@ -103,7 +103,7 @@ public interface IStorageCell extends ICellWorkbenchItem
 	 *
 	 * @return if the ItemStack should behavior as a storage cell.
 	 */
-	boolean isStorageCell(ItemStack i);
+	boolean isStorageCell( ItemStack i );
 
 	/**
 	 * @return drain in ae/t this storage cell will use.

@@ -39,14 +39,6 @@ public interface IGrinderRegistry
 {
 
 	/**
-	 * Extensible way to create a grinder recipe.
-	 *
-	 * @return builder for grinder recipes
-	 */
-	@Nonnull
-	IGrinderRecipeBuilder builder();
-
-	/**
 	 * An immutable list of the currently registered recipes.
 	 *
 	 * @return currentlyRegisteredRecipes
@@ -55,9 +47,44 @@ public interface IGrinderRegistry
 	Collection<IGrinderRecipe> getRecipes();
 
 	/**
-	 * Add a new recipe to the registry.
+	 * Add a new recipe with a single input and output and how many turns it requires.
+	 * 
+	 * Will ignore duplicate recipes with the same input item.
+	 *
+	 * @param in The {@link ItemStack} to grind.
+	 * @param out The {@link ItemStack} to output.
+	 * @param turns Amount of turns to turn the input into the output, with turns > 0.
 	 */
-	boolean addRecipe(IGrinderRecipe recipe);
+	void addRecipe( @Nonnull ItemStack in, @Nonnull ItemStack out, int turns );
+
+	/**
+	 * Add a new recipe with an input, output and a single optional output.
+	 * 
+	 * Will ignore duplicate recipes with the same input item.
+	 *
+	 * @param in The {@link ItemStack} to grind.
+	 * @param out The {@link ItemStack} to output.
+	 * @param optional The optional {@link ItemStack} to output of a certain chance.
+	 * @param chance Chance to get the optional output within 0.0 - 1.0
+	 * @param turns Amount of turns to turn the input into the output, with turns > 0.
+	 */
+	void addRecipe( @Nonnull ItemStack in, @Nonnull ItemStack out, @Nonnull ItemStack optional, float chance, int turns );
+
+	/**
+	 * add a new recipe with optional outputs, duplicates will not be added.
+	 * 
+	 * Will ignore duplicate recipes with the same input item.
+	 *
+	 * @param in The {@link ItemStack} to grind.
+	 * @param out The {@link ItemStack} to output.
+	 * @param optional The first optional {@link ItemStack} to output of a certain chance.
+	 * @param chance Chance to get the first optional output within 0.0 - 1.0
+	 * @param optional2 The second optional {@link ItemStack} to output of a certain chance.
+	 * @param chance2 chance to get the second optional output within 0.0 - 1.0
+	 * @param turns Amount of turns to turn the input into the output, with turns > 0.
+	 * 
+	 */
+	void addRecipe( @Nonnull ItemStack in, @Nonnull ItemStack out, @Nonnull ItemStack optional, float chance, @Nonnull ItemStack optional2, float chance2, int turns );
 
 	/**
 	 * Remove the specific from the recipe list.
@@ -65,7 +92,7 @@ public interface IGrinderRegistry
 	 * @param recipe The recipe to be removed.
 	 * @return true, if it was removed
 	 */
-	boolean removeRecipe(@Nonnull IGrinderRecipe recipe);
+	boolean removeRecipe( @Nonnull IGrinderRecipe recipe );
 
 	/**
 	 * Searches for a recipe for a given input, and returns it.
@@ -75,7 +102,7 @@ public interface IGrinderRegistry
 	 * @return identified recipe or null
 	 */
 	@Nullable
-	IGrinderRecipe getRecipeForInput(@Nonnull ItemStack input);
+	IGrinderRecipe getRecipeForInput( @Nonnull ItemStack input );
 
 	/**
 	 * Allows do add a custom ratio from an ore to dust when being grinded.
@@ -87,7 +114,7 @@ public interface IGrinderRegistry
 	 * @param oredictName The name of the ore;
 	 * @param ratio The amount, must be > 0;
 	 */
-	void addDustRatio(@Nonnull String oredictName, int ratio);
+	void addDustRatio( @Nonnull String oredictName, int ratio );
 
 	/**
 	 * Remove a custom ratio for a specific ore name.
@@ -96,6 +123,6 @@ public interface IGrinderRegistry
 	 * 
 	 * @param oredictName The name of the ore;
 	 */
-	boolean removeDustRatio(@Nonnull String oredictName);
+	boolean removeDustRatio( @Nonnull String oredictName );
 
 }

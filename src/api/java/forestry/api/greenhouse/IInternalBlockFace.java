@@ -3,16 +3,19 @@
  *
  * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
  ******************************************************************************/
-package forestry.greenhouse.api.climate;
+package forestry.api.greenhouse;
 
-import forestry.api.greenhouse.IClimateHousing;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
-public interface IClimateFactory {
+public interface IInternalBlockFace {
 
-	/**
-	 * @param climatedRegion
-	 * @return Creates a climate container.
-	 */
-	IClimateContainer createContainer(IClimateHousing climatedRegion);
+	boolean isTested();
+
+	void setTested(boolean tested);
+
+	EnumFacing getFace();
+
+	BlockPos getPos();
 
 }

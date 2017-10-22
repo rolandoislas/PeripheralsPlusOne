@@ -4,6 +4,7 @@ import com.austinv11.peripheralsplusplus.utils.TurtleUtil;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -31,5 +32,20 @@ public class RecipeTurtleUpgrade implements IRecipeWrapper {
         ingredients.setInputs(ItemStack.class, inputs);
         ingredients.setOutput(ItemStack.class,
                 TurtleUtil.getTurtle(advanced, left ? upgrade : null, left ? null : upgrade));
+    }
+
+    @Override
+    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+
+    }
+
+    @Override
+    public List<String> getTooltipStrings(int mouseX, int mouseY) {
+        return null;
+    }
+
+    @Override
+    public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
+        return false;
     }
 }

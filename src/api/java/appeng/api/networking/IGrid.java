@@ -43,7 +43,7 @@ public interface IGrid
 	 *
 	 * @return the IGridCache you requested.
 	 */
-	<C extends IGridCache> C getCache(Class<? extends IGridCache> iface);
+	<C extends IGridCache> C getCache( Class<? extends IGridCache> iface );
 
 	/**
 	 * Post an event into the network event bus.
@@ -52,7 +52,7 @@ public interface IGrid
 	 *
 	 * @return returns ev back to original poster
 	 */
-	MENetworkEvent postEvent(MENetworkEvent ev);
+	MENetworkEvent postEvent( MENetworkEvent ev );
 
 	/**
 	 * Post an event into the network event bus, but direct it at a single node.
@@ -61,7 +61,7 @@ public interface IGrid
 	 *
 	 * @return returns ev back to original poster
 	 */
-	MENetworkEvent postEventTo(IGridNode node, MENetworkEvent ev);
+	MENetworkEvent postEventTo( IGridNode node, MENetworkEvent ev );
 
 	/**
 	 * get a list of the diversity of classes, you can use this to better detect which machines your interested in,
@@ -78,7 +78,7 @@ public interface IGrid
 	 *
 	 * @return IMachineSet of all nodes belonging to hosts of specified class.
 	 */
-	IMachineSet getMachines(Class<? extends IGridHost> gridHostClass);
+	IMachineSet getMachines( Class<? extends IGridHost> gridHostClass );
 
 	/**
 	 * @return IReadOnlyCollection for all nodes on the network, node visitors are preferred.

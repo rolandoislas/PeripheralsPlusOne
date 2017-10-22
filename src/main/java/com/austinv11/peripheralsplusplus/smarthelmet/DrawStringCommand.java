@@ -15,7 +15,7 @@ public class DrawStringCommand extends HelmetCommand {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void call(Gui gui) {
-		Minecraft.getMinecraft().fontRenderer.drawString(message, x, y, color, shadow);
+		Minecraft.getMinecraft().fontRendererObj.drawString(message, x, y, color, shadow);
 	}
 
 	@Override

@@ -5,19 +5,35 @@
  ******************************************************************************/
 package forestry.api.multiblock;
 
-import net.minecraft.util.math.BlockPos;
+import java.util.Set;
 
+import forestry.api.climate.IClimateControlProvider;
+import forestry.api.climate.IClimateRegion;
 import forestry.api.core.ICamouflageHandler;
 import forestry.api.greenhouse.IGreenhouseHousing;
+import forestry.api.greenhouse.IInternalBlock;
+import forestry.api.lepidopterology.IButterfly;
+import forestry.api.lepidopterology.IButterflyCocoon;
 
-public interface IGreenhouseController extends IMultiblockController, IGreenhouseHousing, ICamouflageHandler {
+public interface IGreenhouseController extends IMultiblockController, IGreenhouseHousing, ICamouflageHandler, IClimateControlProvider {
 	
 	/**
-	 *
-	 * @return the position of the block at the top of the greenhouse structure that shows the state of the greenhouse.
+	 * @return All internal blocks of the greenhouse.
 	 */
-	BlockPos getCenterCoordinates();
+	Set<IInternalBlock> getInternalBlocks();
 
-	void setCenterCoordinates(BlockPos coordinates);
+	/**
+	 * spawns a butterfly in a greenhouse
+	 * @return true if it has spawned it, and false if it has not
+	 */
+	boolean spawnButterfly(IGreenhouseComponent.Nursery nursery);
 	
+	/**
+	 * @deprecated use {@link #spawnButterfly(IButterflyCocoon)}
+	 */
+	@Deprecated
+	boolean spawnButterfly(IButterfly butterfly);
+	
+	IClimateRegion getRegion();
+
 }

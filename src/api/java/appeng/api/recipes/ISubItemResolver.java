@@ -32,5 +32,5 @@ public interface ISubItemResolver
 	 *
 	 * @return either a ResolveResult, or a ResolverResultSet
 	 */
-	Object resolveItemByName(String namespace, String fullName);
+	Object resolveItemByName( String namespace, String fullName );
 }

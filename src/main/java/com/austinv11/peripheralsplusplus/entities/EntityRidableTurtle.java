@@ -126,9 +126,9 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 		if (world.isRemote || turtle == null)
 			return;
 		Vec3d pos = new Vec3d(turtle.getPosition()).addVector(0.5, 0, 0.5);
-		posX = pos.x;
-		posY = pos.y;
-		posZ = pos.z;
+		posX = pos.xCoord;
+		posY = pos.yCoord;
+		posZ = pos.zCoord;
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;

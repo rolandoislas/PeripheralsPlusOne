@@ -60,7 +60,7 @@ public interface IPartHelper
 	 *
 	 * @return true on success, false on failure, usually a error will be logged as well.
 	 */
-	boolean registerNewLayer(String string, String layerInterface);
+	boolean registerNewLayer( String string, String layerInterface );
 
 	/**
 	 * use in use item, to try and place a IBusItem
@@ -73,7 +73,7 @@ public interface IPartHelper
 	 *
 	 * @return true if placing was successful
 	 */
-	EnumActionResult placeBus(ItemStack is, BlockPos pos, EnumFacing side, EntityPlayer player, EnumHand hand, World world);
+	EnumActionResult placeBus( ItemStack is, BlockPos pos, EnumFacing side, EntityPlayer player, EnumHand hand, World world );
 
 	/**
 	 * @return the render mode

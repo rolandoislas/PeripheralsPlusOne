@@ -23,7 +23,8 @@
 
 package appeng.api.implementations.tiles;
 
-import net.minecraftforge.items.IItemHandler;
+
+import net.minecraft.inventory.IInventory;
 
 
 public interface IViewCellStorage
@@ -34,5 +35,5 @@ public interface IViewCellStorage
 	 *
 	 * @return inventory with at least 5 slot
 	 */
-	IItemHandler getViewCellStorage();
+	IInventory getViewCellStorage();
 }

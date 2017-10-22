@@ -67,7 +67,7 @@ public interface IFruitProvider {
 	ResourceLocation getDecorativeSprite();
 
 	/**
-	 * @return true if this fruit provider requires fruit block to spawn, false otherwise.
+	 * @return true if this fruit provider requires fruit blocks to spawn, false otherwise.
 	 */
 	boolean requiresFruitBlocks();
 

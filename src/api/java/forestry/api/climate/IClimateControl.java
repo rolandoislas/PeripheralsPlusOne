@@ -5,13 +5,18 @@
  ******************************************************************************/
 package forestry.api.climate;
 
-import java.util.Locale;
+public interface IClimateControl {
 
-public enum ClimateType {
-	TEMPERATURE, HUMIDITY;
+	IClimateInfo getControlClimate();
 	
-	public String getName(){
-		return name().toLowerCase(Locale.ENGLISH);
-	}
+	void setControlClimate(IClimateInfo climateInfo);
+	
+	float getControlTemperature();
+
+	float getControlHumidity();
+
+	void setControlTemperature(float temperature);
+
+	void setControlHumidity(float humidity);
 
 }

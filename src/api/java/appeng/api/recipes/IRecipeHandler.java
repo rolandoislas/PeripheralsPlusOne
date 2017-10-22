@@ -36,7 +36,7 @@ public interface IRecipeHandler
 	 * @param loader recipe loader
 	 * @param path path of file
 	 */
-	void parseRecipes(IRecipeLoader loader, String path);
+	void parseRecipes( IRecipeLoader loader, String path );
 
 	/**
 	 * this loads the read recipes into minecraft, should be called in Init.

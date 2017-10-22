@@ -34,8 +34,7 @@ import appeng.api.storage.ICellRegistry;
 /**
  * @author AlgorithmX2
  * @author thatsIch
- * @author yueh
- * @version rv5
+ * @version rv2
  * @since rv0
  */
 @AEInjectable
@@ -76,11 +75,6 @@ public interface IRegistryContainer
 	 * Manage inscriber recipes via API
 	 */
 	IInscriberRegistry inscriber();
-
-	/**
-	 * Manage charger via API
-	 */
-	IChargerRegistry charger();
 
 	/**
 	 * get access to the locatable registry

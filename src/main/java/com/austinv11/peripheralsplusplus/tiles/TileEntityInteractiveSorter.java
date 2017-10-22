@@ -11,6 +11,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -20,8 +21,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +81,7 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 				dir = EnumFacing.getFront((int) (double) (Double) arguments[0]);
 			int amount = arguments.length > 1 ? MathHelper.clamp((int) (double) (Double) arguments[1], 0,
 					getStackInSlot(0).getCount()) : getStackInSlot(0).getCount();
-			IInventory inventory = TileEntityMEBridge.getInventoryForSide(world, getPos(), dir);
+			IInventory inventory = getInventoryForSide(world, getPos(), dir);
 			if (inventory == null) {
 				BlockPos pos = getPos().offset(dir);
 				WorldUtils.spawnItemInWorld(new Location(pos.getX(), pos.getY(), pos.getZ(), world),
@@ -126,7 +129,7 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 				dir = EnumFacing.valueOf(((String) arguments[0]).toUpperCase());
 			else
 				dir = EnumFacing.getFront(((int) (double) (Double) arguments[0]));
-			IInventory inventory = TileEntityMEBridge.getInventoryForSide(world, getPos(), dir);
+			IInventory inventory = getInventoryForSide(world, getPos(), dir);
 			if (inventory == null)
 				throw new LuaException("Block is not a valid inventory");
 			int slots[] = inventory instanceof ISidedInventory ? 
@@ -182,11 +185,24 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 				dir = EnumFacing.valueOf(((String) arguments[0]).toUpperCase());
 			else
 				dir = EnumFacing.getFront((int) (double) (Double) arguments[0]);
-			return new Object[]{TileEntityMEBridge.getInventoryForSide(world, getPos(), dir) != null};
+			return new Object[]{getInventoryForSide(world, getPos(), dir) != null};
 		}
 		return new Object[0];
 	}
-	
+
+	@Nullable
+	static IInventory getInventoryForSide(World world, BlockPos origin, EnumFacing side) {
+		BlockPos pos = origin.offset(side);
+		if (!world.isAirBlock(pos)) {
+			Block block = world.getBlockState(pos).getBlock();
+			if (block instanceof IInventory)
+				return (IInventory) block;
+			if (block instanceof ITileEntityProvider && world.getTileEntity(pos) instanceof IInventory)
+				return (IInventory)world.getTileEntity(pos);
+		}
+		return null;
+	}
+
 	private int getNearestSlot(int requested, int[] slots) {
 		int difference = Integer.MAX_VALUE;
 		int currentSlot = slots[0];

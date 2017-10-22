@@ -5,10 +5,9 @@ import appeng.api.config.Actionable;
 import appeng.api.networking.*;
 import appeng.api.networking.crafting.ICraftingGrid;
 import appeng.api.networking.security.IActionHost;
-import appeng.api.networking.security.IActionSource;
+import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEMonitor;
-import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
@@ -22,8 +21,6 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -34,15 +31,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,13 +53,9 @@ import java.util.Locale;
 		@Optional.Interface(
 				modid="appliedenergistics2",
 				iface="appeng.api.networking.IGridHost",
-				striprefs=true),
-		@Optional.Interface(
-				modid="appliedenergistics2",
-				iface="appeng.api.networking.security.IActionSource",
 				striprefs=true)
 })
-public class TileEntityMEBridge extends TileEntity implements IActionHost, IGridBlock, ITickable, IActionSource,
+public class TileEntityMEBridge extends TileEntity implements IActionHost, IGridBlock, ITickable,
 		IGridHost, IPlusPlusPeripheral {
 	public static String publicName = "meBridge";
 	private String name = "tileEntityMEBridge";
@@ -90,7 +79,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			return;
 		if (node != null)
 			node.destroy();
-		node = AEApi.instance().grid().createGridNode(this);
+		node = AEApi.instance().createGridNode(this);
 		node.loadFromNBT("node", nbttagcompound);
 		initialized = false;
 	}
@@ -109,7 +98,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void update() {
 		if (!world.isRemote)
 			if (!initialized) {
-				node = AEApi.instance().grid().createGridNode(this);
+				node = AEApi.instance().createGridNode(this);
 				if (placed != null)
 					node.setPlayerID(AEApi.instance().registries().players().getID(placed));
 				node.updateState();
@@ -135,7 +124,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		if (!Loader.isModLoaded(ModIds.APPLIED_ENGERGISTICS))
 			throw new LuaException("Applied Energistics 2 is not installed");
 		IMEMonitor<IAEItemStack> grid = ((IStorageGrid)node.getGrid().getCache(IStorageGrid.class))
-				.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
+				.getItemInventory();
 		switch (method) {
 			case 0:
 				return new Object[]{iteratorToMap(grid.getStorageList().iterator(), 0)};
@@ -175,9 +164,9 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		aeToCraft.setStackSize(amount);
 		synchronized (this) {
 			ICraftingGrid craftingGrid = node.getGrid().getCache(ICraftingGrid.class);
-			craftingGrid.beginCraftingJob(world, node.getGrid(), this, aeToCraft, job -> {
+			craftingGrid.beginCraftingJob(world, node.getGrid(), new MachineSource(this), aeToCraft, job -> {
                 craftingGrid.submitJob(job, null, null, false,
-                        TileEntityMEBridge.this);
+                        new MachineSource(TileEntityMEBridge.this));
                 for (IComputerAccess comp : computers.keySet()) {
                     ResourceLocation itemName1 = ForgeRegistries.ITEMS.getKey(job.getOutput().getItem());
                     comp.queueEvent("craftingComplete", new Object[]{
@@ -211,7 +200,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		else
 			direction = EnumFacing.getFront((int) (double) arguments[3]);
 		// Check inventory to output to
-		IInventory inventory = getInventoryForSide(world, getPos(), direction);
+		IInventory inventory = TileEntityInteractiveSorter.getInventoryForSide(world, getPos(), direction);
 		if (inventory == null)
 			throw new LuaException("Block is not a valid inventory");
 		// Check item is valid
@@ -228,7 +217,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 				amount = getRemainingSlots(item.getItem(), inventory);
 			IAEItemStack stackToGet = stack.copy();
 			stackToGet.setStackSize(amount);
-			IAEItemStack resultant = monitor.extractItems(stackToGet, Actionable.MODULATE, this);
+			IAEItemStack resultant = monitor.extractItems(stackToGet, Actionable.MODULATE, new MachineSource(this));
 			if (resultant != null) {
 				extracted = resultant.getStackSize();
 				int[] slots = inventory instanceof ISidedInventory ?
@@ -273,19 +262,6 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		for (int i = 0; i < inventory.getSizeInventory(); i++)
 			array[i] = i;
 		return array;
-	}
-
-	@Nullable
-	public static IInventory getInventoryForSide(World world, BlockPos origin, EnumFacing side) {
-		BlockPos pos = origin.offset(side);
-		if (!world.isAirBlock(pos)) {
-			Block block = world.getBlockState(pos).getBlock();
-			if (block instanceof IInventory)
-				return (IInventory) block;
-			if (block instanceof ITileEntityProvider && world.getTileEntity(pos) instanceof IInventory)
-				return (IInventory)world.getTileEntity(pos);
-		}
-		return null;
 	}
 
 	private int getRemainingSlots(Item item, IInventory inventory) {
@@ -431,24 +407,6 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	@Override
 	public IGridNode getActionableNode() {
 		return node;
-	}
-
-	@Nonnull
-	@Override
-	public java.util.Optional<EntityPlayer> player() {
-		return java.util.Optional.empty();
-	}
-
-	@Nonnull
-	@Override
-	public java.util.Optional<IActionHost> machine() {
-		return java.util.Optional.of(this);
-	}
-
-	@Nonnull
-	@Override
-	public <T> java.util.Optional<T> context(@Nonnull Class<T> key) {
-		return java.util.Optional.empty();
 	}
 
 	public void setPlayer(EntityPlayer player) {

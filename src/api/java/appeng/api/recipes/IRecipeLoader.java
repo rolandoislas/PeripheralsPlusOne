@@ -38,5 +38,5 @@ public interface IRecipeLoader
 	 *
 	 * @throws Exception if reading goes wrong
 	 */
-	BufferedReader getFile(@Nonnull String filePath) throws Exception;
+	BufferedReader getFile( @Nonnull String filePath ) throws Exception;
 }

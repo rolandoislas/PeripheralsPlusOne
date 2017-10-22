@@ -3,10 +3,10 @@
  *
  * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
  ******************************************************************************/
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-package forestry.greenhouse.api.climate;
+package forestry.api.greenhouse;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+public class GreenhouseManager {
 
-import mcp.MethodsReturnNonnullByDefault;
+	public static IGreenhouseHelper greenhouseHelper;
+
+}

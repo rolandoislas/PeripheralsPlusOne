@@ -40,12 +40,12 @@ public interface ISpecialComparisonRegistry
 	 *
 	 * @return a handler it found for a specific item
 	 */
-	IItemComparison getSpecialComparison(ItemStack stack);
+	IItemComparison getSpecialComparison( ItemStack stack );
 
 	/**
 	 * Register a new special comparison function with AE.
 	 *
 	 * @param prov comparison provider
 	 */
-	void addComparisonProvider(IItemComparisonProvider prov);
+	void addComparisonProvider( IItemComparisonProvider prov );
 }

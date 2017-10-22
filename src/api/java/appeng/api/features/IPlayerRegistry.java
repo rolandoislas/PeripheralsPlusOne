@@ -43,14 +43,14 @@ public interface IPlayerRegistry
 	 *
 	 * @return user id of a username.
 	 */
-	int getID(GameProfile gameProfile);
+	int getID( GameProfile gameProfile );
 
 	/**
 	 * @param player player
 	 *
 	 * @return user id of a player entity.
 	 */
-	int getID(EntityPlayer player);
+	int getID( EntityPlayer player );
 
 	/**
 	 * @param playerID to be found player id
@@ -58,5 +58,5 @@ public interface IPlayerRegistry
 	 * @return PlayerEntity, or null if the player could not be found.
 	 */
 	@Nullable
-	EntityPlayer findPlayer(int playerID);
+	EntityPlayer findPlayer( int playerID );
 }

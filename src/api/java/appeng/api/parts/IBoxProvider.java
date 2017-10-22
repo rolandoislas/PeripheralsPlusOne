@@ -32,5 +32,5 @@ public interface IBoxProvider
 	 *
 	 * @param boxes collision boxes
 	 */
-	void getBoxes(IPartCollisionHelper boxes);
+	void getBoxes( IPartCollisionHelper boxes );
 }

@@ -41,7 +41,7 @@ public interface IWirelessTermHandler extends INetworkEncodable
 	 *
 	 * @return true, if usePower, hasPower, etc... can be called for the provided item
 	 */
-	boolean canHandle(ItemStack is);
+	boolean canHandle( ItemStack is );
 
 	/**
 	 * use an amount of power, in AE units
@@ -52,7 +52,7 @@ public interface IWirelessTermHandler extends INetworkEncodable
 	 *
 	 * @return true if wireless terminal uses power
 	 */
-	boolean usePower(EntityPlayer player, double amount, ItemStack is);
+	boolean usePower( EntityPlayer player, double amount, ItemStack is );
 
 	/**
 	 * gets the power status of the item.
@@ -61,7 +61,7 @@ public interface IWirelessTermHandler extends INetworkEncodable
 	 *
 	 * @return returns true if there is any power left.
 	 */
-	boolean hasPower(EntityPlayer player, double amount, ItemStack is);
+	boolean hasPower( EntityPlayer player, double amount, ItemStack is );
 
 	/**
 	 * Return the config manager for the wireless terminal.
@@ -70,5 +70,5 @@ public interface IWirelessTermHandler extends INetworkEncodable
 	 *
 	 * @return config manager of wireless terminal
 	 */
-	IConfigManager getConfigManager(ItemStack is);
+	IConfigManager getConfigManager( ItemStack is );
 }

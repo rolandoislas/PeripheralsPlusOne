@@ -48,7 +48,7 @@ public interface ICraftingJob
 	 *
 	 * @param plan plan
 	 */
-	void populatePlan(IItemList<IAEItemStack> plan);
+	void populatePlan( IItemList<IAEItemStack> plan );
 
 	/**
 	 * @return the final output of the job.

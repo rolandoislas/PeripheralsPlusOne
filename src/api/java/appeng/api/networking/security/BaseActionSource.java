@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 AlgorithmX2
+ * Copyright (c) 2013 AlgorithmX2
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,14 +21,21 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package appeng.api.storage.channels;
+package appeng.api.networking.security;
 
-
-import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.data.IAEItemStack;
-
-
-public interface IItemStorageChannel extends IStorageChannel<IAEItemStack>
+/**
+ * TODO: Consider refactoring.
+ */
+public class BaseActionSource
 {
 
+	public boolean isPlayer()
+	{
+		return false;
+	}
+
+	public boolean isMachine()
+	{
+		return false;
+	}
 }

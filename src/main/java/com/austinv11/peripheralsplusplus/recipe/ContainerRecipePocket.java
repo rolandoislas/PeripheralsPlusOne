@@ -15,10 +15,10 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,8 +119,8 @@ public class ContainerRecipePocket implements IRecipe {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
-        return true;
+    public int getRecipeSize() {
+        return 9;
     }
 
     @Override
@@ -129,24 +129,7 @@ public class ContainerRecipePocket implements IRecipe {
     }
 
     @Override
-    public IRecipe setRegistryName(ResourceLocation name) {
-        this.name = name;
-        return this;
-    }
-
-    @Nullable
-    @Override
-    public ResourceLocation getRegistryName() {
-        return name;
-    }
-
-    @Override
-    public Class<IRecipe> getRegistryType() {
-        return IRecipe.class;
-    }
-
-    @Override
-    public String getGroup() {
-        return group.toString();
+    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
+        return NonNullList.withSize(getRecipeSize(), ItemStack.EMPTY);
     }
 }

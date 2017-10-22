@@ -41,7 +41,7 @@ public interface IMovableHandler
 	 *
 	 * @return true if it can handle moving
 	 */
-	boolean canHandle(Class<? extends TileEntity> myClass, TileEntity tile);
+	boolean canHandle( Class<? extends TileEntity> myClass, TileEntity tile );
 
 	/**
 	 * request that the handler move the the tile from its current location to
@@ -68,5 +68,5 @@ public interface IMovableHandler
 	 * @param world world of tile
 	 * @param newPosition the new location
 	 */
-	void moveTile(TileEntity tile, World world, BlockPos newPosition);
+	void moveTile( TileEntity tile, World world, BlockPos newPosition );
 }

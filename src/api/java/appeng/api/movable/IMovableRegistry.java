@@ -66,7 +66,7 @@ public interface IMovableRegistry
 	 *
 	 * @param blk block
 	 */
-	void blacklistBlock(Block blk);
+	void blacklistBlock( Block blk );
 
 	/**
 	 * White list your tile entity with the registry.
@@ -76,28 +76,28 @@ public interface IMovableRegistry
 	 *
 	 * If you tile is handled with IMovableHandler or IMovableTile you do not need to white list it.
 	 */
-	void whiteListTileEntity(Class<? extends TileEntity> c);
+	void whiteListTileEntity( Class<? extends TileEntity> c );
 
 	/**
 	 * @param te to be moved tile entity
 	 *
 	 * @return true if the tile has accepted your request to move it
 	 */
-	boolean askToMove(TileEntity te);
+	boolean askToMove( TileEntity te );
 
 	/**
 	 * tells the tile you are done moving it.
 	 *
 	 * @param te moved tile entity
 	 */
-	void doneMoving(TileEntity te);
+	void doneMoving( TileEntity te );
 
 	/**
 	 * add a new handler movable handler.
 	 *
 	 * @param handler moving handler
 	 */
-	void addHandler(IMovableHandler handler);
+	void addHandler( IMovableHandler handler );
 
 	/**
 	 * handlers are used to perform movement, this allows you to override AE's internal version.
@@ -108,7 +108,7 @@ public interface IMovableRegistry
 	 *
 	 * @return moving handler of tile entity
 	 */
-	IMovableHandler getHandler(TileEntity te);
+	IMovableHandler getHandler( TileEntity te );
 
 	/**
 	 * @return a copy of the default handler
@@ -120,5 +120,5 @@ public interface IMovableRegistry
 	 *
 	 * @return true if this block is blacklisted
 	 */
-	boolean isBlacklisted(Block blk);
+	boolean isBlacklisted( Block blk );
 }

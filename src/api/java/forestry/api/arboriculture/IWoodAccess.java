@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Provides easy access to Forestry and Vanilla wood items.
- * Forestry wood block have the same block state properties as vanilla ones.
+ * Forestry wood blocks have the same block state properties as vanilla ones.
  * Note that all doors are fireproof (even vanilla).
  *
  * @see WoodBlockKind

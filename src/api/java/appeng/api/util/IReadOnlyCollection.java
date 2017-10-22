@@ -40,5 +40,5 @@ public interface IReadOnlyCollection<T> extends Iterable<T>
 	/**
 	 * @return return true if the object is part of the set.
 	 */
-	boolean contains(Object node);
+	boolean contains( Object node );
 }

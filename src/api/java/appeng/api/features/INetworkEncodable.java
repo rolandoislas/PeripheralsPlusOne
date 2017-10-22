@@ -37,7 +37,7 @@ public interface INetworkEncodable
 	 *
 	 * @return string key of item
 	 */
-	String getEncryptionKey(ItemStack item);
+	String getEncryptionKey( ItemStack item );
 
 	/**
 	 * Encode the wireless frequency via the Controller.
@@ -46,5 +46,5 @@ public interface INetworkEncodable
 	 * @param encKey the wireless encryption key.
 	 * @param name null for now.
 	 */
-	void setEncryptionKey(ItemStack item, String encKey, String name);
+	void setEncryptionKey( ItemStack item, String encKey, String name );
 }

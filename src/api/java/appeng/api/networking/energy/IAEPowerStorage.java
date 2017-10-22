@@ -42,7 +42,7 @@ public interface IAEPowerStorage extends IEnergySource
 	 *
 	 * @return amount of power which was unable to be stored
 	 */
-	double injectAEPower(double amt, Actionable mode);
+	double injectAEPower( double amt, Actionable mode );
 
 	/**
 	 * @return the current maximum power ( this can change :P )

@@ -3,12 +3,14 @@
  *
  * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
  ******************************************************************************/
-package forestry.greenhouse.api.greenhouse;
+package forestry.api.climate;
 
-import forestry.api.multiblock.IGreenhouseController;
+import forestry.api.core.ILocatable;
 
-public interface IGreenhouseLogicFactory {
+public interface IClimateControlProvider extends ILocatable {
 
-	IGreenhouseLogic createLogic(IGreenhouseController controller);
+	IClimateInfo getControlClimate();
 	
+	void setControlClimate(IClimateInfo climateControl);
+
 }

@@ -47,7 +47,7 @@ public interface IMemoryCard
 	 * unlocalized string displayed after the settings name, optional
 	 * but can be used to add details to the card for later.
 	 */
-	void setMemoryCardContents(ItemStack is, String SettingsName, NBTTagCompound data);
+	void setMemoryCardContents( ItemStack is, String SettingsName, NBTTagCompound data );
 
 	/**
 	 * returns the settings name provided by a previous call to
@@ -58,7 +58,7 @@ public interface IMemoryCard
 	 *
 	 * @return setting name
 	 */
-	String getSettingsName(ItemStack is);
+	String getSettingsName( ItemStack is );
 
 	/**
 	 * @param is item
@@ -66,7 +66,7 @@ public interface IMemoryCard
 	 * @return the NBT Data previously saved by setMemoryCardContents, or an
 	 * empty NBTCompound
 	 */
-	NBTTagCompound getData(ItemStack is);
+	NBTTagCompound getData( ItemStack is );
 
 	/**
 	 * notify the user of a outcome related to the memory card.
@@ -74,5 +74,5 @@ public interface IMemoryCard
 	 * @param player that used the card.
 	 * @param msg which message to send.
 	 */
-	void notifyUser(EntityPlayer player, MemoryCardMessages msg);
+	void notifyUser( EntityPlayer player, MemoryCardMessages msg );
 }

@@ -45,7 +45,7 @@ public interface IGridConnection
 	 *
 	 * @return the IGridNode which represents the opposite side of the connection.
 	 */
-	IGridNode getOtherSide(IGridNode gridNode);
+	IGridNode getOtherSide( IGridNode gridNode );
 
 	/**
 	 * determine the direction of the connection based on your node.
@@ -54,7 +54,7 @@ public interface IGridConnection
 	 *
 	 * @return the direction of the connection, only valid for in world connections.
 	 */
-	AEPartLocation getDirection(IGridNode gridNode);
+	AEPartLocation getDirection( IGridNode gridNode );
 
 	/**
 	 * by destroying a connection you may create new grids, and trigger un-expected behavior, you should only destroy
