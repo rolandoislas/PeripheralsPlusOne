@@ -17,9 +17,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import java.util.*;
 
 public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral {
-
-	public static String publicName = "speaker";
-	private String name = "tileEntitySpeaker";
 	private ITurtleAccess turtle;
 	private TurtleSide side = null;
 	private int id;
@@ -34,10 +31,6 @@ public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral
 		this();
 		this.turtle = turtle;
 		this.side = side;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -69,7 +62,7 @@ public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "speaker";
 	}
 
 	@Override

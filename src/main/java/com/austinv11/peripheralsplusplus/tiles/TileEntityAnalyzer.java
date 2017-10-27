@@ -20,8 +20,6 @@ import java.util.HashMap;
 
 public abstract class TileEntityAnalyzer extends TileEntityInventory implements IPlusPlusPeripheral {
 
-	private String name = "tileEntityAnalyzer";
-
 	public TileEntityAnalyzer() {
 		super();
 		this.invName = "Analyzer";
@@ -31,12 +29,6 @@ public abstract class TileEntityAnalyzer extends TileEntityInventory implements 
 	public int getSize() {
 		return 1;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public abstract String getPublicName();
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
@@ -51,7 +43,7 @@ public abstract class TileEntityAnalyzer extends TileEntityInventory implements 
 
 	@Override
 	public String getType() {
-		return getPublicName();
+		return "generic_analyzer_this_is_a_bug";
 	}
 
 	@Override

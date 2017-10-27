@@ -11,8 +11,6 @@ import java.util.HashMap;
 
 public class TileEntityAnalyzerBee extends TileEntityAnalyzer {
 
-	public static String publicName = "beeAnalyzer";
-
 	public TileEntityAnalyzerBee() {
 		super();
 	}
@@ -20,11 +18,6 @@ public class TileEntityAnalyzerBee extends TileEntityAnalyzer {
 	@Override
 	public String getName(){
 		return "tileEntityBeeAnalyzer";
-	}
-
-	@Override
-	public String getPublicName() {
-		return publicName;
 	}
 
 	@Override

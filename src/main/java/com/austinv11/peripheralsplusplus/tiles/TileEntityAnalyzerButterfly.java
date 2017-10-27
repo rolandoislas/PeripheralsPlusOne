@@ -9,8 +9,6 @@ import java.util.HashMap;
 
 public class TileEntityAnalyzerButterfly extends TileEntityAnalyzer {
 
-	public static String publicName = "butterflyAnalyzer";
-
 	public TileEntityAnalyzerButterfly() {
 		super();
 	}
@@ -18,11 +16,6 @@ public class TileEntityAnalyzerButterfly extends TileEntityAnalyzer {
 	@Override
 	public String getName(){
 		return "tileEntityButterflyAnalyzer";
-	}
-
-	@Override
-	public String getPublicName() {
-		return publicName;
 	}
 
 	@Override

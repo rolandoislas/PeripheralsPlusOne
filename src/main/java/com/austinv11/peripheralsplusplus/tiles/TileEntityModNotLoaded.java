@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntityModNotLoaded extends TileEntity implements IPlusPlusPeripheral {
-    public static String publicName = "modNotLoaded";
     private String modId;
 
     public TileEntityModNotLoaded() {
@@ -38,7 +37,7 @@ public class TileEntityModNotLoaded extends TileEntity implements IPlusPlusPerip
     @Nonnull
     @Override
     public String getType() {
-        return String.format("%s_%s", publicName, modId);
+        return String.format("modNotLoaded_%s", modId);
     }
 
     @Nonnull

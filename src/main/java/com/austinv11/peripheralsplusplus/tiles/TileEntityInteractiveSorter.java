@@ -30,9 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TileEntityInteractiveSorter extends TileEntityInventory implements IPlusPlusPeripheral {
-	
-	public static String publicName = "interactiveSorter";
-	private String name = "tileEntityInteractiveSorter";
+
 	private List<IComputerAccess> computers = new ArrayList<IComputerAccess>();
 	
 	public TileEntityInteractiveSorter() {
@@ -45,12 +43,12 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 	}
 	
 	public String getName() {
-		return name;
+		return "tileEntityInteractiveSorter";
 	}
 	
 	@Override
 	public String getType() {
-		return publicName;
+		return "interactiveSorter";
 	}
 	
 	@Override
