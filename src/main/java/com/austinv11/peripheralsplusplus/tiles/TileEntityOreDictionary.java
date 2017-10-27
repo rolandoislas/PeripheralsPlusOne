@@ -19,9 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeripheral {
-
-	public static String publicName = "oreDictionary";
-	private String name = "tileEntityOreDictionary";
 	private HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess,Boolean>();
 	private ITurtleAccess turtle = null;
 
@@ -32,10 +29,6 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 	public TileEntityOreDictionary(ITurtleAccess turtle) {
 		super();
 		this.turtle = turtle;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -51,7 +44,7 @@ public class TileEntityOreDictionary extends TileEntity implements IPlusPlusPeri
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "oreDictionary";
 	}
 
 	private boolean isTurtle() {

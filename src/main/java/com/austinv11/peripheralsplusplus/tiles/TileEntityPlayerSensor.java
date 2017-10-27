@@ -15,9 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.HashMap;
 
 public class TileEntityPlayerSensor extends TileEntity implements IPlusPlusPeripheral {
-
-	public static String publicName = "playerSensor";
-	private String name = "tileEntityPlayerSensor";
 	private HashMap<IComputerAccess,Boolean> computers = new HashMap<IComputerAccess,Boolean>();
 	private Location location;
 	private ITurtleAccess turtle;
@@ -42,10 +39,6 @@ public class TileEntityPlayerSensor extends TileEntity implements IPlusPlusPerip
             location = new Location(this);
     }
 
-    public String getName() {
-		return name;
-	}
-
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
@@ -59,7 +52,7 @@ public class TileEntityPlayerSensor extends TileEntity implements IPlusPlusPerip
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "playerSensor";
 	}
 
 	@Override

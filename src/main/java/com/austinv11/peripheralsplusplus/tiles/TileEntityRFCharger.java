@@ -24,15 +24,8 @@ import java.util.List;
 public class TileEntityRFCharger extends NetworkedTileEntity implements IEnergyStorage, ITickable {
 	private EnergyStorage storage = new EnergyStorage(80000);//Leadstone Capacitor
 
-	public static String publicName = "rfCharger";
-	private String name = "tileEntityrfCharger";
-
 	public TileEntityRFCharger() {
 		super();
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override

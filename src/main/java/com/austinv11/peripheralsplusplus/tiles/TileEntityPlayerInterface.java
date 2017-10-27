@@ -20,7 +20,6 @@ import net.minecraftforge.common.DimensionManager;
 import java.util.UUID;
 
 public class TileEntityPlayerInterface extends TileEntityInventory implements IPlusPlusPeripheral {
-    public static final String publicName = "playerInterfacePPP";
     public EnumFacing outputSide;
     public EnumFacing inputSide;
 
@@ -115,7 +114,7 @@ public class TileEntityPlayerInterface extends TileEntityInventory implements IP
 
     @Override
     public String getType() {
-        return publicName;
+        return "playerInterface";
     }
 
     private boolean hasPermissionsCardFor(EntityPlayer player) {

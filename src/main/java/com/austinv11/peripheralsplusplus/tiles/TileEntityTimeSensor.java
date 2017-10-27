@@ -15,22 +15,15 @@ import java.util.HashMap;
 
 public class TileEntityTimeSensor extends TileEntity implements IPlusPlusPeripheral {
 	
-	public static String publicName = "timeSensor";
-	private String name = "tileEntityTimeSensor";
-	
 	private TimeProfiler profiler;
 
 	public TileEntityTimeSensor() {
 		super();
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	@Override
 	public String getType() {
-		return publicName;
+		return "timeSensor";
 	}
 
 	@Override

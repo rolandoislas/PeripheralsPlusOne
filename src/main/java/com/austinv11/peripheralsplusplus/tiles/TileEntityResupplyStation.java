@@ -15,12 +15,9 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class TileEntityResupplyStation extends TileEntityInventory {
-	
-	public static String publicName = "resupplyStation";
-	private  String name = "tileEntityResupplyStation";
-	
+
 	public String getName() {
-		return name;
+		return "tileEntityResupplyStation";
 	}
 	
 	@Override

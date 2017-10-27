@@ -26,16 +26,10 @@ import java.util.List;
 
 public class TileEntityPeripheralContainer extends NetworkedTileEntity implements ITickable, IPlusPlusPeripheral {
 	private List<ContainedPeripheral> peripheralsContained = new ArrayList<>();
-	public static String publicName = "peripheralContainer";
-	private  String name = "tileEntityPeripheralContainer";
 	private boolean needsUpdate = false;
 
 	public TileEntityPeripheralContainer() {
 		super();
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -67,7 +61,7 @@ public class TileEntityPeripheralContainer extends NetworkedTileEntity implement
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "peripheralContainer";
 	}
 
 	@Override
