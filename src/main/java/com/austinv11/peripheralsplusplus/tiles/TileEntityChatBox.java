@@ -27,8 +27,6 @@ import java.util.HashMap;
 
 public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlusPeripheral {
 
-	public static String publicName = "chatBox";
-	private  String name = "tileEntityChatBox";
 	private HashMap<IComputerAccess,Boolean> computers = new HashMap<IComputerAccess,Boolean>();
 	private static final int TICKER_INTERVAL = 20;
 	private int ticker = 0;
@@ -43,10 +41,6 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 	    this.setPos(turtle.getPosition());
 	    this.setWorld(turtle.getWorld());
 		this.turtle = turtle;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -97,7 +91,7 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "chatBox";
 	}
 
 	@Override

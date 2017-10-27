@@ -12,9 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityEnvironmentScanner extends TileEntity implements IPlusPlusPeripheral {
-
-	public static String publicName = "environmentScanner";
-	private String name = "tileEntityEnvironmentScanner";
 	private boolean isRaining = false;
 	private String biome;
 	private String temp;
@@ -27,10 +24,6 @@ public class TileEntityEnvironmentScanner extends TileEntity implements IPlusPlu
 
 	public TileEntityEnvironmentScanner(ITurtleAccess turtle) {
 		this.turtle = turtle;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -63,7 +56,7 @@ public class TileEntityEnvironmentScanner extends TileEntity implements IPlusPlu
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "environmentScanner";
 	}
 
 	@Override

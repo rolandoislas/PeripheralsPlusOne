@@ -9,8 +9,6 @@ import java.util.HashMap;
 
 public class TileEntityAnalyzerTree extends TileEntityAnalyzer {
 
-	public static String publicName = "treeAnalyzer";
-
 	public TileEntityAnalyzerTree() {
 		super();
 	}
@@ -18,11 +16,6 @@ public class TileEntityAnalyzerTree extends TileEntityAnalyzer {
 	@Override
 	public String getName(){
 		return "tileEntityTreeAnalyzer";
-	}
-
-	@Override
-	public String getPublicName() {
-		return publicName;
 	}
 
 	@Override

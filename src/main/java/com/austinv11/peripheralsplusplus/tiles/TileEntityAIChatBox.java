@@ -15,8 +15,6 @@ import java.util.*;
 
 public class TileEntityAIChatBox extends TileEntity implements IPlusPlusPeripheral {
 
-	public static String publicName = "aiChatBox";
-	private String name = "tileEntityAIChatBox";
 	private List<BotSessionLuaObject> sessions = new ArrayList<BotSessionLuaObject>();
 	private List<IComputerAccess> computers = new ArrayList<IComputerAccess>();
 
@@ -24,13 +22,9 @@ public class TileEntityAIChatBox extends TileEntity implements IPlusPlusPeripher
 		super();
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	@Override
 	public String getType() {
-		return publicName;
+		return "aiChatBox";
 	}
 
 	@Override

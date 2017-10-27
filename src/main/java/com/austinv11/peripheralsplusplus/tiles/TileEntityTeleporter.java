@@ -32,18 +32,12 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeripheral {
-
-	public static String publicName = "teleporter";
 	private String name = "tileEntityTeleporter";
 	public Stack<LinkData> links = new Stack<LinkData>();
 	public String tag = null;
 
 	public TileEntityTeleporter() {
 		super();
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public int getMaxLinks() {
@@ -89,7 +83,7 @@ public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeriphe
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "teleporter";
 	}
 
 	@Override

@@ -57,8 +57,6 @@ import java.util.Locale;
 })
 public class TileEntityMEBridge extends TileEntity implements IActionHost, IGridBlock, ITickable,
 		IGridHost, IPlusPlusPeripheral {
-	public static String publicName = "meBridge";
-	private String name = "tileEntityMEBridge";
 	private HashMap<IComputerAccess, Boolean> computers = new HashMap<>();
 	private IGridNode node;
 	private boolean initialized = false;
@@ -66,10 +64,6 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 
 	public TileEntityMEBridge() {
 		super();
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -108,7 +102,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "meBridge";
 	}
 
 	@Override
