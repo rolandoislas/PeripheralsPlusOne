@@ -428,6 +428,8 @@ public class TileEntityManaManipulator extends TileEntityInventory implements IP
             nestedMap.put("id", regName == null ? "null" : regName.toString());
             nestedMap.put("meta", itemStack.getMetadata());
             nestedMap.put("name", itemStack.getDisplayName());
+            nestedMap.put("slot", items.indexOf(itemStack));
+            nestedMap.put("nbt", itemStack.getTagCompound() == null ? null : itemStack.getTagCompound().toString());
             map.put(lensIndex++, nestedMap);
         }
         return new Object[]{map};
