@@ -1,6 +1,5 @@
 package com.austinv11.peripheralsplusplus.proxy;
 
-import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolder;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolderDefault;
@@ -16,11 +15,10 @@ import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.tiles.*;
 import com.austinv11.peripheralsplusplus.villagers.VillagerProfessionPPP;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -46,18 +44,15 @@ public class CommonProxy {
 		registerTileEntity(TileEntityPlayerSensor.class);
 		registerTileEntity(TileEntityRFCharger.class);
 		registerTileEntity(TileEntityOreDictionary.class);
-		if (Loader.isModLoaded(ModIds.FORESTRY)) {
-			registerTileEntity(TileEntityAnalyzerBee.class);
-			registerTileEntity(TileEntityAnalyzerButterfly.class);
-			registerTileEntity(TileEntityAnalyzerTree.class);
-		}
+		registerTileEntity(TileEntityAnalyzerBee.class);
+		registerTileEntity(TileEntityAnalyzerButterfly.class);
+		registerTileEntity(TileEntityAnalyzerTree.class);
 		registerTileEntity(TileEntityTeleporter.class);
 		registerTileEntity(TileEntityEnvironmentScanner.class);
 		registerTileEntity(TileEntitySpeaker.class);
 		registerTileEntity(TileEntityAntenna.class);
 		registerTileEntity(TileEntityPeripheralContainer.class);
-		if (Loader.isModLoaded(ModIds.APPLIED_ENGERGISTICS))
-			registerTileEntity(TileEntityMEBridge.class);
+		registerTileEntity(TileEntityMEBridge.class);
 		registerTileEntity(TileEntityTurtle.class);
 		registerTileEntity(TileEntityTimeSensor.class);
 		registerTileEntity(TileEntityInteractiveSorter.class);
