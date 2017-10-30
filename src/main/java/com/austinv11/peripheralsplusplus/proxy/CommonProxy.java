@@ -64,6 +64,7 @@ public class CommonProxy {
         registerTileEntity(TileEntityPlayerInterface.class);
 		registerTileEntity(TileEntityResupplyStation.class);
 		registerTileEntity(TileEntityModNotLoaded.class);
+		registerTileEntity(TileEntityManaManipulator.class);
     }
 
 	private void registerTileEntity(Class<? extends TileEntity> tileEntity) {

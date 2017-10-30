@@ -45,6 +45,7 @@ public class ModItems {
 	public static final Item TIME_SENSOR = getItemBlock(ModBlocks.TIME_SENSOR);
 	public static final Item INTERACTIVE_SORTER = getItemBlock(ModBlocks.INTERACTIVE_SORTER);
 	public static final Item PLAYER_INTERFACE = getItemBlock(ModBlocks.PLAYER_INTERFACE);
+	public static final Item MANA_MANIPULATOR = getItemBlock(ModBlocks.MANA_MANIPULATOR);
 
 	public static void register() {
 		ITEMS.register(FEEDER_UPGRADE);
@@ -74,6 +75,7 @@ public class ModItems {
 		ITEMS.register(TIME_SENSOR);
 		ITEMS.register(INTERACTIVE_SORTER);
 		ITEMS.register(PLAYER_INTERFACE);
+		ITEMS.register(MANA_MANIPULATOR);
 	}
 
 	public static void registerModels() {
@@ -104,6 +106,7 @@ public class ModItems {
 		registerModel(TELEPORTER, BlockTeleporter.TIER);
 		registerModel(INTERACTIVE_SORTER);
 		registerModel(PLAYER_INTERFACE);
+		registerModel(MANA_MANIPULATOR);
 	}
 
 	private static void registerModel(Item item, IProperty property) {

@@ -20,6 +20,7 @@ tile.peripheralsplusone:time_sensor.name=Time Sensor
 tile.peripheralsplusone:interactive_sorter.name=Interactive Sorter
 tile.peripheralsplusone:player_interface.name=Player Interface
 tile.peripheralsplusone:resupply_station.name=Resupply Station
+tile.peripheralsplusone:mana_manipulator.name=Mana Manipulator
 
 #Items
 item.peripheralsplusone:feeder_upgrade.name=Feeder Upgrade

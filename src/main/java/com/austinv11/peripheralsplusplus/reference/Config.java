@@ -165,4 +165,7 @@ public class Config {
 
     @Description(category = "AI Chat Box", comment = "Cleverbot API key. This needs to be set (on the server if not playing single player) to use the service.")
 	public static String cleverbotApiKey = "";
+
+    @Description(category = "Mana Manipulator", comment = ENABLE_CONFIG_MESSAGE)
+	public static boolean enableManaManipulator = true;
 }

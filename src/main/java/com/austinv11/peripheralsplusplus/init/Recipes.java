@@ -360,5 +360,16 @@ public class Recipes {
 					'c', new ItemStack(Items.CLOCK),
 					'a', GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT + ":cable", 0, 1, "")
 			).setRegistryName(Reference.MOD_ID, "recipe_time_sensor"));
+        if (Config.enableManaManipulator)
+        	RECIPES.register(new ShapedOreRecipe(
+        			MOD_GROUP,
+					new ItemStack(ModBlocks.MANA_MANIPULATOR),
+					"wsw",
+					"sps",
+					"wsw",
+					'w', GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT + ":cable", 0, 1, ""),
+					's', GameRegistry.makeItemStack("botania:spreader", 0, 1, ""),
+					'p', GameRegistry.makeItemStack("botania:pool", 0, 1, "")
+			).setRegistryName(Reference.MOD_ID, "recipe_mana_manipulator"));
 	}
 }
