@@ -50,7 +50,7 @@ apply plugin: "com.matthewprenger.cursegradle"
 
 ext.build = System.getenv('TRAVIS_BUILD_NUMBER')
 ext.tag = System.getenv("TRAVIS_TAG")
-version = "1.12.2-1.0"
+version = "1.12.2-1.1"
 version =  version + "-build-T" + ext.build
 group= "com.rolandoislas.peripheralsplusone" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "PeripheralsPlusOne"
