@@ -12,6 +12,7 @@ import com.austinv11.peripheralsplusplus.event.handler.PeripheralContainerHandle
 import com.austinv11.peripheralsplusplus.mount.DynamicMount;
 import com.austinv11.peripheralsplusplus.network.*;
 import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
+import com.austinv11.peripheralsplusplus.recipe.RecipeRfidChip;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.tiles.*;
 import com.austinv11.peripheralsplusplus.villagers.VillagerProfessionPPP;
@@ -60,6 +61,7 @@ public class CommonProxy {
 		registerTileEntity(TileEntityResupplyStation.class);
 		registerTileEntity(TileEntityModNotLoaded.class);
 		registerTileEntity(TileEntityManaManipulator.class);
+		registerTileEntity(TileEntityRfidReaderWriter.class);
     }
 
 	private void registerTileEntity(Class<? extends TileEntity> tileEntity) {
@@ -82,6 +84,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new CapabilitiesHandler());
 		MinecraftForge.EVENT_BUS.register(new PocketMotionDetector());
 		MinecraftForge.EVENT_BUS.register(new DynamicMount());
+		MinecraftForge.EVENT_BUS.register(new RecipeRfidChip());
 	}
 
 	public void registerEntities() {

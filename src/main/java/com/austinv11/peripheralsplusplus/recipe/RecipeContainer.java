@@ -5,6 +5,7 @@ import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.blocks.BlockPeripheralContainer;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.peripheralcontainer.ContainedPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
@@ -20,11 +21,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContainerRecipe implements IRecipe {
+public class RecipeContainer implements IRecipe {
 	private final ResourceLocation group;
 	private ResourceLocation name;
 
-    public ContainerRecipe(ResourceLocation group) {
+    public RecipeContainer(ResourceLocation group) {
         super();
 		this.group = group;
     }

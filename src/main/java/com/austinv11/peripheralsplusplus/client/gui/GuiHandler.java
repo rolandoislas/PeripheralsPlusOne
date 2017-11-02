@@ -27,6 +27,9 @@ public class GuiHandler implements IGuiHandler {
 					.getTileEntity(new BlockPos(x, y, z)), player);
 		else if (id == Reference.GUIs.MANA_MANIPULATOR.ordinal())
 			return new ContainerManaManipulator(player.inventory, (IInventory)world.getTileEntity(new BlockPos(x, y,z)), player);
+		else if (id == Reference.GUIs.RFID_READER_WRITER.ordinal())
+			return new ContainerRfidReaderWriter(player,
+					(IInventory)world.getTileEntity(new BlockPos(x, y, z)), 176, 166);
         return null;
 	}
 
@@ -47,6 +50,8 @@ public class GuiHandler implements IGuiHandler {
 			return new GuiResupplyStation(player.inventory, (IInventory)world.getTileEntity(new BlockPos(x, y, z)));
 		else if (id == Reference.GUIs.MANA_MANIPULATOR.ordinal())
 			return new GuiManaManipulator(player.inventory, (IInventory)world.getTileEntity(new BlockPos(x, y,z)));
+		else if (id == Reference.GUIs.RFID_READER_WRITER.ordinal())
+			return new GuiRfidReaderWriter(player, world, x, y, z);
         return null;
 	}
 }

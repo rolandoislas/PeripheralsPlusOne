@@ -168,4 +168,7 @@ public class Config {
 
     @Description(category = "Mana Manipulator", comment = ENABLE_CONFIG_MESSAGE)
 	public static boolean enableManaManipulator = true;
+
+    @Description(category = "RFID Items", comment = ENABLE_CONFIG_MESSAGE)
+	public static boolean enableRfidItems = true;
 }

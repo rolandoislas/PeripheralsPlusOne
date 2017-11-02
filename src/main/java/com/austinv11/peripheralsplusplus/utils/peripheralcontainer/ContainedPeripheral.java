@@ -1,4 +1,4 @@
-package com.austinv11.peripheralsplusplus.recipe;
+package com.austinv11.peripheralsplusplus.utils.peripheralcontainer;
 
 import com.austinv11.peripheralsplusplus.blocks.BlockPeripheralContainer;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -34,7 +34,7 @@ public class ContainedPeripheral {
     }
 
     @Nullable
-    static IPeripheral getPeripheralForBlock(Block block) {
+    public static IPeripheral getPeripheralForBlock(Block block) {
         if (!(block instanceof BlockPeripheralContainer)) {
             IPeripheral peripheral = null;
             if (block instanceof IPeripheral)

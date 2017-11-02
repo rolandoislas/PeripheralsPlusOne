@@ -22,11 +22,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContainerRecipePocket implements IRecipe {
+public class RecipeContainerPocket implements IRecipe {
     private final ResourceLocation group;
     private ResourceLocation name;
 
-    public ContainerRecipePocket(ResourceLocation group) {
+    public RecipeContainerPocket(ResourceLocation group) {
         this.group = group;
     }
 
@@ -70,7 +70,7 @@ public class ContainerRecipePocket implements IRecipe {
     private List<IPocketUpgrade> getPeripherals(InventoryCrafting inventory) {
         List<IPocketUpgrade> peripherals = new ArrayList<>();
         for (int itemIndex = 0; itemIndex < inventory.getSizeInventory(); itemIndex++) {
-            ItemStack itemStack = inventory.getStackInSlot(itemIndex);
+            ItemStack itemStack = inventory.getStackInSlot(itemIndex).copy();
             if (itemStack.getCount() != 1)
                 continue;
             for (IPocketUpgrade pocketUpgrade : ComputerCraftRegistry.getPocketUpgrades().values())

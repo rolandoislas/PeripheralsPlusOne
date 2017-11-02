@@ -29,6 +29,7 @@ public class ModBlocks {
     public static final BlockContainer PLAYER_INTERFACE = new BlockPlayerInterface();
 	public static final BlockContainer RESUPPLY_STATION = new BlockResupplyStation();
 	public static final BlockContainer MANA_MANIPULATOR = new BlockManaManipulator();
+	public static final BlockContainer RFID_READER_WRITER = new BlockRfidReaderWriter();
 
 	public static void register(){
 		BLOCKS.register(CHAT_BOX);
@@ -51,5 +52,6 @@ public class ModBlocks {
         BLOCKS.register(PLAYER_INTERFACE);
 		BLOCKS.register(RESUPPLY_STATION);
 		BLOCKS.register(MANA_MANIPULATOR);
+		BLOCKS.register(RFID_READER_WRITER);
     }
 }
