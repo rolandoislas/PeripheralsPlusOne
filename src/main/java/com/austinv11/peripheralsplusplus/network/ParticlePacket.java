@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -65,11 +64,10 @@ public class ParticlePacket implements IMessage {
 		@Override
 		public IMessage onMessage(final ParticlePacket message, MessageContext ctx) {
 			new Thread(() -> {
-                World world = Minecraft.getMinecraft().theWorld;
                 EnumParticleTypes particle = EnumParticleTypes.getByName(message.name);
                 if (particle != null)
-                world.spawnParticle(particle, message.x, message.y, message.z, message.xVel, message.yVel,
-                        message.zVel);
+                Minecraft.getMinecraft().theWorld.spawnParticle(particle, message.x, message.y, message.z,
+						message.xVel, message.yVel, message.zVel);
             }).start();
 			return null;
 		}
