@@ -479,7 +479,8 @@ end
 ---
 --- @param name string program name
 ---
-function Dyn:remove_program(name)
+function Dyn:remove_program(name, silent)
+    silent = silent or false
     local installed = self:get_installed_index()
     for program_index, program in pairs(installed) do
         if program.name == name then
@@ -487,7 +488,9 @@ function Dyn:remove_program(name)
             self:delete(path)
             table.remove(installed, program_index)
             self:write_installed_index(installed)
-            print(string.format("Program \"%s\" removed.\nReattach peripherals or restart this device.", name))
+            if not silent then
+                print(string.format("Program \"%s\" removed.\nReattach peripherals or restart this device.", name))
+            end
             return nil
         end
     end
@@ -542,7 +545,8 @@ end
 ---
 --- @param name string program name
 ---
-function Dyn:install_program(name)
+function Dyn:install_program(name, is_dependency)
+    is_dependency = is_dependency or false
     local repos = self:get_cached_indices()
     for repo_index, repo in pairs(repos) do
         for program_index, program in pairs(repo) do
@@ -559,21 +563,27 @@ function Dyn:install_program(name)
                         is_newer
                         ))
                     end
-                    if not is_newer then
+                    if is_newer then
+                        local removed = pcall(self.remove_program, self, name)
+                        if not removed then
+                            error(string.format("Failed to remove previous install of \"%s\".",
+                            installed_program.name))
+                        end
+                    elseif not is_dependency then
                         error(string.format("Program \"%s\" is already the newest version.",
-                        installed_program.name))
-                    end
-                    local removed = pcall(self.remove_program, self, name)
-                    if not removed then
-                        error("Failed to remove previous install.")
+                            installed_program.name))
                     end
                 end
                 -- Install dependencies
                 for dep_index, dep in pairs(program.depends) do
                     local dep_installed = self:is_installed(dep)
                     if not dep_installed then
-                        self:install_program(name)
+                        self:install_program(dep, true)
                     end
+                end
+                -- Check if the program should be installed
+                if not is_newer and is_installed then
+                    return nil
                 end
                 print("Installing " .. program.name)
                 -- Download the program and help text
@@ -625,9 +635,11 @@ function Dyn:install_program(name)
                 local installed = self:get_installed_index()
                 table.insert(installed, program)
                 self:write_installed_index(installed)
-                print(string.format(
-                "Program \"%s\" installed.\nReattach peripherals or restart the device.",
-                program.name))
+                if not is_dependency then
+                    print(string.format(
+                    "Program \"%s\" installed.\nReattach peripherals or restart the device.",
+                        program.name))
+                end
                 return nil
             end
         end

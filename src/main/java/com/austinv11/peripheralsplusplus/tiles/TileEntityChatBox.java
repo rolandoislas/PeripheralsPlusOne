@@ -70,7 +70,7 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 
 	public void onChat(EntityPlayer player, String message) {
 		for (IComputerAccess computer : computers.keySet())
-			computer.queueEvent("chat", new Object[]{player.getDisplayName(), message});
+			computer.queueEvent("chat", new Object[]{player.getDisplayNameString(), message});
 	}
 
 	public void onDeath(EntityPlayer player, DamageSource source) {
@@ -81,12 +81,13 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 				killer = ent.getName();
 		}
 		for (IComputerAccess computer : computers.keySet())
-			computer.queueEvent("death", new Object[] {player.getDisplayName(), killer, source.damageType});
+			computer.queueEvent("death", new Object[] {player.getDisplayNameString(), killer, source.damageType});
 	}
 	
 	public void onCommand(EntityPlayerMP player, String message) {
 		for (IComputerAccess computer : computers.keySet())
-			computer.queueEvent("command", new Object[] {player.getDisplayName(), Util.arrayToMap(message.split(" "))});
+			computer.queueEvent("command", new Object[] {player.getDisplayNameString(),
+					Util.arrayToMap(message.split(" "))});
 	}
 
 	@Override
