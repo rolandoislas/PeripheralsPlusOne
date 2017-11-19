@@ -88,7 +88,22 @@ View the [MIFARE Classic] documentation section 8.7.1 for detailed information a
 
 1. unsigned integer with the range 0-255
 
+# Search Pattern
+
+The RFID reader/writer begins its search at a one block radius and continues to expand until either an RFID item is
+ found or the max search radius has been reached.
+
+The following list shows the order that the RFID reader/writer will take when searching for RFID items per block.
+
+1. Entities
+    1. Player Inventories
+    2. Items In-World
+    3. Items Held by Entities
+    4. Embedded Tags. See [RFID Chip Prod]
+2. Tile Entity Inventories
+
 
 
 [RFID Chips]: /miscellaneous_additions/rfid_chip.md
 [MIFARE Classic]: https://www.nxp.com/docs/en/data-sheet/MF1S50YYX_V1.pdf
+[RFID Chip Prod]: /miscellaneous_additions/rfid_chip_prod.md
