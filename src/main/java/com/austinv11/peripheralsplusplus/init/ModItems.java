@@ -45,6 +45,11 @@ public class ModItems {
 	public static final Item TIME_SENSOR = getItemBlock(ModBlocks.TIME_SENSOR);
 	public static final Item INTERACTIVE_SORTER = getItemBlock(ModBlocks.INTERACTIVE_SORTER);
 	public static final Item PLAYER_INTERFACE = getItemBlock(ModBlocks.PLAYER_INTERFACE);
+	public static final Item MANA_MANIPULATOR = getItemBlock(ModBlocks.MANA_MANIPULATOR);
+	public static final Item RFID_READER_WRITER = getItemBlock(ModBlocks.RFID_READER_WRITER);
+	public static final Item RFID_CHIP = new ItemRfidChip();
+	public static final Item PLASTIC_CARD = new ItemPlasticCard();
+	public static final Item FORK = new ItemFork();
 
 	public static void register() {
 		ITEMS.register(FEEDER_UPGRADE);
@@ -74,6 +79,11 @@ public class ModItems {
 		ITEMS.register(TIME_SENSOR);
 		ITEMS.register(INTERACTIVE_SORTER);
 		ITEMS.register(PLAYER_INTERFACE);
+		ITEMS.register(MANA_MANIPULATOR);
+		ITEMS.register(RFID_READER_WRITER);
+		ITEMS.register(RFID_CHIP);
+		ITEMS.register(PLASTIC_CARD);
+		ITEMS.register(FORK);
 	}
 
 	public static void registerModels() {
@@ -104,6 +114,11 @@ public class ModItems {
 		registerModel(TELEPORTER, BlockTeleporter.TIER);
 		registerModel(INTERACTIVE_SORTER);
 		registerModel(PLAYER_INTERFACE);
+		registerModel(MANA_MANIPULATOR);
+		registerModel(RFID_READER_WRITER);
+		registerModel(RFID_CHIP);
+		registerModel(PLASTIC_CARD);
+		registerModel(FORK);
 	}
 
 	private static void registerModel(Item item, IProperty property) {
