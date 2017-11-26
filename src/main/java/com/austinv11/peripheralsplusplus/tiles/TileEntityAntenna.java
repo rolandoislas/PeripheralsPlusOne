@@ -29,9 +29,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlusPeripheral {
-
-	public static String publicName = "antenna";
-	private  String name = "tileEntityAntenna";
 	private int dimension = 0;
 	public HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess,Boolean>();
 	private HashMap<Integer, LuaObjectHUD> huds = new HashMap<Integer,LuaObjectHUD>();
@@ -48,10 +45,6 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 				break;
 			identifier = UUID.randomUUID();
 		}
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -74,7 +67,7 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "antenna";
 	}
 
 	@Override

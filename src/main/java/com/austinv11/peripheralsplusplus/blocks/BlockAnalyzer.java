@@ -3,6 +3,7 @@ package com.austinv11.peripheralsplusplus.blocks;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.creativetab.CreativeTabPPP;
 import com.austinv11.peripheralsplusplus.reference.Reference;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityAnalyzer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -29,7 +30,7 @@ public abstract class BlockAnalyzer extends BlockContainerPPP {
 									EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntity te = world.getTileEntity(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
 		if (!world.isRemote) {
-			if (te != null)
+			if (te instanceof TileEntityAnalyzer)
 				player.openGui(PeripheralsPlusPlus.instance, Reference.GUIs.ANALYZER.ordinal(), world,
 						pos.getX(), pos.getY(), pos.getZ());
 		}

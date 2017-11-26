@@ -27,8 +27,6 @@ import java.util.HashMap;
 
 public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlusPeripheral {
 
-	public static String publicName = "chatBox";
-	private  String name = "tileEntityChatBox";
 	private HashMap<IComputerAccess,Boolean> computers = new HashMap<IComputerAccess,Boolean>();
 	private static final int TICKER_INTERVAL = 20;
 	private int ticker = 0;
@@ -43,10 +41,6 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 	    this.setPos(turtle.getPosition());
 	    this.setWorld(turtle.getWorld());
 		this.turtle = turtle;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -76,7 +70,7 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 
 	public void onChat(EntityPlayer player, String message) {
 		for (IComputerAccess computer : computers.keySet())
-			computer.queueEvent("chat", new Object[]{player.getDisplayName(), message});
+			computer.queueEvent("chat", new Object[]{player.getDisplayNameString(), message});
 	}
 
 	public void onDeath(EntityPlayer player, DamageSource source) {
@@ -87,17 +81,18 @@ public class TileEntityChatBox extends TileEntity implements ITickable, IPlusPlu
 				killer = ent.getName();
 		}
 		for (IComputerAccess computer : computers.keySet())
-			computer.queueEvent("death", new Object[] {player.getDisplayName(), killer, source.damageType});
+			computer.queueEvent("death", new Object[] {player.getDisplayNameString(), killer, source.damageType});
 	}
 	
 	public void onCommand(EntityPlayerMP player, String message) {
 		for (IComputerAccess computer : computers.keySet())
-			computer.queueEvent("command", new Object[] {player.getDisplayName(), Util.arrayToMap(message.split(" "))});
+			computer.queueEvent("command", new Object[] {player.getDisplayNameString(),
+					Util.arrayToMap(message.split(" "))});
 	}
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "chatBox";
 	}
 
 	@Override

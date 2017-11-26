@@ -34,6 +34,7 @@ end
 --- Errors if anything fails
 ---
 function Dyn:run()
+    self:init_tab_completion()
     self:check_argument_count(1, "argument", false)
     local arg = self.args[1]
     if arg == "install" then
@@ -77,6 +78,33 @@ function Dyn:run()
     else
         self:error("No command named \"" .. arg .. "\".")
     end
+end
+
+---
+--- Initializes tab completion
+---
+function Dyn:init_tab_completion()
+    local get_completion_list = function(options, text)
+        local ret = {}
+        for _, option in ipairs(options) do
+            if option:find("^" .. text) then
+                table.insert(ret, option:sub(#text + 1))
+            end
+        end
+        return ret
+    end
+    local completion = function(shell, param_index, current_text, previous_commands)
+        local options = {"install", "remove", "update", "upgrade", "list", "search", "repo"}
+        local options_repo = {"add", "remove", "edit", "list"}
+        if param_index == 1 then
+            return get_completion_list(options, current_text)
+        elseif param_index == 2 and previous_commands[2] == "repo" then
+            return get_completion_list(options_repo, current_text)
+        else
+            return {}
+        end
+    end
+    shell.setCompletionFunction("rom/programs/dyn.lua", completion)
 end
 
 ---
@@ -479,7 +507,8 @@ end
 ---
 --- @param name string program name
 ---
-function Dyn:remove_program(name)
+function Dyn:remove_program(name, silent)
+    silent = silent or false
     local installed = self:get_installed_index()
     for program_index, program in pairs(installed) do
         if program.name == name then
@@ -487,7 +516,9 @@ function Dyn:remove_program(name)
             self:delete(path)
             table.remove(installed, program_index)
             self:write_installed_index(installed)
-            print(string.format("Program \"%s\" removed.\nReattach peripherals or restart this device.", name))
+            if not silent then
+                print(string.format("Program \"%s\" removed.\nReattach peripherals or restart this device.", name))
+            end
             return nil
         end
     end
@@ -524,6 +555,9 @@ function Dyn:get_cached_indices()
         local file_path = self.sources_cache_path .. file_name
         local source_file = fs.open(file_path, "r")
         if not source_file then
+            if not fs.exists(file_path) then
+                error(string.format("Missing sources list. Update Dyn sources first."))
+            end
             error(string.format("Could not open file %s for reading.", file_path))
         end
         local verified, source_table = pcall(self.verify_index_file, self, source_file.readAll())
@@ -542,7 +576,8 @@ end
 ---
 --- @param name string program name
 ---
-function Dyn:install_program(name)
+function Dyn:install_program(name, is_dependency)
+    is_dependency = is_dependency or false
     local repos = self:get_cached_indices()
     for repo_index, repo in pairs(repos) do
         for program_index, program in pairs(repo) do
@@ -559,21 +594,27 @@ function Dyn:install_program(name)
                         is_newer
                         ))
                     end
-                    if not is_newer then
+                    if is_newer then
+                        local removed = pcall(self.remove_program, self, name)
+                        if not removed then
+                            error(string.format("Failed to remove previous install of \"%s\".",
+                            installed_program.name))
+                        end
+                    elseif not is_dependency then
                         error(string.format("Program \"%s\" is already the newest version.",
-                        installed_program.name))
-                    end
-                    local removed = pcall(self.remove_program, self, name)
-                    if not removed then
-                        error("Failed to remove previous install.")
+                            installed_program.name))
                     end
                 end
                 -- Install dependencies
                 for dep_index, dep in pairs(program.depends) do
                     local dep_installed = self:is_installed(dep)
                     if not dep_installed then
-                        self:install_program(name)
+                        self:install_program(dep, true)
                     end
+                end
+                -- Check if the program should be installed
+                if not is_newer and is_installed then
+                    return nil
                 end
                 print("Installing " .. program.name)
                 -- Download the program and help text
@@ -625,9 +666,11 @@ function Dyn:install_program(name)
                 local installed = self:get_installed_index()
                 table.insert(installed, program)
                 self:write_installed_index(installed)
-                print(string.format(
-                "Program \"%s\" installed.\nReattach peripherals or restart the device.",
-                program.name))
+                if not is_dependency then
+                    print(string.format(
+                    "Program \"%s\" installed.\nReattach peripherals or restart the device.",
+                        program.name))
+                end
                 return nil
             end
         end

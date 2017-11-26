@@ -11,6 +11,7 @@ public class Reference {
 	//Pocket Computer Upgrades
 	public static final String POCKET_MOTION_DETECTOR = MOD_ID + ":pocket_motion_detector";
 	public static final String POCKET_PERIPHERAL_CONTAINER = MOD_ID + ":pocket_container";
+	public static final String POCKET_RFID = MOD_ID + ":pocket_rfid";
 
 	//Turtle Upgrades
 	public static final String CHAT_BOX_UPGRADE = MOD_ID + ":chat_box";
@@ -30,6 +31,7 @@ public class Reference {
 	public static final String DISPENSER_UPGRADE = MOD_ID + ":dispenser";
 	public static final String CHUNK_LOADER_UPGRADE = MOD_ID + ":chunk_loader";
 	public static final String RESUPPLY_UPGRADE = MOD_ID + ":resupply";
+	public static final String RFID_UPGRADE = MOD_ID + ":rfid";
 	// Legacy
 	public static final int CHAT_BOX_UPGRADE_LEGACY = 101;
 	public static final int PLAYER_SENSOR_UPGRADE_LEGACY = 102;
@@ -49,7 +51,8 @@ public class Reference {
 	public static final int CHUNK_LOADER_UPGRADE_LEGACY = 147;
 	public static final int RESUPPLY_UPGRADE_LEGACY = 148;
 
-	public static enum GUIs {
-        ANALYZER, HELMET, INTERACTIVE_SORTER, PLAYER_INTERFACE, PERMCARD, RESUPPLY_STATION
+    public enum GUIs {
+        ANALYZER, HELMET, INTERACTIVE_SORTER, PLAYER_INTERFACE, PERMCARD, RESUPPLY_STATION, MANA_MANIPULATOR,
+		RFID_READER_WRITER
     }
 }

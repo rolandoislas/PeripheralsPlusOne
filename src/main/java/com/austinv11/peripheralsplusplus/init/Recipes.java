@@ -1,10 +1,12 @@
 package com.austinv11.peripheralsplusplus.init;
 
 import com.austinv11.collectiveframework.minecraft.reference.ModIds;
-import com.austinv11.peripheralsplusplus.recipe.ContainerRecipe;
-import com.austinv11.peripheralsplusplus.recipe.ContainerRecipePocket;
+import com.austinv11.peripheralsplusplus.recipe.RecipeContainer;
+import com.austinv11.peripheralsplusplus.recipe.RecipeContainerPocket;
+import com.austinv11.peripheralsplusplus.recipe.RecipeRfidChip;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.reference.Reference;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityMagReaderWriter;
 import com.austinv11.peripheralsplusplus.utils.TurtleUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -176,9 +178,9 @@ public class Recipes {
 					'c', Blocks.CHEST,
 					'm', GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT + ":cable", 0, 1, ""))
 					.setRegistryName(new ResourceLocation(Reference.MOD_ID, "recipe_peripheral_container")));
-			RECIPES.register(new ContainerRecipe(MOD_GROUP)
+			RECIPES.register(new RecipeContainer(MOD_GROUP)
 					.setRegistryName(new ResourceLocation("recipe_peripheral_container_add_item")));
-			RECIPES.register(new ContainerRecipePocket(MOD_GROUP)
+			RECIPES.register(new RecipeContainerPocket(MOD_GROUP)
 					.setRegistryName(new ResourceLocation("recipe_peripheral_container_pocket_add_item_advanced")));
 		}
 		if (Config.enableMEBridge && Loader.isModLoaded(ModIds.APPLIED_ENGERGISTICS))
@@ -310,7 +312,7 @@ public class Recipes {
 			RECIPES.register(new ShapelessOreRecipe(
 					MOD_GROUP,
 					new ItemStack(ModItems.PERM_CARD),
-					new ItemStack(Items.EMERALD),
+					new ItemStack(ModItems.PLASTIC_CARD),
 					new ItemStack(Items.IRON_INGOT),
 					new ItemStack(Items.REDSTONE)
 			).setRegistryName(Reference.MOD_ID, "recipe_player_interface_card"));
@@ -360,5 +362,60 @@ public class Recipes {
 					'c', new ItemStack(Items.CLOCK),
 					'a', GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT + ":cable", 0, 1, "")
 			).setRegistryName(Reference.MOD_ID, "recipe_time_sensor"));
+        if (Config.enableManaManipulator)
+        	RECIPES.register(new ShapedOreRecipe(
+        			MOD_GROUP,
+					new ItemStack(ModBlocks.MANA_MANIPULATOR),
+					"wsw",
+					"sps",
+					"wsw",
+					'w', GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT + ":cable", 0, 1, ""),
+					's', GameRegistry.makeItemStack("botania:spreader", 0, 1, ""),
+					'p', GameRegistry.makeItemStack("botania:pool", 0, 1, "")
+			).setRegistryName(Reference.MOD_ID, "recipe_mana_manipulator"));
+		RECIPES.register(new ShapelessOreRecipe(
+				MOD_GROUP,
+				new ItemStack(ModItems.PLASTIC_CARD),
+				new ItemStack(Blocks.GLASS_PANE),
+				new ItemStack(Items.PAPER),
+				new ItemStack(Items.SLIME_BALL)
+		).setRegistryName(Reference.MOD_ID, "recipe_plastic_card"));
+        if (Config.enableRfidItems) {
+        	RECIPES.register(new ShapedOreRecipe(
+        			MOD_GROUP,
+					new ItemStack(ModBlocks.RFID_READER_WRITER),
+					"iii",
+					"iri",
+					"iii",
+					'i', new ItemStack(Items.IRON_INGOT),
+					'r', new ItemStack(ModItems.RFID_CHIP)
+			).setRegistryName(Reference.MOD_ID, "recipe_rfid_reader_Writer"));
+			RECIPES.register(new ShapelessOreRecipe(
+					MOD_GROUP,
+					new ItemStack(ModItems.RFID_CHIP),
+					new ItemStack(Items.IRON_INGOT),
+					new ItemStack(Items.STRING),
+					new ItemStack(Items.REDSTONE)
+			).setRegistryName(Reference.MOD_ID, "recipe_rfid_chip"));
+        	RECIPES.register(new RecipeRfidChip(MOD_GROUP)
+					.setRegistryName(new ResourceLocation("recipe_rfid_chip_attach")));
+        	RECIPES.register(new ShapedOreRecipe(
+        			MOD_GROUP,
+					new ItemStack(ModItems.FORK),
+					"isi",
+					"isi",
+					" i ",
+					'i', new ItemStack(Items.IRON_INGOT),
+					's', new ItemStack(Items.STICK)
+			).setRegistryName(Reference.MOD_ID, "recipe_rfid_chip_prod"));
+		}
+		if (Config.enableMagStripItems) {
+        	RECIPES.register(new ShapelessOreRecipe(
+        			MOD_GROUP,
+					TileEntityMagReaderWriter.createMagCard(),
+					new ItemStack(Items.IRON_INGOT),
+					new ItemStack(ModItems.PLASTIC_CARD)
+			).setRegistryName(Reference.MOD_ID, "recipe_mag_card"));
+		}
 	}
 }
