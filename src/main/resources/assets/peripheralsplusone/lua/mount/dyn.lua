@@ -34,6 +34,7 @@ end
 --- Errors if anything fails
 ---
 function Dyn:run()
+    self:init_tab_completion()
     self:check_argument_count(1, "argument", false)
     local arg = self.args[1]
     if arg == "install" then
@@ -77,6 +78,33 @@ function Dyn:run()
     else
         self:error("No command named \"" .. arg .. "\".")
     end
+end
+
+---
+--- Initializes tab completion
+---
+function Dyn:init_tab_completion()
+    local get_completion_list = function(options, text)
+        local ret = {}
+        for _, option in ipairs(options) do
+            if option:find("^" .. text) then
+                table.insert(ret, option:sub(#text + 1))
+            end
+        end
+        return ret
+    end
+    local completion = function(shell, param_index, current_text, previous_commands)
+        local options = {"install", "remove", "update", "upgrade", "list", "search", "repo"}
+        local options_repo = {"add", "remove", "edit", "list"}
+        if param_index == 1 then
+            return get_completion_list(options, current_text)
+        elseif param_index == 2 and previous_commands[2] == "repo" then
+            return get_completion_list(options_repo, current_text)
+        else
+            return {}
+        end
+    end
+    shell.setCompletionFunction("rom/programs/dyn.lua", completion)
 end
 
 ---
@@ -527,6 +555,9 @@ function Dyn:get_cached_indices()
         local file_path = self.sources_cache_path .. file_name
         local source_file = fs.open(file_path, "r")
         if not source_file then
+            if not fs.exists(file_path) then
+                error(string.format("Missing sources list. Update Dyn sources first."))
+            end
             error(string.format("Could not open file %s for reading.", file_path))
         end
         local verified, source_table = pcall(self.verify_index_file, self, source_file.readAll())
