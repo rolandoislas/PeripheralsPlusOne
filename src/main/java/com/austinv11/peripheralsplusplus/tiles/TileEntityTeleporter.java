@@ -5,6 +5,7 @@ import com.austinv11.peripheralsplusplus.blocks.BlockPppDirectional;
 import com.austinv11.peripheralsplusplus.blocks.BlockTeleporter;
 import com.austinv11.peripheralsplusplus.network.ParticlePacket;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -30,19 +31,13 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import java.util.HashMap;
 import java.util.Stack;
 
-public class TileEntityTeleporter extends MountedTileEntity {
-
-	public static String publicName = "teleporter";
+public class TileEntityTeleporter extends TileEntity implements IPlusPlusPeripheral {
 	private String name = "tileEntityTeleporter";
 	public Stack<LinkData> links = new Stack<LinkData>();
 	public String tag = null;
 
 	public TileEntityTeleporter() {
 		super();
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public int getMaxLinks() {
@@ -88,7 +83,7 @@ public class TileEntityTeleporter extends MountedTileEntity {
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "teleporter";
 	}
 
 	@Override

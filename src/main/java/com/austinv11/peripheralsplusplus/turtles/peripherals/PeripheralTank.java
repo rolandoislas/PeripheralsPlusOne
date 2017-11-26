@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -19,7 +20,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 import java.util.HashMap;
 
-public class PeripheralTank extends MountedPeripheral {
+public class PeripheralTank implements IPlusPlusPeripheral {
 
 	private static final int TRANSFER_AMOUNT = 1000;
 	private ITurtleAccess turtle;

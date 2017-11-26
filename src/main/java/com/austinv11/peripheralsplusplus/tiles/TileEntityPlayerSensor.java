@@ -2,6 +2,7 @@ package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.collectiveframework.minecraft.utils.Location;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -9,13 +10,11 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 import java.util.HashMap;
 
-public class TileEntityPlayerSensor extends MountedTileEntity {
-
-	public static String publicName = "playerSensor";
-	private String name = "tileEntityPlayerSensor";
+public class TileEntityPlayerSensor extends TileEntity implements IPlusPlusPeripheral {
 	private HashMap<IComputerAccess,Boolean> computers = new HashMap<IComputerAccess,Boolean>();
 	private Location location;
 	private ITurtleAccess turtle;
@@ -40,10 +39,6 @@ public class TileEntityPlayerSensor extends MountedTileEntity {
             location = new Location(this);
     }
 
-    public String getName() {
-		return name;
-	}
-
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
@@ -57,7 +52,7 @@ public class TileEntityPlayerSensor extends MountedTileEntity {
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "playerSensor";
 	}
 
 	@Override
@@ -119,13 +114,11 @@ public class TileEntityPlayerSensor extends MountedTileEntity {
 	@Override
 	public void attach(IComputerAccess computer) {
 		computers.put(computer, true);
-		super.attach(computer);
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
 		computers.remove(computer);
-		super.detach(computer);
 	}
 
 	@Override

@@ -1,7 +1,9 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.collectiveframework.minecraft.reference.ModIds;
+import com.austinv11.collectiveframework.minecraft.tiles.TileEntityInventory;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -16,9 +18,7 @@ import net.minecraftforge.fml.common.Loader;
 
 import java.util.HashMap;
 
-public abstract class TileEntityAnalyzer extends MountedTileEntityInventory {
-
-	private String name = "tileEntityAnalyzer";
+public abstract class TileEntityAnalyzer extends TileEntityInventory implements IPlusPlusPeripheral {
 
 	public TileEntityAnalyzer() {
 		super();
@@ -29,12 +29,6 @@ public abstract class TileEntityAnalyzer extends MountedTileEntityInventory {
 	public int getSize() {
 		return 1;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public abstract String getPublicName();
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
@@ -49,7 +43,7 @@ public abstract class TileEntityAnalyzer extends MountedTileEntityInventory {
 
 	@Override
 	public String getType() {
-		return getPublicName();
+		return "generic_analyzer_this_is_a_bug";
 	}
 
 	@Override

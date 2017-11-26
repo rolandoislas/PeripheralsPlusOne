@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -16,7 +17,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.HashMap;
 
-public class PeripheralBarrel extends MountedPeripheral {
+public class PeripheralBarrel implements IPlusPlusPeripheral {
 
 	private int MAX_SIZE = 4096;
 	private int STACK_SIZE = 64;

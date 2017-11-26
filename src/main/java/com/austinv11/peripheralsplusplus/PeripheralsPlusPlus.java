@@ -2,13 +2,11 @@ package com.austinv11.peripheralsplusplus;
 
 import com.austinv11.collectiveframework.minecraft.config.ConfigException;
 import com.austinv11.collectiveframework.minecraft.config.ConfigRegistry;
-import com.austinv11.collectiveframework.multithreading.SimpleRunnable;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.init.ModItems;
 import com.austinv11.peripheralsplusplus.init.ModPeripherals;
 import com.austinv11.peripheralsplusplus.init.Recipes;
 import com.austinv11.peripheralsplusplus.items.ItemNanoSwarm;
-import com.austinv11.peripheralsplusplus.mount.DynamicMount;
 import com.austinv11.peripheralsplusplus.proxy.CommonProxy;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.reference.Reference;
@@ -38,8 +36,6 @@ public class PeripheralsPlusPlus {
 	public static CommonProxy proxy;
 	
 	public static Logger LOGGER = LogManager.getLogger(Reference.MOD_ID);
-
-	public static String BASE_PPP_DIR = "./mods/PPP/";
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -63,8 +59,6 @@ public class PeripheralsPlusPlus {
 		proxy.registerCapabilities();
 		if (Config.enableVillagers)
 			proxy.setupVillagers();
-		LOGGER.info("Preparing the mount...");
-		DynamicMount.prepareMount();
 	}
 
 	@Mod.EventHandler
@@ -79,6 +73,5 @@ public class PeripheralsPlusPlus {
 	public void postInit(FMLPostInitializationEvent event) {
 		Recipes.init();
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.NANO_SWARM, new ItemNanoSwarm.BehaviorNanoSwarm());
-		SimpleRunnable.RESTRICT_THREAD_USAGE = false;
 	}
 }

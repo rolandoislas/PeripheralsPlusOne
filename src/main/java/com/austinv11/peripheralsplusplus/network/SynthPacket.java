@@ -14,9 +14,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import java.util.UUID;
+
 public class SynthPacket implements IMessage {
 
-    private BlockPos pos;
+	private UUID eventId;
+	private BlockPos pos;
     public String text;
 	public String voice;
 	public Float pitch;
@@ -31,7 +34,7 @@ public class SynthPacket implements IMessage {
 	}
 	
 	public SynthPacket(String text, String voice, Float pitch, Float pitchRange, Float pitchShift, Float rate, Float volume,
-                       BlockPos pos, int world, TurtleSide side) {
+					   BlockPos pos, int world, TurtleSide side, UUID eventId) {
 		this.text = text;
 		this.voice = voice;
 		this.pitch = pitch;
@@ -41,6 +44,7 @@ public class SynthPacket implements IMessage {
 		this.volume = volume;
 		this.pos = pos;
 		this.side = side;
+		this.eventId = eventId;
 	}
 	
 	@Override
@@ -56,6 +60,7 @@ public class SynthPacket implements IMessage {
         int[] posArray = tag.getIntArray("pos");
         pos = new BlockPos(posArray[0], posArray[1], posArray[2]);
 		side = tag.getString("side").equals("null") ? null : TurtleSide.valueOf(tag.getString("side"));
+		eventId = tag.getUniqueId("eventId");
 	}
 	
 	@Override
@@ -70,6 +75,7 @@ public class SynthPacket implements IMessage {
 		tag.setString("volume", volume == null ? "null" : volume.toString());
         tag.setIntArray("pos", new int[]{pos.getX(), pos.getY(), pos.getZ()});
 		tag.setString("side", side == null ? "null" : side.name());
+		tag.setUniqueId("eventId", eventId);
 		ByteBufUtils.writeTag(buf, tag);
 	}
 	
@@ -106,9 +112,10 @@ public class SynthPacket implements IMessage {
 					if (message.volume != null)
 						voice.setPitch(message.volume);
 					voice.speak(message.text);
+					voice.deallocate();
 					synchronized (this) {
 						PeripheralsPlusPlus.NETWORK.sendToServer(new SynthResponsePacket(message.text, message.pos,
-                                Minecraft.getMinecraft().world, message.side));
+                                Minecraft.getMinecraft().world, message.side, message.eventId));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

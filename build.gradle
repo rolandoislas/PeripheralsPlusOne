@@ -52,7 +52,7 @@ ext.build = System.getenv('TRAVIS_BUILD_NUMBER')
 ext.tag = System.getenv("TRAVIS_TAG")
 version = "1.12.2-1.0"
 version =  version + "-build-T" + ext.build
-group= "com.austinv11.peripheralsplusplus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.rolandoislas.peripheralsplusone" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "PeripheralsPlusOne"
 
 minecraft {
@@ -95,6 +95,9 @@ if (ext.tag) {
             releaseType = project.releaseType
             mainArtifact jar
             addArtifact deobfJar
+            relations {
+                requiredLibrary "the-framework"
+            }
         }
     }
     bintray {
@@ -125,7 +128,7 @@ configurations {
 
 ext.freettsVersion = "1.2.2"
 dependencies {
-    compile "com.austinv11.collectiveframework:TheFramework:1.12.2-1.0-build-T6:deobf"
+    compile "com.rolandoislas.theframework:TheFramework:1.12.2-1.0-build-T8:deobf"
     compile "codechicken:NotEnoughItems:1.12-2.4.0.231:deobf"
 	compile "codechicken:CodeChickenLib:1.12-3.1.3.313:deobf"
     compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
@@ -162,7 +165,6 @@ jar {
     manifest {
         attributes 'FMLAT': 'ppp_at.cfg'
     }
-    dependsOn deobfJar
     for (Object depToBundle : configurations.compileBundle.collect()) {
         if (depToBundle.isDirectory())
             from depToBundle
@@ -175,6 +177,10 @@ jar {
                 exclude "META-INF/LICENSE", "META-INF/NOTICE"
             })
     }
+}
+
+build {
+    dependsOn deobfJar
 }
 
 idea { 

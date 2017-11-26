@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -8,11 +9,9 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityEnvironmentScanner extends MountedTileEntity {
-
-	public static String publicName = "environmentScanner";
-	private String name = "tileEntityEnvironmentScanner";
+public class TileEntityEnvironmentScanner extends TileEntity implements IPlusPlusPeripheral {
 	private boolean isRaining = false;
 	private String biome;
 	private String temp;
@@ -25,10 +24,6 @@ public class TileEntityEnvironmentScanner extends MountedTileEntity {
 
 	public TileEntityEnvironmentScanner(ITurtleAccess turtle) {
 		this.turtle = turtle;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class TileEntityEnvironmentScanner extends MountedTileEntity {
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "environmentScanner";
 	}
 
 	@Override

@@ -17,6 +17,6 @@ public abstract class HelmetCommand {
 	public abstract void writeToNBT(NBTTagCompound tagCompound);
 
 	public static HelmetCommand getCommandFromName(String name) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-		return (HelmetCommand) Class.forName("com.austinv11.peripheralsplusone.smarthelmet."+name).newInstance();
+		return (HelmetCommand) Class.forName("com.austinv11.peripheralsplusplus.smarthelmet."+name).newInstance();
 	}
 }

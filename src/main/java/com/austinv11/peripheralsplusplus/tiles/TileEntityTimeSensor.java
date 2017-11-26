@@ -2,19 +2,18 @@ package com.austinv11.peripheralsplusplus.tiles;
 
 import com.austinv11.collectiveframework.utils.TimeProfiler;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.tileentity.TileEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class TileEntityTimeSensor extends MountedTileEntity {
-	
-	public static String publicName = "timeSensor";
-	private String name = "tileEntityTimeSensor";
+public class TileEntityTimeSensor extends TileEntity implements IPlusPlusPeripheral {
 	
 	private TimeProfiler profiler;
 
@@ -22,13 +21,9 @@ public class TileEntityTimeSensor extends MountedTileEntity {
 		super();
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	@Override
 	public String getType() {
-		return publicName;
+		return "timeSensor";
 	}
 
 	@Override

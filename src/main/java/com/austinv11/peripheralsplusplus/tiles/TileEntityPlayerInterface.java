@@ -1,8 +1,10 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
+import com.austinv11.collectiveframework.minecraft.tiles.TileEntityInventory;
 import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.lua.LuaObjectPlayerInv;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -17,8 +19,7 @@ import net.minecraftforge.common.DimensionManager;
 
 import java.util.UUID;
 
-public class TileEntityPlayerInterface extends MountedTileEntityInventory {
-    public static final String publicName = "playerInterfacePPP";
+public class TileEntityPlayerInterface extends TileEntityInventory implements IPlusPlusPeripheral {
     public EnumFacing outputSide;
     public EnumFacing inputSide;
 
@@ -113,7 +114,7 @@ public class TileEntityPlayerInterface extends MountedTileEntityInventory {
 
     @Override
     public String getType() {
-        return publicName;
+        return "playerInterface";
     }
 
     private boolean hasPermissionsCardFor(EntityPlayer player) {

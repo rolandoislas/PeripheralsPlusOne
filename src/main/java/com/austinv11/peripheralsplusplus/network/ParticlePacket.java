@@ -64,14 +64,13 @@ public class ParticlePacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public IMessage onMessage(final ParticlePacket message, MessageContext ctx) {
-			Runnable noteThread = () -> {
+			new Thread(() -> {
                 World world = Minecraft.getMinecraft().world;
                 EnumParticleTypes particle = EnumParticleTypes.getByName(message.name);
                 if (particle != null)
                 world.spawnParticle(particle, message.x, message.y, message.z, message.xVel, message.yVel,
                         message.zVel);
-            };
-			noteThread.run();
+            }).start();
 			return null;
 		}
 

@@ -1,11 +1,13 @@
 package com.austinv11.peripheralsplusplus.tiles;
 
+import com.austinv11.collectiveframework.minecraft.tiles.NetworkedTileEntity;
 import com.austinv11.collectiveframework.minecraft.utils.Colors;
 import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.lua.LuaObjectPeripheralWrap;
 import com.austinv11.peripheralsplusplus.recipe.ContainedPeripheral;
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -22,18 +24,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TileEntityPeripheralContainer extends MountedNetworkedTileEntity implements ITickable {
+public class TileEntityPeripheralContainer extends NetworkedTileEntity implements ITickable, IPlusPlusPeripheral {
 	private List<ContainedPeripheral> peripheralsContained = new ArrayList<>();
-	public static String publicName = "peripheralContainer";
-	private  String name = "tileEntityPeripheralContainer";
 	private boolean needsUpdate = false;
 
 	public TileEntityPeripheralContainer() {
 		super();
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -64,7 +60,7 @@ public class TileEntityPeripheralContainer extends MountedNetworkedTileEntity im
 
 	@Override
 	public String getType() {
-		return publicName;
+		return "peripheralContainer";
 	}
 
 	@Override
@@ -149,14 +145,12 @@ public class TileEntityPeripheralContainer extends MountedNetworkedTileEntity im
 	public void attach(IComputerAccess computer) {
 		for (ContainedPeripheral peripheral : peripheralsContained)
 			peripheral.getPeripheral().attach(computer);
-		super.attach(computer);
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
 		for (ContainedPeripheral peripheral : peripheralsContained)
 			peripheral.getPeripheral().detach(computer);
-		super.detach(computer);
 	}
 
 	@Override

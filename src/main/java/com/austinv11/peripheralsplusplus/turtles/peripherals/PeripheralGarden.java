@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.google.common.collect.ImmutableMap;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -19,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PeripheralGarden extends MountedPeripheral {
+public class PeripheralGarden implements IPlusPlusPeripheral {
     
     private ITurtleAccess turtle;
 

@@ -1,6 +1,7 @@
 package com.austinv11.peripheralsplusplus.turtles.peripherals;
 
 import com.austinv11.peripheralsplusplus.reference.Config;
+import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -15,7 +16,7 @@ import net.minecraft.util.text.ITextComponent;
 
 import java.util.ArrayList;
 
-public class PeripheralSignReader extends MountedPeripheral
+public class PeripheralSignReader implements IPlusPlusPeripheral
 {
     private ITurtleAccess turtle;
 
