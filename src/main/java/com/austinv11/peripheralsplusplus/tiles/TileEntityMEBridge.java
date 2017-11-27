@@ -4,6 +4,7 @@ import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.networking.*;
 import appeng.api.networking.crafting.ICraftingGrid;
+import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.security.IActionHost;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.networking.storage.IStorageGrid;
@@ -176,18 +177,18 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		synchronized (this) {
 			ICraftingGrid craftingGrid = node.getGrid().getCache(ICraftingGrid.class);
 			craftingGrid.beginCraftingJob(world, node.getGrid(), this, aeToCraft, job -> {
-                craftingGrid.submitJob(job, null, null, false,
-                        TileEntityMEBridge.this);
-                for (IComputerAccess comp : computers.keySet()) {
-                    ResourceLocation itemName1 = ForgeRegistries.ITEMS.getKey(job.getOutput().getItem());
-					Object[] event = new Object[]{
-							itemName1 == null ? "null" : itemName1.toString(),
-							job.getOutput().getStackSize(),
-							job.getByteTotal()
-					};
+				ICraftingLink result = craftingGrid.submitJob(job, null, null, false,
+						TileEntityMEBridge.this);
+				ResourceLocation itemName1 = ForgeRegistries.ITEMS.getKey(job.getOutput().getItem());
+				Object[] event = new Object[]{
+						itemName1 == null ? "null" : itemName1.toString(),
+						job.getOutput().getStackSize(),
+						job.getByteTotal(),
+						result != null
+				};
+                for (IComputerAccess comp : computers.keySet())
                     comp.queueEvent("craftingComplete", event);
-                    OpenComputersUtil.sendToReachable(nodeOc, "craftingComplete", event);
-                }
+				OpenComputersUtil.sendToReachable(nodeOc, "craftingComplete", event);
             });
 		}
 		return new Object[]{};
