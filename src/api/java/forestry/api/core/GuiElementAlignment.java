@@ -3,15 +3,11 @@
  *
  * This work (the API) is licensed under the "MIT" License, see LICENSE.txt for details.
  ******************************************************************************/
-package forestry.greenhouse.api.greenhouse;
+package forestry.api.core;
 
-import forestry.api.core.INbtReadable;
-import forestry.api.core.INbtWritable;
-
-public interface IGreenhouseLogic extends INbtReadable, INbtWritable{
-
-	void work(int ticks);
-	
-	String getUID();
-	
+/**
+ * The alignment of the text in a text gui element.
+ */
+public enum GuiElementAlignment {
+	LEFT, CENTER, RIGHT
 }
