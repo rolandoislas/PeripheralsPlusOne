@@ -5,23 +5,18 @@ import com.austinv11.peripheralsplusplus.init.ModItems;
 import com.austinv11.peripheralsplusplus.items.ItemPlasticCard;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersUtil;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import li.cil.oc.api.API;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.Environment;
-import li.cil.oc.api.network.ManagedPeripheral;
-import li.cil.oc.api.network.Message;
 import li.cil.oc.api.network.Node;
-import li.cil.oc.api.network.Visibility;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nonnull;
@@ -29,12 +24,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Optional.InterfaceList({
-        @Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = ModIds.OPEN_COMPUTERS_CORE),
-        @Optional.Interface(iface = "li.cil.oc.api.network.Environment", modid = ModIds.OPEN_COMPUTERS_CORE)
-})
-public class TileEntityMagReaderWriter extends TileEntity implements IPlusPlusPeripheral, ManagedPeripheral,
-        Environment, ITickable {
+public class TileEntityMagReaderWriter extends TileEntity implements IPlusPlusPeripheral, OpenComputersPeripheral {
     private static final int MAX_TRACKS = 3;
     private static final String MAG_TAG = String.format("%s:%s", Reference.MOD_ID, "mag_card");
     private String[] buffers;
@@ -44,10 +34,7 @@ public class TileEntityMagReaderWriter extends TileEntity implements IPlusPlusPe
     public TileEntityMagReaderWriter() {
         buffers = new String[MAX_TRACKS];
         computers = new ArrayList<>();
-        if (Loader.isModLoaded(ModIds.OPEN_COMPUTERS_CORE) && API.network != null)
-            node = API.network.newNode(this, Visibility.Network)
-                    .withComponent(getType())
-                    .create();
+        node = OpenComputersUtil.createNode(this, getType());
     }
 
     @Nonnull
@@ -152,11 +139,13 @@ public class TileEntityMagReaderWriter extends TileEntity implements IPlusPlusPe
     }
 
     @Override
+    @Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
     public String[] methods() {
         return getMethodNames();
     }
 
     @Override
+    @Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
     public Object[] invoke(String method, Context context, Arguments args) throws Exception {
         switch (method) {
             case "write":
@@ -194,12 +183,7 @@ public class TileEntityMagReaderWriter extends TileEntity implements IPlusPlusPe
         };
         for (IComputerAccess computer : computers)
             computer.queueEvent("mag_swipe", event);
-        if (node != null) {
-            Object[] ocEvent = new Object[event.length + 1];
-            ocEvent[0] = "mag_swipe";
-            System.arraycopy(event, 0, ocEvent, 1, event.length);
-            node.sendToReachable("computer.signal", ocEvent);
-        }
+        OpenComputersUtil.sendToReachable(node, "mag_swipe", event);
     }
 
     /**
@@ -242,59 +226,38 @@ public class TileEntityMagReaderWriter extends TileEntity implements IPlusPlusPe
     }
 
     @Override
+    @Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
     public Node node() {
         return node;
     }
 
     @Override
-    public void onConnect(Node node) {
-
-    }
-
-    @Override
-    public void onDisconnect(Node node) {
-
-    }
-
-    @Override
-    public void onMessage(Message message) {
-
-    }
-
-    @Override
     public void update() {
-        if (node != null && node.network() == null)
-            API.network.joinOrCreateNetwork(this);
+        OpenComputersUtil.updateNode(this, node);
     }
 
     @Override
     public void onChunkUnload() {
         super.onChunkUnload();
-        if (node != null)
-            node.remove();
+        OpenComputersUtil.removeNode(node);
     }
 
     @Override
     public void invalidate() {
         super.invalidate();
-        if (node != null)
-            node.remove();
+        OpenComputersUtil.removeNode(node);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if (node() != null && compound.hasKey("oc_node"))
-            node.load(compound.getCompoundTag("oc_node"));
+        OpenComputersUtil.readFromNbt(compound, node);
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        NBTTagCompound nodeTag = new NBTTagCompound();
-        if (node != null)
-            node.save(nodeTag);
-        compound.setTag("oc_node", nodeTag);
+        OpenComputersUtil.writeToNbt(compound, node);
         return compound;
     }
 }

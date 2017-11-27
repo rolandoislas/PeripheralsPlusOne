@@ -9,6 +9,8 @@ import com.austinv11.peripheralsplusplus.init.ModItems;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersUtil;
 import com.austinv11.peripheralsplusplus.utils.ReflectionHelper;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import com.austinv11.peripheralsplusplus.utils.rfid.RfidAuthentication;
@@ -20,13 +22,13 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.ManagedPeripheral;
-import li.cil.oc.api.network.SimpleComponent;
+import li.cil.oc.api.network.Node;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,19 +42,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Optional.InterfaceList({
-        @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = ModIds.OPEN_COMPUTERS_CORE),
-        @Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = ModIds.OPEN_COMPUTERS_CORE),
-})
-public class TileEntityRfidReaderWriter extends TileEntityInventory implements IPlusPlusPeripheral, SimpleComponent,
-        ManagedPeripheral {
+public class TileEntityRfidReaderWriter extends TileEntityInventory implements IPlusPlusPeripheral,
+        OpenComputersPeripheral {
 
     private byte[] selectedId;
     private RfidAuthentication authentication;
+    private Node node;
 
     public TileEntityRfidReaderWriter() {
         super();
         invName = Reference.MOD_ID + ":tile_entity_rfid_reader_writer";
+        node = OpenComputersUtil.createNode(this, getType());
     }
 
     @Override
@@ -419,12 +419,6 @@ public class TileEntityRfidReaderWriter extends TileEntityInventory implements I
 
     @Override
     @Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
-    public String getComponentName() {
-        return getType();
-    }
-
-    @Override
-    @Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
     public String[] methods() {
         return getMethodNames();
     }
@@ -457,5 +451,42 @@ public class TileEntityRfidReaderWriter extends TileEntityInventory implements I
                 return transferLua(arguments.toArray());
         }
         throw new LuaException("Unexpected error");
+    }
+
+    @Override
+    @Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+    public Node node() {
+        return node;
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        OpenComputersUtil.updateNode(this, node);
+    }
+
+    @Override
+    public void onChunkUnload() {
+        super.onChunkUnload();
+        OpenComputersUtil.removeNode(node);
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        OpenComputersUtil.removeNode(node);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+        OpenComputersUtil.readFromNbt(compound, node);
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        OpenComputersUtil.writeToNbt(compound, node);
+        return compound;
     }
 }

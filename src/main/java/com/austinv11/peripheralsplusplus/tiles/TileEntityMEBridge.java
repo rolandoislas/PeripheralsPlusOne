@@ -18,10 +18,15 @@ import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersUtil;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.Node;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -62,11 +67,12 @@ import java.util.Locale;
 				striprefs=true)
 })
 public class TileEntityMEBridge extends TileEntity implements IActionHost, IGridBlock, ITickable, IActionSource,
-		IGridHost, IPlusPlusPeripheral {
+		IGridHost, IPlusPlusPeripheral, OpenComputersPeripheral {
 	private HashMap<IComputerAccess, Boolean> computers = new HashMap<>();
 	private IGridNode node;
 	private boolean initialized = false;
 	private EntityPlayer placed;
+	private Node nodeOc;
 
 	public TileEntityMEBridge() {
 		super();
@@ -82,6 +88,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		node = AEApi.instance().grid().createGridNode(this);
 		node.loadFromNBT("node", nbttagcompound);
 		initialized = false;
+		OpenComputersUtil.readFromNbt(nbttagcompound, nodeOc);
 	}
 
 	@Override
@@ -91,12 +98,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			return nbttagcompound;
 		if (node != null)
 			node.saveToNBT("node", nbttagcompound);
+		OpenComputersUtil.writeToNbt(nbttagcompound, nodeOc);
 		return nbttagcompound;
 	}
 
 	@Override
 	public void update() {
-		if (!world.isRemote)
+		if (!world.isRemote) {
 			if (!initialized) {
 				node = AEApi.instance().grid().createGridNode(this);
 				if (placed != null)
@@ -104,6 +112,8 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 				node.updateState();
 				initialized = true;
 			}
+			OpenComputersUtil.updateNode(this, nodeOc);
+		}
 	}
 
 	@Override
@@ -169,11 +179,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
                         TileEntityMEBridge.this);
                 for (IComputerAccess comp : computers.keySet()) {
                     ResourceLocation itemName1 = ForgeRegistries.ITEMS.getKey(job.getOutput().getItem());
-                    comp.queueEvent("craftingComplete", new Object[]{
-                            itemName1 == null ? "null" : itemName1.toString(),
-                            job.getOutput().getStackSize(),
-                            job.getByteTotal()
-                    });
+					Object[] event = new Object[]{
+							itemName1 == null ? "null" : itemName1.toString(),
+							job.getOutput().getStackSize(),
+							job.getByteTotal()
+					};
+                    comp.queueEvent("craftingComplete", event);
+                    OpenComputersUtil.sendToReachable(nodeOc, "craftingComplete", event);
                 }
             });
 		}
@@ -300,6 +312,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			node = null;
 			initialized = false;
 		}
+		OpenComputersUtil.removeNode(nodeOc);
 	}
 
 	private IAEItemStack findAEStackFromItemStack(IMEMonitor<IAEItemStack> monitor, ItemStack item) {
@@ -377,6 +390,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void onGridNotification(GridNotification notification) {
 		for (IComputerAccess computer : computers.keySet())
 			computer.queueEvent("gridNotification", new Object[]{notification.toString()});
+		OpenComputersUtil.sendToReachable(nodeOc, "gridNotification", notification.toString());
 	}
 
 	@Override
@@ -397,6 +411,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void gridChanged() {
 		for (IComputerAccess computer : computers.keySet())
 			computer.queueEvent("gridChanged", new Object[0]);
+		OpenComputersUtil.sendToReachable(nodeOc, "gridChanged");
 	}
 
 	@Override
@@ -445,7 +460,43 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void securityBreak() {
 		for (IComputerAccess computer : computers.keySet())
 			computer.queueEvent("securityBreak", new Object[0]);
+		OpenComputersUtil.sendToReachable(nodeOc, "securityBreak");
 		world.setBlockToAir(getPos());
 	}
 
+	@Override
+	@Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+	public String[] methods() {
+		return getMethodNames();
+	}
+
+	@Override
+	@Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "listAll":
+				return callMethod(null, null, 0, args.toArray());
+			case "listItems":
+				return callMethod(null, null, 1, args.toArray());
+			case "listCraft":
+				return callMethod(null, null, 2, args.toArray());
+			case "retrieve":
+				return callMethod(null, null, 3, args.toArray());
+			case "craft":
+				return callMethod(null, null, 4, args.toArray());
+		}
+		throw new NoSuchMethodException(method);
+	}
+
+	@Override
+	@Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+	public Node node() {
+		return nodeOc;
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		OpenComputersUtil.removeNode(nodeOc);
+	}
 }
