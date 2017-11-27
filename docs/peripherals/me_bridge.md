@@ -4,12 +4,12 @@ The ME Bridge is peripheral which is added when Applied Energistics 2 is install
  ME network (given you have the security access required for the network).
 
 ## Events
-| Event | Parameter 1 | Parameter 2 | Parameter 3 | Description |
-|-------|-------------|-------------|-------------|-------------|
-|gridNotification|"gridNotification"|_string_ notification||This event is fired when changes have been made on the connection to the ME Bridge|
-|gridChanged|"gridChanged"|||This event is fired when the grid is changed|
-|securityBreak|"securityBreak"||||This event is fired when the ME Bridge is violating security rules, it will break on the next tick|
-|craftingComplete|"craftingComplete"|_string_ itemCrafted|_number_ amount|_number_ bytesRequiredToCraft|This event is called when an item finishes crafting after it was requested with the craft() function|
+| Event | Parameter 1 | Parameter 2 | Parameter 3 | Parameter 4 | Parameter 5 | Description |
+|-------|-------------|-------------|-------------|-------------|-------------|-------------|
+|gridNotification|"gridNotification"|_string_ notification||||This event is fired when changes have been made on the connection to the ME Bridge|
+|gridChanged|"gridChanged"|||||This event is fired when the grid is changed|
+|securityBreak|"securityBreak"|||||This event is fired when the ME Bridge is violating security rules, it will break on the next tick|
+|craftingComplete|"craftingComplete"|_string_ itemCrafted|_number_ amount|_number_ bytesRequiredToCraft|_boolean_ success|This event is called when an item finishes crafting after it was requested with the craft() function|
 
 ## Functions
 | Function | Returns | Description |
