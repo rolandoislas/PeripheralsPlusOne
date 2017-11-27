@@ -76,6 +76,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 
 	public TileEntityMEBridge() {
 		super();
+		nodeOc = OpenComputersUtil.createNode(this, getType());
 	}
 
 	@Override
