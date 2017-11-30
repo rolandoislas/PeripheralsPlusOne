@@ -177,7 +177,7 @@ jar {
             })
         else
             from(zipTree(depToBundle).matching {
-                exclude "META-INF/LICENSE", "META-INF/NOTICE"
+                exclude "META-INF/LICENSE", "META-INF/NOTICE", "META-INF/*.DSA", "META-INF/*.RSA", "META-INF/*.SF"
             })
     }
 }
