@@ -20,6 +20,7 @@ buildscript {
 }
 
 repositories {
+    jcenter()
     maven {
         url  "https://dl.bintray.com/rolandoislas/The-Framework"
     }
@@ -137,6 +138,9 @@ dependencies {
     compileBundle "org.mobicents.external.freetts:freetts:$freettsVersion"
     compileBundle "org.mobicents.external.freetts:mbrola:$freettsVersion"
     compileBundle "org.mobicents.external.freetts:cmu_us_kal:$freettsVersion"
+    compileBundle "org.bouncycastle:bcprov-jdk15on:1.57"
+    compileBundle "org.bouncycastle:bcpg-jdk15on:1.57"
+    compileBundle "name.neuhalfen.projects.crypto.bouncycastle.openpgp:bouncy-gpg:2.+"
     configurations.compile.extendsFrom(configurations.compileBundle)
 }
 

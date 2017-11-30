@@ -5,6 +5,7 @@ import li.cil.oc.api.network.Environment;
 import li.cil.oc.api.network.ManagedPeripheral;
 import li.cil.oc.api.network.Message;
 import li.cil.oc.api.network.Node;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fml.common.Optional;
 
@@ -30,4 +31,12 @@ public interface OpenComputersPeripheral extends Environment, ManagedPeripheral,
     default void onMessage(Message message) {
 
     }
+
+    void onChunkUnload();
+
+    void invalidate();
+
+    void readFromNBT(NBTTagCompound compound);
+
+    NBTTagCompound writeToNBT(NBTTagCompound compound);
 }

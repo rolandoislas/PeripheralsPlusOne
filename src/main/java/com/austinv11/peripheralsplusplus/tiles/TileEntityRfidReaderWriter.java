@@ -180,7 +180,7 @@ public class TileEntityRfidReaderWriter extends TileEntityInventory implements I
             return new Object[0];
         RfidTag rfidTag = new RfidTag(chip);
         byte[] blockBytes = authentication.readBlock(rfidTag, block);
-        return new Object[]{Util.arrayToMap(byteArraytoUnsignedIntArray(blockBytes))};
+        return new Object[]{Util.arrayToMap(Util.byteArraytoUnsignedIntArray(blockBytes))};
     }
 
     /**
@@ -377,22 +377,9 @@ public class TileEntityRfidReaderWriter extends TileEntityInventory implements I
             RfidTag tag = new RfidTag(foundRfidItem);
             if (!RfidTag.hasTag(foundRfidItem) || tag.getIdLong() <= 0)
                 RfidTag.addTag(foundRfidItem, tag);
-            return new Object[]{Util.arrayToMap(byteArraytoUnsignedIntArray(tag.getId()))};
+            return new Object[]{Util.arrayToMap(Util.byteArraytoUnsignedIntArray(tag.getId()))};
         }
         return new Object[0];
-    }
-
-    /**
-     * Convert a byte array to an unsigned int array of the same size
-     * @param bytes array to convert
-     * @return uint array
-     */
-    private int[] byteArraytoUnsignedIntArray(byte[] bytes) {
-        int[] intArray = new int[bytes.length];
-        for (int byteIndex = 0; byteIndex < bytes.length; byteIndex++) {
-            intArray[byteIndex] = Byte.toUnsignedInt(bytes[byteIndex]);
-        }
-        return intArray;
     }
 
     /**

@@ -193,4 +193,17 @@ public class Util {
 		}
 		return null;
 	}
+
+	/**
+	 * Convert a byte array to an unsigned int array of the same size
+	 * @param bytes array to convert
+	 * @return uint array
+	 */
+	public static int[] byteArraytoUnsignedIntArray(byte[] bytes) {
+		int[] intArray = new int[bytes.length];
+		for (int byteIndex = 0; byteIndex < bytes.length; byteIndex++) {
+			intArray[byteIndex] = Byte.toUnsignedInt(bytes[byteIndex]);
+		}
+		return intArray;
+	}
 }
