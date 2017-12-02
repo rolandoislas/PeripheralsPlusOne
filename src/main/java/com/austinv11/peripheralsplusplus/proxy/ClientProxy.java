@@ -3,10 +3,7 @@ package com.austinv11.peripheralsplusplus.proxy;
 import com.austinv11.collectiveframework.minecraft.utils.ModelManager;
 import com.austinv11.collectiveframework.minecraft.utils.TextureManager;
 import com.austinv11.peripheralsplusplus.client.gui.GuiSmartHelmetOverlay;
-import com.austinv11.peripheralsplusplus.client.models.RenderAntenna;
-import com.austinv11.peripheralsplusplus.client.models.RenderNanoSwarm;
-import com.austinv11.peripheralsplusplus.client.models.RenderRidableTurtle;
-import com.austinv11.peripheralsplusplus.client.models.RenderTurtle;
+import com.austinv11.peripheralsplusplus.client.models.*;
 import com.austinv11.peripheralsplusplus.entities.EntityNanoBotSwarm;
 import com.austinv11.peripheralsplusplus.entities.EntityRidableTurtle;
 import com.austinv11.peripheralsplusplus.event.handler.RobotHandler;
@@ -14,6 +11,7 @@ import com.austinv11.peripheralsplusplus.event.handler.SmartHelmetHandler;
 import com.austinv11.peripheralsplusplus.init.ModItems;
 import com.austinv11.peripheralsplusplus.init.ModPeripherals;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityAntenna;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityMagReaderWriter;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityTurtle;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
@@ -53,6 +51,9 @@ public class ClientProxy extends CommonProxy {
 		TileEntityItemStackRenderer.instance = new RenderTurtle.RenderTurtleItem(TileEntityItemStackRenderer.instance);
 		RenderingRegistry.registerEntityRenderingHandler(EntityRidableTurtle.class, RenderRidableTurtle::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityNanoBotSwarm.class, RenderNanoSwarm::new);
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMagReaderWriter.class, new RenderMagReaderWriter());
+		TileEntityItemStackRenderer.instance =
+				new RenderMagReaderWriter.RenderMagReaderWriterItem(TileEntityItemStackRenderer.instance);
 	}
 
 	@SideOnly(Side.CLIENT)

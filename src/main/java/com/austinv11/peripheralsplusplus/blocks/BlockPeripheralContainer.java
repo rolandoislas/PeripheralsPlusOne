@@ -1,7 +1,7 @@
 package com.austinv11.peripheralsplusplus.blocks;
 
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
-import com.austinv11.peripheralsplusplus.recipe.ContainedPeripheral;
+import com.austinv11.peripheralsplusplus.utils.peripheralcontainer.ContainedPeripheral;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityPeripheralContainer;
 import net.minecraft.block.ITileEntityProvider;

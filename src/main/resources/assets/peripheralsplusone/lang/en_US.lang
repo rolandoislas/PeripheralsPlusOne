@@ -20,6 +20,10 @@ tile.peripheralsplusone:time_sensor.name=Time Sensor
 tile.peripheralsplusone:interactive_sorter.name=Interactive Sorter
 tile.peripheralsplusone:player_interface.name=Player Interface
 tile.peripheralsplusone:resupply_station.name=Resupply Station
+tile.peripheralsplusone:mana_manipulator.name=Mana Manipulator
+tile.peripheralsplusone:rfid_reader_writer.name=RFID Reader/Writer
+tile.peripheralsplusone:mag_reader_writer.name=Magnetic Card Reader/Writer
+tile.peripheralsplusone:privacy_guard.name=Privacy Guard
 
 #Items
 item.peripheralsplusone:feeder_upgrade.name=Feeder Upgrade
@@ -35,6 +39,12 @@ item.peripheralsplusone:chunk_loader_upgrade.name=Chunk Loader
 item.peripheralsplusone:permissions_card.name=Permissions Card
 item.peripheralsplusone:resupply_upgrade.name=Resupply Upgrade
 item.peripheralsplusone:motion_detector.name=Motion Detector
+item.peripheralsplusone:rfid_chip.name=RFID Chip
+item.peripheralsplusone:plastic_card.name=Plastic Card
+item.peripheralsplusone:plastic_card.name_rfid=RFID Card
+item.peripheralsplusone:plastic_card.name_nfc=NFC Card
+item.peripheralsplusone:plastic_card.name_mag=Mag Card
+item.peripheralsplusone:fork.name=RFID Chip Prod
 
 #Creative Tab
 itemGroup.peripheralsplusone=PeripheralsPlusOne
@@ -58,6 +68,7 @@ peripheralsplusone.turtle_upgrade.ridable=Ridable
 peripheralsplusone.turtle_upgrade.dispenser=Flinging
 peripheralsplusone.turtle_upgrade.loader=Chunky
 peripheralsplusone.turtle_upgrade.resupply=Supplied
+peripheralsplusone.turtle_upgrade.rfid=RFID
 
 #GUIs
 peripheralsplusone.inv.analyzer=Analyzer
@@ -105,6 +116,7 @@ peripheralsplusone.description.turtle.7=It definitely just bit you.
 peripheralsplusone.description.turtle.8=turtle.exe has stopped responding...
 peripheralsplusone.description.turtle.9=If you ask it really nicely, it might work.
 peripheralsplusone.description.turtle.10=Remember, all turtles should be treated equally.
+peripheralsplusone.description.fork=Not a Fork
 
 #Lore Books
 peripheralsplusone.lore.1.title=First Programmer; Volume 1
@@ -132,6 +144,7 @@ entity.Villager.peripheralsplusone.cc_upgrader=Upgrader
 
 #Damage Sources
 death.attack.peripheralsplusone.nanobot=%1$s was destroyed from the inside out by nanobots
+death.attack.peripheralsplusone.fork=%1$s was prodded to death
 
 #NEI
 peripheralsplusone.nei.turtleRecipeHandler.name=Turtles
@@ -139,6 +152,7 @@ peripheralsplusone.nei.turtleRecipeHandler.name=Turtles
 #Pocket Computer Upgrades
 peripheralsplusone.pocket_upgrade.motion_detector=Motion Sensing
 peripheralsplusone.pocket_upgrade.peripheral_container=Expanded
+peripheralsplusone.pocket_upgrade.rfid=RFID
 
 #GUI Config Lang
 peripheralsplusone.lang.config.AI Chat Box=AI Chat Box
