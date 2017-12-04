@@ -20,6 +20,7 @@ buildscript {
 }
 
 repositories {
+    jcenter()
     maven {
         url  "https://dl.bintray.com/rolandoislas/The-Framework"
     }
@@ -50,7 +51,7 @@ apply plugin: "com.matthewprenger.cursegradle"
 
 ext.build = System.getenv('TRAVIS_BUILD_NUMBER')
 ext.tag = System.getenv("TRAVIS_TAG")
-version = "1.11.2-1.0"
+version = "1.11.2-1.1"
 version =  version + "-build-T" + ext.build
 group= "com.rolandoislas.peripheralsplusone" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "PeripheralsPlusOne"
@@ -94,7 +95,6 @@ if (ext.tag) {
             changelog = System.getenv("TRAVIS_COMMIT_MESSAGE") ?: ""
             releaseType = project.releaseType
             mainArtifact jar
-            addArtifact deobfJar
             relations {
                 requiredLibrary "the-framework"
             }
@@ -129,8 +129,7 @@ configurations {
 ext.freettsVersion = "1.2.2"
 dependencies {
     compile "com.rolandoislas.theframework:TheFramework:1.11.2-1.0-build-T10:deobf"
-    compile "codechicken:NotEnoughItems:1.11.2-2.3.0.227:deobf"
-	compile "codechicken:CodeChickenLib:1.11.2-3.0.0.307:deobf"
+    compile "mezz.jei:jei_1.11.2:4.5.1.296"
     compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
     compileBundle "com.fasterxml.jackson.core:jackson-databind:2.9.1"
     compileBundle "org.mobicents.external.freetts:cmulex:$freettsVersion"
@@ -138,6 +137,9 @@ dependencies {
     compileBundle "org.mobicents.external.freetts:freetts:$freettsVersion"
     compileBundle "org.mobicents.external.freetts:mbrola:$freettsVersion"
     compileBundle "org.mobicents.external.freetts:cmu_us_kal:$freettsVersion"
+    compileBundle "org.bouncycastle:bcprov-jdk15on:1.57"
+    compileBundle "org.bouncycastle:bcpg-jdk15on:1.57"
+    compileBundle "name.neuhalfen.projects.crypto.bouncycastle.openpgp:bouncy-gpg:2.+"
     configurations.compile.extendsFrom(configurations.compileBundle)
 }
 
@@ -174,7 +176,7 @@ jar {
             })
         else
             from(zipTree(depToBundle).matching {
-                exclude "META-INF/LICENSE", "META-INF/NOTICE"
+                exclude "META-INF/LICENSE", "META-INF/NOTICE", "META-INF/*.DSA", "META-INF/*.RSA", "META-INF/*.SF"
             })
     }
 }
