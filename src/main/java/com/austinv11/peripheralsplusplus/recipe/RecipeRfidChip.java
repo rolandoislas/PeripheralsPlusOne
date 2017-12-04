@@ -206,7 +206,7 @@ public class RecipeRfidChip implements IRecipe {
         // Drop the RFID chip when a tagged item block is placed
         if (event.getPlayer().isCreative())
             return;
-        ItemStack item = event.getPlayer().getHeldItem(event.getHand());
+        ItemStack item = event.getItemInHand();
         if (item != null && RfidTag.hasTag(item)) {
             ItemStack chip = RfidTag.createChip(new RfidTag(item));
             EntityItem chipEntity = new EntityItem(
