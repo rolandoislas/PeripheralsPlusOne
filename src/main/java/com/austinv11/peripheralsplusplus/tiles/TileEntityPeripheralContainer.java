@@ -5,7 +5,7 @@ import com.austinv11.collectiveframework.minecraft.utils.Colors;
 import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.lua.LuaObjectPeripheralWrap;
-import com.austinv11.peripheralsplusplus.recipe.ContainedPeripheral;
+import com.austinv11.peripheralsplusplus.utils.peripheralcontainer.ContainedPeripheral;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.lua.ILuaContext;

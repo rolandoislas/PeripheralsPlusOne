@@ -1,25 +1,63 @@
 package com.austinv11.peripheralsplusplus.proxy;
 
-import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolder;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolderDefault;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolderStorage;
+import com.austinv11.peripheralsplusplus.capabilities.rfid.RfidTagHolder;
+import com.austinv11.peripheralsplusplus.capabilities.rfid.RfidTagHolderDefault;
+import com.austinv11.peripheralsplusplus.capabilities.rfid.RfidTagStorage;
 import com.austinv11.peripheralsplusplus.client.gui.GuiHandler;
 import com.austinv11.peripheralsplusplus.entities.EntityNanoBotSwarm;
 import com.austinv11.peripheralsplusplus.entities.EntityRidableTurtle;
 import com.austinv11.peripheralsplusplus.event.handler.CapabilitiesHandler;
 import com.austinv11.peripheralsplusplus.event.handler.PeripheralContainerHandler;
 import com.austinv11.peripheralsplusplus.mount.DynamicMount;
-import com.austinv11.peripheralsplusplus.network.*;
+import com.austinv11.peripheralsplusplus.network.ChatPacket;
+import com.austinv11.peripheralsplusplus.network.CommandPacket;
+import com.austinv11.peripheralsplusplus.network.GuiPacket;
+import com.austinv11.peripheralsplusplus.network.InputEventPacket;
+import com.austinv11.peripheralsplusplus.network.ParticlePacket;
+import com.austinv11.peripheralsplusplus.network.PermCardChangePacket;
+import com.austinv11.peripheralsplusplus.network.RidableTurtlePacket;
+import com.austinv11.peripheralsplusplus.network.RobotEventPacket;
+import com.austinv11.peripheralsplusplus.network.ScaleRequestPacket;
+import com.austinv11.peripheralsplusplus.network.ScaleRequestResponsePacket;
+import com.austinv11.peripheralsplusplus.network.SynthPacket;
+import com.austinv11.peripheralsplusplus.network.SynthResponsePacket;
+import com.austinv11.peripheralsplusplus.network.TextFieldInputEventPacket;
 import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
+import com.austinv11.peripheralsplusplus.recipe.RecipeRfidChip;
 import com.austinv11.peripheralsplusplus.reference.Reference;
-import com.austinv11.peripheralsplusplus.tiles.*;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityAIChatBox;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityAnalyzerBee;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityAnalyzerButterfly;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityAnalyzerTree;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityAntenna;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityChatBox;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityEnvironmentScanner;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityInteractiveSorter;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityMEBridge;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityMagReaderWriter;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityManaManipulator;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityModNotLoaded;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityOreDictionary;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityPeripheralContainer;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityPlayerInterface;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityPlayerSensor;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityPrivacyGuard;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityRFCharger;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityResupplyStation;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityRfidReaderWriter;
+import com.austinv11.peripheralsplusplus.tiles.TileEntitySpeaker;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityTeleporter;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityTimeSensor;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityTurtle;
 import com.austinv11.peripheralsplusplus.villagers.VillagerProfessionPPP;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -45,24 +83,25 @@ public class CommonProxy {
 		registerTileEntity(TileEntityPlayerSensor.class);
 		registerTileEntity(TileEntityRFCharger.class);
 		registerTileEntity(TileEntityOreDictionary.class);
-		if (Loader.isModLoaded(ModIds.FORESTRY)) {
-			registerTileEntity(TileEntityAnalyzerBee.class);
-			registerTileEntity(TileEntityAnalyzerButterfly.class);
-			registerTileEntity(TileEntityAnalyzerTree.class);
-		}
+		registerTileEntity(TileEntityAnalyzerBee.class);
+		registerTileEntity(TileEntityAnalyzerButterfly.class);
+		registerTileEntity(TileEntityAnalyzerTree.class);
 		registerTileEntity(TileEntityTeleporter.class);
 		registerTileEntity(TileEntityEnvironmentScanner.class);
 		registerTileEntity(TileEntitySpeaker.class);
 		registerTileEntity(TileEntityAntenna.class);
 		registerTileEntity(TileEntityPeripheralContainer.class);
-		if (Loader.isModLoaded(ModIds.APPLIED_ENGERGISTICS))
-			registerTileEntity(TileEntityMEBridge.class);
+		registerTileEntity(TileEntityMEBridge.class);
 		registerTileEntity(TileEntityTurtle.class);
 		registerTileEntity(TileEntityTimeSensor.class);
 		registerTileEntity(TileEntityInteractiveSorter.class);
         registerTileEntity(TileEntityPlayerInterface.class);
 		registerTileEntity(TileEntityResupplyStation.class);
 		registerTileEntity(TileEntityModNotLoaded.class);
+		registerTileEntity(TileEntityManaManipulator.class);
+		registerTileEntity(TileEntityRfidReaderWriter.class);
+		registerTileEntity(TileEntityMagReaderWriter.class);
+		registerTileEntity(TileEntityPrivacyGuard.class);
     }
 
 	private void registerTileEntity(Class<? extends TileEntity> tileEntity) {
@@ -85,6 +124,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new CapabilitiesHandler());
 		MinecraftForge.EVENT_BUS.register(new PocketMotionDetector());
 		MinecraftForge.EVENT_BUS.register(new DynamicMount());
+		MinecraftForge.EVENT_BUS.register(new RecipeRfidChip());
 	}
 
 	public void registerEntities() {
@@ -117,5 +157,6 @@ public class CommonProxy {
 	public void registerCapabilities() {
 		CapabilityManager.INSTANCE.register(NanoBotHolder.class, new NanoBotHolderStorage(),
 				NanoBotHolderDefault.class);
+		CapabilityManager.INSTANCE.register(RfidTagHolder.class, new RfidTagStorage(), RfidTagHolderDefault.class);
 	}
 }
