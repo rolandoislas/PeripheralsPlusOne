@@ -69,7 +69,7 @@ public interface ITree extends IIndividual, ITreeGenData {
 	int getRequiredMaturity();
 
 	/**
-	 * @return Integer denoting how resilient leaf block are against adverse influences (i.e. caterpillars).
+	 * @return Integer denoting how resilient leaf blocks are against adverse influences (i.e. caterpillars).
 	 */
 	int getResilience();
 

@@ -39,7 +39,7 @@ public class ItemNanoSwarm extends ItemPPP {
 						"identifier"));
 				if (NBTHelper.hasTag(player.getHeldItem(hand), "label"))
 					swarm.label = NBTHelper.getString(player.getHeldItem(hand), "label");
-				swarm.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw,
+				swarm.shoot(player, player.rotationPitch, player.rotationYaw,
 						0, 1.1f, 6);
 				world.spawnEntity(swarm);
 			}
@@ -90,7 +90,7 @@ public class ItemNanoSwarm extends ItemPPP {
 				iprojectile.antennaIdentifier = UUID.fromString(NBTHelper.getString(stack, "identifier"));
 				if (NBTHelper.hasTag(stack, "label"))
 					iprojectile.label = NBTHelper.getString(stack, "label");
-				iprojectile.setThrowableHeading(
+				iprojectile.shoot(
 						enumfacing.getFrontOffsetX(),
 						enumfacing.getFrontOffsetY() + 0.1f,
 						enumfacing.getFrontOffsetZ(),

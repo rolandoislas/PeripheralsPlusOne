@@ -1,0 +1,13 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "minecraft:blocks/hardened_clay_stained_black"
+    },
+    "model": "minecraft:hardened_clay_black",
+    "uvlock": true
+  },
+  "variants": {
+    "normal": [{}]
+  }
+}
