@@ -96,7 +96,7 @@ public class TileEntityPrivacyGuard extends TileEntity implements IPlusPlusPerip
     @Override
     public String[] getMethodNames() {
         return new String[]{
-                "generateKey", // (int size, string key_password, string id) table keys
+                "generateKey", // (string id, [int size[, string key_password]]) table keys
                 "readKey", // (string key) table info
                 "decrypt", // (string key, string key_password, string encoded_string, [, table verification_keys, [table/boolean ids_to_verify]) string decoded_string
                 "encrypt", // (string key, string decoded_string [, string signing_key, string password [, string recipient [, string signer]]) string encoded_string
