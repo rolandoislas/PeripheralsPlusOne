@@ -10,36 +10,55 @@ buildscript {
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
         jcenter()
+        maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.9"
     }
 }
 
 repositories {
+    jcenter()
     maven {
-        url  "http://jcenter.bintray.com"
+        url  "https://dl.bintray.com/rolandoislas/The-Framework"
     }
     maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven"
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    maven {
+        name "JBoss"
+        url = "https://repository.jboss.org/nexus/content/repositories/releases/"
     }
 }
 
 apply plugin: 'forge'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
+apply plugin: "com.matthewprenger.cursegradle"
 
-ext.buildNumber = System.getenv("BUILD_ID") ?: "dev"
-//version = "1.3.5-$buildNumber"
-version = "1.3.7"
-group= "com.austinv11.peripheralsplusplus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "Peripherals++"
+ext.build = System.getenv('TRAVIS_BUILD_NUMBER')
+ext.tag = System.getenv("TRAVIS_TAG")
+version = "1.7.10-1.1"
+version =  version + "-build-T" + ext.build
+group= "com.rolandoislas.peripheralsplusone" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "PeripheralsPlusOne"
 
 minecraft {
     version = "1.7.10-10.13.4.1558-1.7.10"
-    runDir = "eclipse"
+    runDir = "run"
     replace("@VERSION@",project.version)
 }
 
@@ -52,50 +71,83 @@ publishing {
     }
 }
 
-bintray {
-    user = 'austinv11'
-    key = System.getenv("API_KEY")
-    dryRun = false
-    publish = true
-    publications = ['mavenJava']
-    pkg {
-        repo = "maven"
-        name = "PeripheralsPlusPlus"
-        desc = "A ComputerCraft Addon"
-        websiteUrl = "https://github.com/austinv11/PeripheralsPlusPlus"
-        issueTrackerUrl = "https://github.com/austinv11/PeripheralsPlusPlus/issues"
-        vcsUrl = "https://github.com/austinv11/PeripheralsPlusPlus.git"
-        licenses = ["GPL v2"]
-        publicDownloadNumbers = true
-        version {
-            name = project.version
+// deobf jars
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest {
+        attributes 'FMLAT': 'ppp_at.cfg'
+    }
+}
+
+// add source jar
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'source'
+}
+
+if (ext.tag) {
+    if (ext.tag.contains("release"))
+        ext.releaseType = "release"
+    else if (ext.tag.contains("beta"))
+        ext.releaseType = "beta"
+    else
+        ext.releaseType = "alpha"
+    curseforge {
+        apiKey = System.getenv("CURSE_API_KEY") ?: ""
+        project {
+            id = "279746"
+            changelog = System.getenv("TRAVIS_COMMIT_MESSAGE") ?: ""
+            releaseType = project.releaseType
+            mainArtifact jar
+            relations {
+                requiredLibrary "the-framework"
+            }
+        }
+    }
+    bintray {
+        user = 'rolandoislas'
+        key = System.getenv("BINTRAY_API_KEY") ?: ""
+        dryRun = false
+        publish = true
+        publications = ['mavenJava']
+        pkg {
+            repo = "PeripheralsPlusOne"
+            name = "PeripheralsPlusOne"
+            desc = "A ComputerCraft Addon"
+            websiteUrl = "https://github.com/rolandoislas/PeripheralsPlusOne"
+            issueTrackerUrl = "https://github.com/rolandoislas/PeripheralsPlusOne/issues"
+            vcsUrl = "https://github.com/rolandoislas/PeripheralsPlusOne.git"
+            licenses = ["GPL v2"]
+            publicDownloadNumbers = true
+            version {
+                name = project.version + "-" + project.releaseType
+            }
         }
     }
 }
 
+configurations {
+    compileBundle
+}
+
+ext.freettsVersion = "1.2.2"
 dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // Chatter library
-    // https://github.com/pierredavidbelanger/chatter-bot-api
-    // http://mavenbrowse.pauldoo.com/central/ca/pjer/chatter-bot-api/
-    // It's in the ./libs folder, but heres the maven link just in case
-    //compile "ca.pjer:chatter-bot-api:1.3.3"
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    compile "com.austinv11.collectiveframework:CollectiveFramework:1.0.0-122:deobf"
+    compile "com.rolandoislas.theframework:TheFramework:1.7.10-1.0-build-T16:deobf"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev"
-	compile "codechicken:CodeChickenLib:1.7.10-1.1.1.99:dev"
-	compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.99:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
+    compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
+    compileBundle "com.fasterxml.jackson.core:jackson-databind:2.9.1"
+    compileBundle "org.mobicents.external.freetts:cmulex:$freettsVersion"
+    compileBundle "org.mobicents.external.freetts:en_us:$freettsVersion"
+    compileBundle "org.mobicents.external.freetts:freetts:$freettsVersion"
+    compileBundle "org.mobicents.external.freetts:mbrola:$freettsVersion"
+    compileBundle "org.mobicents.external.freetts:cmu_us_kal:$freettsVersion"
+    compileBundle "org.bouncycastle:bcprov-jdk15on:1.57"
+    compileBundle "org.bouncycastle:bcpg-jdk15on:1.57"
+    compileBundle "name.neuhalfen.projects.crypto.bouncycastle.openpgp:bouncy-gpg:2.+"
+    configurations.compile.extendsFrom(configurations.compileBundle)
 }
 
 processResources
@@ -120,41 +172,28 @@ processResources
 
 jar {
     manifest {
-        attributes 'FMLAT': 'ppp_at.cfg',
-                'FMLCorePlugin': 'com.austinv11.peripheralsplusplus.asm.PeripheralsPlusPlusTransformerPlugin',
-                'FMLCorePluginContainsFMLMod': true
+        attributes 'FMLAT': 'ppp_at.cfg'
     }
-    from zipTree("libs/cmulex.jar")
-    from zipTree("libs/en_us.jar")
-    from zipTree("libs/freetts.jar")
-    from zipTree("libs/freetts-jsapi10.jar")
-    from zipTree("libs/mbrola.jar")
-    from zipTree("libs/cmu_us_kal.jar")
-    // Chatter library
-    from zipTree("libs/chatter-bot-api-1.3.3.jar")
-}
-
-idea { 
-    module { 
-        inheritOutputDirs = true 
-    } 
-}
-
-// add source jar
-task sourceJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'source'
-}
-
-// deobf jars
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-    manifest {
-        attributes 'FMLAT': 'ppp_at.cfg',
-                'FMLCorePlugin': 'com.austinv11.peripheralsplusplus.asm.PeripheralsPlusPlusTransformerPlugin',
-                'FMLCorePluginContainsFMLMod': true
+    for (Object depToBundle : configurations.compileBundle.collect()) {
+        if (depToBundle.isDirectory())
+            from depToBundle
+        else if (depToBundle.toString().contains("freetts-${freettsVersion}.jar"))
+            from(zipTree(depToBundle).matching {
+                exclude "de/dfki/lt/freetts/mbrola/**"
+            })
+        else
+            from(zipTree(depToBundle).matching {
+                exclude "META-INF/LICENSE", "META-INF/NOTICE", "META-INF/*.DSA", "META-INF/*.RSA", "META-INF/*.SF"
+            })
     }
 }
 
-build.dependsOn sourceJar, deobfJar
+build {
+    dependsOn deobfJar
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
