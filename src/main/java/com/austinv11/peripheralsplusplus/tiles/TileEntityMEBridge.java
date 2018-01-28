@@ -238,10 +238,11 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 						((ISidedInventory) inventory).getSlotsForFace(direction.getOpposite()) :
 						getDefaultSlots(inventory);
 				int currentSlot = 0;
+				ItemStack itemStack = resultant.createItemStack();
 				while (!(resultant.getStackSize() < 1) && currentSlot < slots.length) {
-					if (inventory.isItemValidForSlot(slots[currentSlot], new ItemStack(resultant.getItem()))) {
+					if (inventory.isItemValidForSlot(slots[currentSlot], itemStack.copy())) {
 						if (inventory.getStackInSlot(slots[currentSlot]).isEmpty()) {
-							ItemStack toAdd = new ItemStack(resultant.getItem());
+							ItemStack toAdd = itemStack.copy();
 							int stackSize = (int) (resultant.getStackSize() <=
 									inventory.getInventoryStackLimit() ? resultant.getStackSize() :
 									inventory.getInventoryStackLimit());
@@ -250,7 +251,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 							resultant.setStackSize(resultant.getStackSize()-stackSize);
 						} else {
 							ItemStack current = inventory.getStackInSlot(slots[currentSlot]);
-							ItemStack toAdd = new ItemStack(resultant.getItem());
+							ItemStack toAdd = itemStack.copy();
 							if (current.isItemEqual(toAdd)) {
 								int stackSize = (int) (resultant.getStackSize()+current.getCount() <=
 										inventory.getInventoryStackLimit() ?
