@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -112,13 +113,24 @@ public class RobotHandler {
 		
 		@Override
 		public void onFinish(Robot robot) {
-			if (pressType == RobotEventPacket.PressType.PRESS)
-				robot.mouseRelease(button);
+			if (pressType == RobotEventPacket.PressType.PRESS) {
+				try {
+					robot.mouseRelease(InputEvent.getMaskForButton(button));
+				}
+				catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		@Override
 		public void operate(Robot robot) {
-			robot.mousePress(button);
+			try {
+				robot.mousePress(InputEvent.getMaskForButton(button));
+			}
+			catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
