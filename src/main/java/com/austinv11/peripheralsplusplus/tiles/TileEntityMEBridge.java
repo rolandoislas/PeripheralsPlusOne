@@ -161,10 +161,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			throw new LuaException("Bad argument #2: Meta should be an number");
 		if (!(arguments[2] instanceof Double))
 			throw new LuaException("Bad argument #3: amount should be a number");
+		if (arguments.length > 3 && !(arguments[3] instanceof String))
+			throw new LuaException("Bad argument #4: amount should be a string");
 		String itemName = (String) arguments[0];
 		int meta = (int) (double) arguments[1];
 		long amount = (long) (double) arguments[2];
-		ItemStack toCraft = GameRegistry.makeItemStack(itemName, meta, 1, "");
+		String nbtString = arguments.length > 3 ? (String) arguments[3] : "";
+		ItemStack toCraft = GameRegistry.makeItemStack(itemName, meta, 1, nbtString);
 		if (toCraft.isEmpty())
 			throw new LuaException("Failed to find item");
 		IAEItemStack aeToCraft = findAEStackFromItemStack(monitor, toCraft);
@@ -205,6 +208,8 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			throw new LuaException("Bad argument #3: amount should be a number");
 		if (!(arguments[3] instanceof String) && !(arguments[3] instanceof Double))
 			throw new LuaException("Bad argument #4: direction should be a string or number");
+		if (arguments.length > 4 && !(arguments[4] instanceof String))
+			throw new LuaException("Bad argument #5: nbt should be a string");
 		String itemName = (String) arguments[0];
 		int meta = (int) (double) arguments[1];
 		long amount = (long) (double) arguments[2];
@@ -213,12 +218,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			direction = EnumFacing.valueOf(String.valueOf(arguments[3]).toUpperCase(Locale.US));
 		else
 			direction = EnumFacing.getFront((int) (double) arguments[3]);
+		String nbtString = arguments.length > 4 ? (String) arguments[4] : "";
 		// Check inventory to output to
 		IInventory inventory = TileEntityInteractiveSorter.getInventoryForSide(world, getPos(), direction);
 		if (inventory == null)
 			throw new LuaException("Block is not a valid inventory");
 		// Check item is valid
-		ItemStack item = GameRegistry.makeItemStack(itemName, meta, 1, "");
+		ItemStack item = GameRegistry.makeItemStack(itemName, meta, 1, nbtString);
 		if (item.isEmpty())
 			throw new LuaException("Item not found");
 
@@ -239,33 +245,31 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 						getDefaultSlots(inventory);
 				int currentSlot = 0;
 				ItemStack itemStack = resultant.createItemStack();
+				itemStack.setCount(1);
 				while (!(resultant.getStackSize() < 1) && currentSlot < slots.length) {
 					if (inventory.isItemValidForSlot(slots[currentSlot], itemStack.copy())) {
 						if (inventory.getStackInSlot(slots[currentSlot]).isEmpty()) {
 							ItemStack toAdd = itemStack.copy();
-							int stackSize = (int) (resultant.getStackSize() <=
-									inventory.getInventoryStackLimit() ? resultant.getStackSize() :
-									inventory.getInventoryStackLimit());
-							toAdd.setCount(stackSize);
 							inventory.setInventorySlotContents(slots[currentSlot], toAdd);
-							resultant.setStackSize(resultant.getStackSize()-stackSize);
+							resultant.setStackSize(resultant.getStackSize() - 1);
 						} else {
 							ItemStack current = inventory.getStackInSlot(slots[currentSlot]);
 							ItemStack toAdd = itemStack.copy();
-							if (current.isItemEqual(toAdd)) {
-								int stackSize = (int) (resultant.getStackSize()+current.getCount() <=
-										inventory.getInventoryStackLimit() ?
-										resultant.getStackSize()+current.getCount() :
-										inventory.getInventoryStackLimit());
-								int change = stackSize - current.getCount();
-								current.setCount(stackSize);
+							if (ItemStack.areItemsEqual(current, toAdd) &&
+									ItemStack.areItemStackTagsEqual(current, toAdd) &&
+									toAdd.getCount() + current.getCount() <= Math.min(current.getMaxStackSize(),
+											inventory.getInventoryStackLimit())) {
+								current.setCount(current.getCount() + 1);
 								inventory.setInventorySlotContents(slots[currentSlot], current);
-								resultant.setStackSize(resultant.getStackSize()-change);
+								resultant.setStackSize(resultant.getStackSize() - 1);
 							}
+							else
+								currentSlot++;
 						}
 						inventory.markDirty();
 					}
-					currentSlot++;
+					else
+						currentSlot++;
 				}
 			}
 		}
@@ -347,10 +351,12 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		int meta = stack.getItemDamage();
 		long amount = stack.getStackSize();
 		String displayName = new ItemStack(stack.getItem()).getDisplayName();
+		NBTTagCompound nbt = stack.createItemStack().getTagCompound();
 		map.put("name", itemName);
 		map.put("meta", meta);
 		map.put("amount", amount);
 		map.put("displayName", displayName);
+		map.put("nbt", nbt == null ? "" : nbt.toString());
 		if (flag == 0) {
 			return map;
 		} else if (flag == 1) {
