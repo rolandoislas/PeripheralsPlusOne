@@ -22,6 +22,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.oredict.OreDictionary;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -205,5 +206,22 @@ public class Util {
 			intArray[byteIndex] = Byte.toUnsignedInt(bytes[byteIndex]);
 		}
 		return intArray;
+	}
+
+	/**
+	 * Get a player based on their persistent id
+	 * @param persistentID player's unique id
+	 * @return player
+	 */
+	@Nullable
+	public static EntityPlayer getPlayer(UUID persistentID) {
+		List<EntityPlayer> players = new ArrayList<>();
+		for (WorldServer worldServer : DimensionManager.getWorlds())
+			players.addAll(worldServer.playerEntities);
+		for (EntityPlayer p : players) {
+			if (p.getPersistentID().equals(persistentID))
+				return p;
+		}
+		return null;
 	}
 }
