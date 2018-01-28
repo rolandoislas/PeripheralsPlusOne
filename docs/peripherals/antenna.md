@@ -26,7 +26,7 @@ The Antenna is a peripheral which expands the wireless capabilities of computers
       <td>Returns a list containing the entity IDs for all entities currently infected by a nanobot swarm.</td>
     </tr>
     <tr>
-      <td>getInfectedEntity(<em>number</em> entityID)</td>
+      <td>getInfectedEntity(<em>string</em> entityID)</td>
       <td><em>object</em> entity</td>
       <td>Returns an object representing the infected entity.</td>
     </tr>
