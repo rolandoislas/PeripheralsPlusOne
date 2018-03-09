@@ -3,6 +3,7 @@ package com.austinv11.peripheralsplusplus.init;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
 import com.austinv11.peripheralsplusplus.pocket.PocketPeripheralContainer;
+import com.austinv11.peripheralsplusplus.pocket.PocketRfid;
 import com.austinv11.peripheralsplusplus.turtles.*;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.ComputerCraftAPI;
@@ -35,9 +36,11 @@ public class ModPeripherals {
 		TURTLE_UPGRADES.add(new TurtleDispenser());
 		TURTLE_UPGRADES.add(new TurtleResupply());
 		TURTLE_UPGRADES.add(new TurtleChunkLoader());
+		TURTLE_UPGRADES.add(new TurtleRfid());
 		// TODO re-implement project red/blue turtles with a dynamic turtle registration for any tools/weapons
         POCKET_UPGRADES.add(new PocketMotionDetector());
         POCKET_UPGRADES.add(new PocketPeripheralContainer());
+        POCKET_UPGRADES.add(new PocketRfid());
     }
 
     public static void registerWithComputerCraft() {

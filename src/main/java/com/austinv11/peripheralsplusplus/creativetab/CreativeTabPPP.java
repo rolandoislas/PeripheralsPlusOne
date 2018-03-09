@@ -2,8 +2,11 @@ package com.austinv11.peripheralsplusplus.creativetab;
 
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.init.ModPeripherals;
+import com.austinv11.peripheralsplusplus.items.ItemPlasticCard;
 import com.austinv11.peripheralsplusplus.reference.Reference;
+import com.austinv11.peripheralsplusplus.tiles.TileEntityMagReaderWriter;
 import com.austinv11.peripheralsplusplus.utils.TurtleUtil;
+import com.austinv11.peripheralsplusplus.utils.rfid.RfidTag;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import net.minecraft.creativetab.CreativeTabs;
@@ -27,14 +30,20 @@ public class CreativeTabPPP {
 		@Override
 		public void displayAllRelevantItems(NonNullList<ItemStack> list) {
 			super.displayAllRelevantItems(list);
+			// Turtle Upgrades
 			for (ITurtleUpgrade upgrade : ModPeripherals.TURTLE_UPGRADES) {
 				list.add(TurtleUtil.getTurtle(false, upgrade));
 				list.add(TurtleUtil.getTurtle(true, upgrade));
 			}
+			// Pocket Upgrades
 			for (IPocketUpgrade pocketUpgrade : ModPeripherals.POCKET_UPGRADES) {
 				list.add(TurtleUtil.getPocket(false, pocketUpgrade));
 				list.add(TurtleUtil.getPocket(true, pocketUpgrade));
 			}
+			// Plastic card upgrades
+			list.add(RfidTag.createDummyCard(ItemPlasticCard.NAME_RFID));
+			list.add(RfidTag.createDummyCard(ItemPlasticCard.NAME_NFC));
+			list.add(TileEntityMagReaderWriter.createMagCard());
 		}
 	};
 }

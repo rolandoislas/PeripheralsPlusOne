@@ -39,7 +39,7 @@ public class ItemNanoSwarm extends ItemPPP {
 						"identifier"));
 				if (NBTHelper.hasTag(player.getHeldItem(hand), "label"))
 					swarm.label = NBTHelper.getString(player.getHeldItem(hand), "label");
-				swarm.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw,
+				swarm.shoot(player, player.rotationPitch, player.rotationYaw,
 						0, 1.1f, 6);
 				world.spawnEntity(swarm);
 			}
@@ -60,16 +60,23 @@ public class ItemNanoSwarm extends ItemPPP {
 			properties.setAntenna(swarm.antennaIdentifier);
 		}
 	}
-	
-	public static boolean doInstruction(UUID identifier, Entity performer) {
-		if (!performer.isDead)
+
+	/**
+	 * Check if the instruction can be performed and reduce the bot count
+	 * @param identifier antenna UUID
+	 * @param performer entity to take action upon
+	 * @param allowIfDead allow the action event if the entity is dead
+	 * @return action should be performed
+	 */
+	public static boolean doInstruction(UUID identifier, Entity performer, boolean allowIfDead, int cost) {
+		if (!performer.isDead || allowIfDead)
 			if (TileEntityAntenna.ANTENNA_REGISTRY.containsKey(identifier)) {
 				TileEntityAntenna antenna = TileEntityAntenna.ANTENNA_REGISTRY.get(identifier);
 				if (antenna.isEntityRegistered(performer)) {
 					NanoBotHolder properties = performer.getCapability(CapabilityNanoBot.INSTANCE, null);
-					if (properties == null)
+					if (properties == null || properties.getBots() < cost)
 						return false;
-					properties.setBots(properties.getBots() - 1);
+					properties.setBots(properties.getBots() - cost);
 					if (properties.getBots() <= 0)
 						antenna.removeEntity(performer);
 					return true;
@@ -90,7 +97,7 @@ public class ItemNanoSwarm extends ItemPPP {
 				iprojectile.antennaIdentifier = UUID.fromString(NBTHelper.getString(stack, "identifier"));
 				if (NBTHelper.hasTag(stack, "label"))
 					iprojectile.label = NBTHelper.getString(stack, "label");
-				iprojectile.setThrowableHeading(
+				iprojectile.shoot(
 						enumfacing.getFrontOffsetX(),
 						enumfacing.getFrontOffsetY() + 0.1f,
 						enumfacing.getFrontOffsetZ(),

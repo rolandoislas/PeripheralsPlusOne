@@ -131,17 +131,17 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 					return new Object[]{this.getLabel()};
 				}
 			case 4:
-				HashMap<Integer, Integer> entities = new HashMap<Integer, Integer>();
+				HashMap<Integer, String> entities = new HashMap<>();
 				for (int i = 0; i < associatedEntities.size(); i++) {
-					entities.put(i + 1, associatedEntities.get(i).getEntityId());
+					entities.put(i + 1, associatedEntities.get(i).getPersistentID().toString());
 				}
 				return new Object[]{entities};
 			case 5:
 				if (arguments.length < 1)
 					throw new LuaException("Too few arguments");
-				if (!(arguments[0] instanceof Double))
-					throw new LuaException("Bad argument #1 (expected number)");
-				Entity ent = entityFromId((int)(double)(Double)arguments[0]);
+				if (!(arguments[0] instanceof String))
+					throw new LuaException("Bad argument #1 (expected string)");
+				Entity ent = entityFromId((String)arguments[0]);
 				if (ent != null)
 					return new Object[]{new LuaObjectEntityControl(identifier, ent)};
 				else
@@ -169,9 +169,9 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 		return players;
 	}
 	
-	private Entity entityFromId(int id) {
+	private Entity entityFromId(String id) {
 		for (Entity entity : associatedEntities)
-			if (entity.getEntityId() == id)
+			if (entity.getPersistentID().toString().equals(id))
 				return entity;
 		return null;
 	}
@@ -237,8 +237,13 @@ public class TileEntityAntenna extends TileEntity implements ITickable, IPlusPlu
 	 * @param entity entity to register
 	 */
 	public void registerEntity(Entity entity) {
-		if (!associatedEntities.contains(entity))
-			associatedEntities.add(entity);
+		for (Entity containedEntity : associatedEntities) {
+			if (containedEntity.getPersistentID().equals(entity.getPersistentID())) {
+				associatedEntities.remove(containedEntity);
+				break;
+			}
+		}
+		associatedEntities.add(entity);
 	}
 
 	/**

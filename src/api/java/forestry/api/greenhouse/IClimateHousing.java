@@ -13,7 +13,7 @@ import forestry.api.climate.IClimateState;
 public interface IClimateHousing {
 	
 	/**
-	 * @return The size of the region in block.
+	 * @return The size of the region in blocks.
 	 */
 	int getSize();
 	

@@ -11,7 +11,7 @@ import net.minecraft.block.state.IBlockState;
 
 /**
  * Translates blockStates into genetic data.
- * Used by bees and butterflies to convert and pollinate foreign leaf block.
+ * Used by bees and butterflies to convert and pollinate foreign leaf blocks.
  */
 public interface IBlockTranslator<I extends IIndividual> extends IIndividualTranslator<I, IBlockState> {
 	@Nullable

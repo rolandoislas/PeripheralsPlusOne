@@ -4,6 +4,7 @@ import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.networking.*;
 import appeng.api.networking.crafting.ICraftingGrid;
+import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.security.IActionHost;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.networking.storage.IStorageGrid;
@@ -18,10 +19,15 @@ import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.init.ModBlocks;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersPeripheral;
+import com.austinv11.peripheralsplusplus.utils.OpenComputersUtil;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.Node;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -62,14 +68,16 @@ import java.util.Locale;
 				striprefs=true)
 })
 public class TileEntityMEBridge extends TileEntity implements IActionHost, IGridBlock, ITickable, IActionSource,
-		IGridHost, IPlusPlusPeripheral {
+		IGridHost, IPlusPlusPeripheral, OpenComputersPeripheral {
 	private HashMap<IComputerAccess, Boolean> computers = new HashMap<>();
 	private IGridNode node;
 	private boolean initialized = false;
 	private EntityPlayer placed;
+	private Node nodeOc;
 
 	public TileEntityMEBridge() {
 		super();
+		nodeOc = OpenComputersUtil.createNode(this, getType());
 	}
 
 	@Override
@@ -82,6 +90,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		node = AEApi.instance().grid().createGridNode(this);
 		node.loadFromNBT("node", nbttagcompound);
 		initialized = false;
+		OpenComputersUtil.readFromNbt(nbttagcompound, nodeOc);
 	}
 
 	@Override
@@ -91,12 +100,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			return nbttagcompound;
 		if (node != null)
 			node.saveToNBT("node", nbttagcompound);
+		OpenComputersUtil.writeToNbt(nbttagcompound, nodeOc);
 		return nbttagcompound;
 	}
 
 	@Override
 	public void update() {
-		if (!world.isRemote)
+		if (!world.isRemote) {
 			if (!initialized) {
 				node = AEApi.instance().grid().createGridNode(this);
 				if (placed != null)
@@ -104,6 +114,8 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 				node.updateState();
 				initialized = true;
 			}
+			OpenComputersUtil.updateNode(this, nodeOc);
+		}
 	}
 
 	@Override
@@ -149,10 +161,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			throw new LuaException("Bad argument #2: Meta should be an number");
 		if (!(arguments[2] instanceof Double))
 			throw new LuaException("Bad argument #3: amount should be a number");
+		if (arguments.length > 3 && !(arguments[3] instanceof String))
+			throw new LuaException("Bad argument #4: amount should be a string");
 		String itemName = (String) arguments[0];
 		int meta = (int) (double) arguments[1];
 		long amount = (long) (double) arguments[2];
-		ItemStack toCraft = GameRegistry.makeItemStack(itemName, meta, 1, "");
+		String nbtString = arguments.length > 3 ? (String) arguments[3] : "";
+		ItemStack toCraft = GameRegistry.makeItemStack(itemName, meta, 1, nbtString);
 		if (toCraft.isEmpty())
 			throw new LuaException("Failed to find item");
 		IAEItemStack aeToCraft = findAEStackFromItemStack(monitor, toCraft);
@@ -165,16 +180,18 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		synchronized (this) {
 			ICraftingGrid craftingGrid = node.getGrid().getCache(ICraftingGrid.class);
 			craftingGrid.beginCraftingJob(world, node.getGrid(), this, aeToCraft, job -> {
-                craftingGrid.submitJob(job, null, null, false,
-                        TileEntityMEBridge.this);
-                for (IComputerAccess comp : computers.keySet()) {
-                    ResourceLocation itemName1 = ForgeRegistries.ITEMS.getKey(job.getOutput().getItem());
-                    comp.queueEvent("craftingComplete", new Object[]{
-                            itemName1 == null ? "null" : itemName1.toString(),
-                            job.getOutput().getStackSize(),
-                            job.getByteTotal()
-                    });
-                }
+				ICraftingLink result = craftingGrid.submitJob(job, null, null, false,
+						TileEntityMEBridge.this);
+				ResourceLocation itemName1 = ForgeRegistries.ITEMS.getKey(job.getOutput().getItem());
+				Object[] event = new Object[]{
+						itemName1 == null ? "null" : itemName1.toString(),
+						job.getOutput().getStackSize(),
+						job.getByteTotal(),
+						result != null
+				};
+                for (IComputerAccess comp : computers.keySet())
+                    comp.queueEvent("craftingComplete", event);
+				OpenComputersUtil.sendToReachable(nodeOc, "craftingComplete", event);
             });
 		}
 		return new Object[]{};
@@ -191,6 +208,8 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			throw new LuaException("Bad argument #3: amount should be a number");
 		if (!(arguments[3] instanceof String) && !(arguments[3] instanceof Double))
 			throw new LuaException("Bad argument #4: direction should be a string or number");
+		if (arguments.length > 4 && !(arguments[4] instanceof String))
+			throw new LuaException("Bad argument #5: nbt should be a string");
 		String itemName = (String) arguments[0];
 		int meta = (int) (double) arguments[1];
 		long amount = (long) (double) arguments[2];
@@ -199,12 +218,13 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			direction = EnumFacing.valueOf(String.valueOf(arguments[3]).toUpperCase(Locale.US));
 		else
 			direction = EnumFacing.getFront((int) (double) arguments[3]);
+		String nbtString = arguments.length > 4 ? (String) arguments[4] : "";
 		// Check inventory to output to
 		IInventory inventory = TileEntityInteractiveSorter.getInventoryForSide(world, getPos(), direction);
 		if (inventory == null)
 			throw new LuaException("Block is not a valid inventory");
 		// Check item is valid
-		ItemStack item = GameRegistry.makeItemStack(itemName, meta, 1, "");
+		ItemStack item = GameRegistry.makeItemStack(itemName, meta, 1, nbtString);
 		if (item.isEmpty())
 			throw new LuaException("Item not found");
 
@@ -224,33 +244,32 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 						((ISidedInventory) inventory).getSlotsForFace(direction.getOpposite()) :
 						getDefaultSlots(inventory);
 				int currentSlot = 0;
+				ItemStack itemStack = resultant.createItemStack();
+				itemStack.setCount(1);
 				while (!(resultant.getStackSize() < 1) && currentSlot < slots.length) {
-					if (inventory.isItemValidForSlot(slots[currentSlot], new ItemStack(resultant.getItem()))) {
+					if (inventory.isItemValidForSlot(slots[currentSlot], itemStack.copy())) {
 						if (inventory.getStackInSlot(slots[currentSlot]).isEmpty()) {
-							ItemStack toAdd = new ItemStack(resultant.getItem());
-							int stackSize = (int) (resultant.getStackSize() <=
-									inventory.getInventoryStackLimit() ? resultant.getStackSize() :
-									inventory.getInventoryStackLimit());
-							toAdd.setCount(stackSize);
+							ItemStack toAdd = itemStack.copy();
 							inventory.setInventorySlotContents(slots[currentSlot], toAdd);
-							resultant.setStackSize(resultant.getStackSize()-stackSize);
+							resultant.setStackSize(resultant.getStackSize() - 1);
 						} else {
 							ItemStack current = inventory.getStackInSlot(slots[currentSlot]);
-							ItemStack toAdd = new ItemStack(resultant.getItem());
-							if (current.isItemEqual(toAdd)) {
-								int stackSize = (int) (resultant.getStackSize()+current.getCount() <=
-										inventory.getInventoryStackLimit() ?
-										resultant.getStackSize()+current.getCount() :
-										inventory.getInventoryStackLimit());
-								int change = stackSize - current.getCount();
-								current.setCount(stackSize);
+							ItemStack toAdd = itemStack.copy();
+							if (ItemStack.areItemsEqual(current, toAdd) &&
+									ItemStack.areItemStackTagsEqual(current, toAdd) &&
+									toAdd.getCount() + current.getCount() <= Math.min(current.getMaxStackSize(),
+											inventory.getInventoryStackLimit())) {
+								current.setCount(current.getCount() + 1);
 								inventory.setInventorySlotContents(slots[currentSlot], current);
-								resultant.setStackSize(resultant.getStackSize()-change);
+								resultant.setStackSize(resultant.getStackSize() - 1);
 							}
+							else
+								currentSlot++;
 						}
 						inventory.markDirty();
 					}
-					currentSlot++;
+					else
+						currentSlot++;
 				}
 			}
 		}
@@ -300,6 +319,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			node = null;
 			initialized = false;
 		}
+		OpenComputersUtil.removeNode(nodeOc);
 	}
 
 	private IAEItemStack findAEStackFromItemStack(IMEMonitor<IAEItemStack> monitor, ItemStack item) {
@@ -331,10 +351,12 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		int meta = stack.getItemDamage();
 		long amount = stack.getStackSize();
 		String displayName = new ItemStack(stack.getItem()).getDisplayName();
+		NBTTagCompound nbt = stack.createItemStack().getTagCompound();
 		map.put("name", itemName);
 		map.put("meta", meta);
 		map.put("amount", amount);
 		map.put("displayName", displayName);
+		map.put("nbt", nbt == null ? "" : nbt.toString());
 		if (flag == 0) {
 			return map;
 		} else if (flag == 1) {
@@ -377,6 +399,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void onGridNotification(GridNotification notification) {
 		for (IComputerAccess computer : computers.keySet())
 			computer.queueEvent("gridNotification", new Object[]{notification.toString()});
+		OpenComputersUtil.sendToReachable(nodeOc, "gridNotification", notification.toString());
 	}
 
 	@Override
@@ -397,6 +420,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void gridChanged() {
 		for (IComputerAccess computer : computers.keySet())
 			computer.queueEvent("gridChanged", new Object[0]);
+		OpenComputersUtil.sendToReachable(nodeOc, "gridChanged");
 	}
 
 	@Override
@@ -445,7 +469,43 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 	public void securityBreak() {
 		for (IComputerAccess computer : computers.keySet())
 			computer.queueEvent("securityBreak", new Object[0]);
+		OpenComputersUtil.sendToReachable(nodeOc, "securityBreak");
 		world.setBlockToAir(getPos());
 	}
 
+	@Override
+	@Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+	public String[] methods() {
+		return getMethodNames();
+	}
+
+	@Override
+	@Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "listAll":
+				return callMethod(null, null, 0, args.toArray());
+			case "listItems":
+				return callMethod(null, null, 1, args.toArray());
+			case "listCraft":
+				return callMethod(null, null, 2, args.toArray());
+			case "retrieve":
+				return callMethod(null, null, 3, args.toArray());
+			case "craft":
+				return callMethod(null, null, 4, args.toArray());
+		}
+		throw new NoSuchMethodException(method);
+	}
+
+	@Override
+	@Optional.Method(modid = ModIds.OPEN_COMPUTERS_CORE)
+	public Node node() {
+		return nodeOc;
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		OpenComputersUtil.removeNode(nodeOc);
+	}
 }
