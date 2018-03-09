@@ -61,8 +61,8 @@ public class PeripheralChunkLoader implements IPlusPlusPeripheral {
 
 	public ArrayList<ChunkPos> getChunksInRadius(int radius) {
 		ArrayList<ChunkPos> chunkList = new ArrayList<>();
-		for (int chunkX = pos.getXStart() - radius; chunkX <= pos.getXStart() + radius; chunkX++) {
-			for (int chunkZ = pos.getZStart() - radius; chunkZ <= pos.getZStart() + radius; chunkZ++) {
+		for (int chunkX = pos.x - radius; chunkX <= pos.x + radius; chunkX++) {
+			for (int chunkZ = pos.z - radius; chunkZ <= pos.z + radius; chunkZ++) {
 				chunkList.add(new ChunkPos(chunkX, chunkZ));
 			}
 		}
