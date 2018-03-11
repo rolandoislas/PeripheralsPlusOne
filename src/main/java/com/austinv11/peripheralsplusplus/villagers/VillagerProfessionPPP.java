@@ -1,8 +1,6 @@
 package com.austinv11.peripheralsplusplus.villagers;
 
-import com.austinv11.collectiveframework.language.translation.TranslationException;
 import com.austinv11.collectiveframework.minecraft.utils.Colors;
-import com.austinv11.collectiveframework.minecraft.utils.MinecraftTranslator;
 import com.austinv11.collectiveframework.minecraft.utils.NBTHelper;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.utils.Util;
@@ -15,7 +13,6 @@ import net.minecraft.village.MerchantRecipeList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -150,13 +147,7 @@ public class VillagerProfessionPPP extends VillagerRegistry.VillagerProfession {
             // 64 emeralds (+64 diamonds) = portable computer (an IPhone basically)
             ItemStack iPhone = GameRegistry.makeItemStack("computercraft:pocket_computer",
                     1, 1, "");
-            try {
-                iPhone.setStackDisplayName(
-                        MinecraftTranslator.translateToLocal("item.peripheralsplusone:iphone.name"));
-            } catch (TranslationException | IOException e) {
-                e.printStackTrace();
-                iPhone.setStackDisplayName("item.peripheralsplusone:iphone.name");
-            }
+            iPhone.setTranslatableName("item.peripheralsplusone:iphone.name");
             recipeList.add(new MerchantRecipe(
                     new ItemStack(Items.EMERALD, 64),
                     new ItemStack(Items.DIAMOND, 64),

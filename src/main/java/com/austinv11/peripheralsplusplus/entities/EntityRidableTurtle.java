@@ -320,17 +320,10 @@ public class EntityRidableTurtle extends Entity implements IPlusPlusPeripheral {
 
 	private Object[] moveTurtleUp() {
 		String failMessage = "";
-		try {
-			if (!turtle.getWorld().isAirBlock(turtle.getPosition().up()))
-				failMessage = MinecraftTranslator.translateToLocal(
-						"peripheralsplusone.message.upgrade.ridable_blocked");
-			if (turtle.getFuelLevel() < Config.fuelPerTurtleMovement && turtle.isFuelNeeded())
-				failMessage = MinecraftTranslator.translateToLocal(
-						"peripheralsplusone.message.upgrade.ridable_no_fuel");
-		}
-		catch (TranslationException | IOException e) {
-			failMessage = "Unknown error: " + e.getMessage();
-		}
+		if (!turtle.getWorld().isAirBlock(turtle.getPosition().up()))
+			failMessage = "No fuel available to move";
+		if (turtle.getFuelLevel() < Config.fuelPerTurtleMovement && turtle.isFuelNeeded())
+			failMessage = "Movement blocked";
 		if (failMessage.isEmpty())
 			return new Object[]{tryMove(MovementCode.ASCEND)};
 		else
