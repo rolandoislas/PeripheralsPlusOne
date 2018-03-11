@@ -101,10 +101,6 @@ peripheralsplusone.chat.permCard.alreadySet=Already linked.
 peripheralsplusone.chat.permCard.wrongOwner=You do not have permission to edit this card.
 peripheralsplusone.chat.permCard.set=Permissions card linked to you.
 
-#Message
-peripheralsplusone.message.upgrade.ridable_no_fuel=No fuel available to move
-peripheralsplusone.message.upgrade.ridable_blocked=Movement blocked
-
 #Item Descriptions
 peripheralsplusone.description.turtle.1=This one seems a little broken...
 peripheralsplusone.description.turtle.2=You wonder why it doesn't do anything when you yell turtle.forward() at it...
