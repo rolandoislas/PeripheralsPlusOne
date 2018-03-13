@@ -51,6 +51,7 @@ public class ModItems {
 	public static final Item PLASTIC_CARD = new ItemPlasticCard();
 	public static final Item FORK = new ItemFork();
 	public static final Item MAG_READER_WRITER = getItemBlock(ModBlocks.MAG_READER_WRITER);
+	public static final Item PRIVACY_GUARD = getItemBlock(ModBlocks.PRIVACY_GUARD);
 
 	public static void register() {
 		ITEMS.register(FEEDER_UPGRADE);
@@ -86,6 +87,7 @@ public class ModItems {
 		ITEMS.register(PLASTIC_CARD);
 		ITEMS.register(FORK);
 		ITEMS.register(MAG_READER_WRITER);
+		ITEMS.register(PRIVACY_GUARD);
 	}
 
 	public static void registerModels() {
@@ -122,6 +124,7 @@ public class ModItems {
 		registerModel(PLASTIC_CARD);
 		registerModel(FORK);
 		registerModel(MAG_READER_WRITER);
+		registerModel(PRIVACY_GUARD);
 	}
 
 	private static void registerModel(Item item, IProperty property) {
