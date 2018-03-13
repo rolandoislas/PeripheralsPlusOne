@@ -427,15 +427,5 @@ public class Recipes {
 					'i', new ItemStack(Items.IRON_INGOT)
 			).setRegistryName(Reference.MOD_ID, "recipe_mag_reader_writer"));
 		}
-		if (Config.enablePrivacyGuard)
-			RECIPES.register(new ShapedOreRecipe(
-					MOD_GROUP,
-					new ItemStack(ModItems.PRIVACY_GUARD),
-					"bgb",
-					"gbg",
-					"bgb",
-					'b', new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata()),
-					'g', new ItemStack(Items.GOLD_INGOT)
-			).setRegistryName(Reference.MOD_ID, "recipe_privacy_guard"));
 	}
 }

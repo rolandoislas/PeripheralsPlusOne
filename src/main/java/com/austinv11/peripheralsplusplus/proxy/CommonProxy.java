@@ -45,7 +45,6 @@ import com.austinv11.peripheralsplusplus.tiles.TileEntityOreDictionary;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityPeripheralContainer;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityPlayerInterface;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityPlayerSensor;
-import com.austinv11.peripheralsplusplus.tiles.TileEntityPrivacyGuard;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityRFCharger;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityResupplyStation;
 import com.austinv11.peripheralsplusplus.tiles.TileEntityRfidReaderWriter;
@@ -101,7 +100,6 @@ public class CommonProxy {
 		registerTileEntity(TileEntityManaManipulator.class);
 		registerTileEntity(TileEntityRfidReaderWriter.class);
 		registerTileEntity(TileEntityMagReaderWriter.class);
-		registerTileEntity(TileEntityPrivacyGuard.class);
     }
 
 	private void registerTileEntity(Class<? extends TileEntity> tileEntity) {
