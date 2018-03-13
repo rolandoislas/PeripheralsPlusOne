@@ -174,7 +174,4 @@ public class Config {
 
     @Description(category = "Mag Strip Items", comment = ENABLE_CONFIG_MESSAGE)
 	public static boolean enableMagStripItems = true;
-
-    @Description(category = "Privacy Guard", comment = ENABLE_CONFIG_MESSAGE)
-	public static boolean enablePrivacyGuard = true;
 }
