@@ -2,11 +2,8 @@ package com.austinv11.peripheralsplusplus.lua;
 
 import com.austinv11.collectiveframework.minecraft.utils.Location;
 import com.austinv11.collectiveframework.minecraft.utils.WorldUtils;
-import com.austinv11.collectiveframework.utils.math.MathUtils;
-import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.capabilities.nano.CapabilityNanoBot;
 import com.austinv11.peripheralsplusplus.items.ItemNanoSwarm;
-import com.austinv11.peripheralsplusplus.network.RobotEventPacket;
 import com.austinv11.peripheralsplusplus.reference.Reference;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -16,10 +13,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.common.DimensionManager;
 
 import java.util.UUID;
 
@@ -177,22 +172,8 @@ public class LuaObjectEntityControl implements ILuaObject {
 					case 14:
 					// mouseMove()
 					case 15:
-						if (arguments.length < 1 || (method == 15 && arguments.length < 2))
-							throw new LuaException("Too few arguments");
-						if (!(arguments[0] instanceof Double && method < 13) &&
-								!(arguments[0] instanceof String && method < 15) && !(arguments[0] instanceof Double && method == 15))
-							throw new LuaException("Bad argument #1 (expected string or number)");
-						if (arguments.length > 1 && !(arguments[1] instanceof Double))
-							throw new LuaException("Bad argument #2 (expected number)");
-						if (!ItemNanoSwarm.doInstruction(id, player, false, 1))
-							throw new LuaException("Entity with id "+id+" cannot be interacted with");
-						RobotEventPacket.PressType type = MathUtils.isEvenNumber(method) ? RobotEventPacket.PressType.RELEASE : RobotEventPacket.PressType.PRESS;
-						RobotEventPacket.ActionType action = method < 13 ? RobotEventPacket.ActionType.MOUSE_CLICK : method < 15 ? RobotEventPacket.ActionType.KEYBOARD : RobotEventPacket.ActionType.MOUSE_MOVE;
-						Object args = arguments.length == 1 && arguments[0] instanceof Double ? (Integer)(int)(double)(Double)arguments[0] : 
-								arguments[0] instanceof String ? (String)arguments[0] : new int[]{(int)(double)(Double)arguments[0], (int)(double)(Double)arguments[1]};
-						PeripheralsPlusPlus.NETWORK.sendTo(new RobotEventPacket(action, type, args), (EntityPlayerMP) player);
-						break;
-					// Whisper
+						throw new LuaException("Player control has been removed");
+						// Whisper
 					case 16:
 						if (arguments.length < 1)
 							throw new LuaException("Too few arguments");
