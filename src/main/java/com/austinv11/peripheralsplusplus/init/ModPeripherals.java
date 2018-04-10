@@ -1,16 +1,20 @@
 package com.austinv11.peripheralsplusplus.init;
 
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
+import com.austinv11.peripheralsplusplus.lua.api.DynApiFactory;
 import com.austinv11.peripheralsplusplus.pocket.PocketMotionDetector;
 import com.austinv11.peripheralsplusplus.pocket.PocketPeripheralContainer;
 import com.austinv11.peripheralsplusplus.pocket.PocketRfid;
 import com.austinv11.peripheralsplusplus.turtles.*;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.lua.ILuaAPI;
+import dan200.computercraft.api.lua.ILuaAPIFactory;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +59,13 @@ public class ModPeripherals {
         PeripheralsPlusPlus.LOGGER.info("Registering pocket computer upgrades...");
 		for (IPocketUpgrade pocketUpgrade : POCKET_UPGRADES)
 		    ComputerCraftAPI.registerPocketUpgrade(pocketUpgrade);
+		PeripheralsPlusPlus.LOGGER.info("Registering APIs...");
+        try {
+            ILuaAPIFactory factory = (ILuaAPIFactory) Proxy.newProxyInstance(
+                    Class.forName("dan200.computercraft.api.lua.ILuaAPIFactory").getClassLoader(),
+                    new Class[]{Class.forName("dan200.computercraft.api.lua.ILuaAPIFactory")},
+                    new DynApiFactory());
+            ComputerCraftAPI.registerAPIFactory(factory);
+        } catch (ClassNotFoundException ignore) {}
     }
 }

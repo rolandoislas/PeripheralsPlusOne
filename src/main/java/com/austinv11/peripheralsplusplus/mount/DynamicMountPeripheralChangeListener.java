@@ -32,7 +32,12 @@ public class DynamicMountPeripheralChangeListener extends PeripheralChangeListen
                 ReflectionHelper.queueTask(new Task() {
                     @Override
                     public Object getOwner() {
-                        return computer;
+                        try {
+                            return ReflectionHelper.getComputerFromServerComputer(computer);
+                        }
+                        catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+                            return null;
+                        }
                     }
 
                     @Override

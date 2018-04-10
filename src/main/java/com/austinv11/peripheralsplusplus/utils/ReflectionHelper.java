@@ -409,4 +409,17 @@ public class ReflectionHelper {
 		Field attached = findField(peripheralWrapper, "m_attached");
 		return (boolean) attached.get(wrappedPeripheral);
 	}
+
+	/**
+	 * Get the Computer instance from a ServerComputer
+	 * @param serverComputer server computer
+	 * @return Computer (m_computer)
+	 */
+	public static Object getComputerFromServerComputer(Object serverComputer) throws ClassNotFoundException,
+			NoSuchFieldException, IllegalAccessException {
+		Class serverCompClass = serverComputer.getClass().asSubclass(
+				Class.forName("dan200.computercraft.shared.computer.core.ServerComputer"));
+		Field mComputer = findField(serverCompClass, "m_computer");
+		return mComputer.get(serverComputer);
+	}
 }

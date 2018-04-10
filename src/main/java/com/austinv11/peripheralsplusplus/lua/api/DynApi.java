@@ -1,11 +1,16 @@
 package com.austinv11.peripheralsplusplus.lua.api;
 
 import com.austinv11.peripheralsplusplus.utils.proxy.LuaApi;
+import dan200.computercraft.api.lua.IComputerSystem;
+import dan200.computercraft.api.lua.ILuaAPI;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -16,6 +21,10 @@ public class DynApi extends LuaApi {
 
     public DynApi(Object apiEnvironment) {
         this.apiEnvironment = apiEnvironment;
+    }
+
+    public DynApi() {
+        apiEnvironment = null;
     }
 
     @Override
@@ -30,6 +39,11 @@ public class DynApi extends LuaApi {
 
     @Override
     public void advance(double dt) {
+
+    }
+
+    @Override
+    public void update() {
 
     }
 
@@ -99,4 +113,5 @@ public class DynApi extends LuaApi {
             versionMap.put(versionIndex, 0);
         return new Object[]{versionMap};
     }
+
 }

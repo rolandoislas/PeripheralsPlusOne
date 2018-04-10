@@ -161,9 +161,7 @@ public class DynamicMount {
 						new DynApi(apiEnvironment));
 			}
 		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | NoSuchFieldException |
-				InvocationTargetException e) {
-			e.printStackTrace();
-		}
+				InvocationTargetException ignore) {}
 		List<String> attached = new ArrayList<>();
 		IMount dynScript = ComputerCraftAPI.createResourceMount(PeripheralsPlusPlus.class, Reference.MOD_ID,
 				"lua/mount/dyn.lua");

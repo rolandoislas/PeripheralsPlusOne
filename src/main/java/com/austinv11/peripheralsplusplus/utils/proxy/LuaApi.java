@@ -26,6 +26,11 @@ public abstract class LuaApi implements InvocationHandler, ILuaObject {
     public abstract void advance(double dt);
 
     /**
+     * Called instead of @see LuaApi#advance(double) in CC:Tweaked
+     */
+    public abstract void update();
+
+    /**
      * Called on computer shutdown
      */
     public abstract void shutdown();
@@ -40,6 +45,9 @@ public abstract class LuaApi implements InvocationHandler, ILuaObject {
                 break;
             case "advance":
                 advance((Double) args[0]);
+                break;
+            case "update":
+                update();
                 break;
             case "shutdown":
                 shutdown();
