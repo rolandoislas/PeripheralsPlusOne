@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * The interface that defines a peripheral. See {@link IPeripheralProvider} for how to associate block with peripherals.
+ * The interface that defines a peripheral. See {@link IPeripheralProvider} for how to associate blocks with peripherals.
  */
 public interface IPeripheral
 {
@@ -72,7 +72,7 @@ public interface IPeripheral
      * @see #getMethodNames
      */
     @Nullable
-    Object[] callMethod( @Nonnull IComputerAccess computer, @Nonnull ILuaContext context, int method, @Nonnull Object[] arguments ) throws LuaException, InterruptedException;
+    Object[] callMethod(@Nonnull IComputerAccess computer, @Nonnull ILuaContext context, int method, @Nonnull Object[] arguments) throws LuaException, InterruptedException;
 
     /**
      * Is called when canAttachToSide has returned true, and a computer is attaching to the peripheral.
@@ -91,7 +91,7 @@ public interface IPeripheral
      *                 computers can be attached to a peripheral at once.
      * @see #detach
      */
-    default void attach( @Nonnull IComputerAccess computer )
+    default void attach(@Nonnull IComputerAccess computer)
     {
     }
 
@@ -110,8 +110,20 @@ public interface IPeripheral
      *                 computers can be attached to a peripheral at once.
      * @see #detach
      */
-    default void detach( @Nonnull IComputerAccess computer )
+    default void detach(@Nonnull IComputerAccess computer)
     {
+    }
+
+    /**
+     * Get the object that this peripheral provides methods for. This will generally be the tile entity
+     * or block, but may be an inventory, entity, etc...
+     *
+     * @return The object this peripheral targets
+     */
+    @Nonnull
+    default Object getTarget()
+    {
+        return this;
     }
 
     /**
@@ -123,5 +135,5 @@ public interface IPeripheral
      * @param other The peripheral to compare against. This may be {@code null}.
      * @return Whether these peripherals are equivalent.
      */
-    boolean equals( @Nullable IPeripheral other );
+    boolean equals(@Nullable IPeripheral other);
 }

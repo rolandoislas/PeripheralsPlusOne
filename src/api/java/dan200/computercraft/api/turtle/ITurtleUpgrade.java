@@ -8,11 +8,15 @@ package dan200.computercraft.api.turtle;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.turtle.event.TurtleAttackEvent;
+import dan200.computercraft.api.turtle.event.TurtleBlockEvent;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
@@ -94,11 +98,14 @@ public interface ITurtleUpgrade
      * and this method is not expected to be called.
      */
     @Nullable
-    IPeripheral createPeripheral( @Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side );
+    IPeripheral createPeripheral(@Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side);
 
     /**
      * Will only be called for Tool turtle. Called when turtle.dig() or turtle.attack() is called
      * by the turtle, and the tool is required to do some work.
+     *
+     * Conforming implementations should fire {@link BlockEvent.BreakEvent} and {@link TurtleBlockEvent.Dig}for digging,
+     * {@link AttackEntityEvent} and {@link TurtleAttackEvent} for attacking.
      *
      * @param turtle    Access to the turtle that the tool resides on.
      * @param side      Which side of the turtle (left or right) the tool resides on.
@@ -112,7 +119,7 @@ public interface ITurtleUpgrade
      * to be called.
      */
     @Nonnull
-    TurtleCommandResult useTool( @Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side, @Nonnull TurtleVerb verb, @Nonnull EnumFacing direction );
+    TurtleCommandResult useTool(@Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side, @Nonnull TurtleVerb verb, @Nonnull EnumFacing direction);
 
     /**
      * Called to obtain the model to be used when rendering a turtle peripheral.
@@ -128,7 +135,7 @@ public interface ITurtleUpgrade
      */
     @SideOnly(Side.CLIENT)
     @Nonnull
-    Pair<IBakedModel, Matrix4f> getModel( @Nullable ITurtleAccess turtle, @Nonnull TurtleSide side );
+    Pair<IBakedModel, Matrix4f> getModel(@Nullable ITurtleAccess turtle, @Nonnull TurtleSide side);
 
     /**
      * Called once per tick for each turtle which has the upgrade equipped.
@@ -136,7 +143,7 @@ public interface ITurtleUpgrade
      * @param turtle Access to the turtle that the upgrade resides on.
      * @param side   Which side of the turtle (left or right) the upgrade resides on.
      */
-    default void update( @Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side )
+    default void update(@Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side)
     {
     }
 }

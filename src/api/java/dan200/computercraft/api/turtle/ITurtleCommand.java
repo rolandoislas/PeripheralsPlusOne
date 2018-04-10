@@ -32,5 +32,5 @@ public interface ITurtleCommand
      * @see TurtleCommandResult
      */
     @Nonnull
-    TurtleCommandResult execute( @Nonnull ITurtleAccess turtle );
+    TurtleCommandResult execute(@Nonnull ITurtleAccess turtle);
 }

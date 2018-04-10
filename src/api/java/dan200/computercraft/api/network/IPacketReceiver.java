@@ -68,7 +68,7 @@ public interface IPacketReceiver
      * @see IPacketNetwork#transmitSameDimension(Packet, double)
      * @see IPacketNetwork#transmitInterdimensional(Packet)
      */
-    void receiveSameDimension( @Nonnull Packet packet, double distance );
+    void receiveSameDimension(@Nonnull Packet packet, double distance);
 
     /**
      * Receive a network packet from a different dimension.
@@ -80,5 +80,5 @@ public interface IPacketReceiver
      * @see IPacketNetwork#transmitSameDimension(Packet, double)
      * @see #isInterdimensional()
      */
-    void receiveDifferentDimension( @Nonnull Packet packet );
+    void receiveDifferentDimension(@Nonnull Packet packet);
 }

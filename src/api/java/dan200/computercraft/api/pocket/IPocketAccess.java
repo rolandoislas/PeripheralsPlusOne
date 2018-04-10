@@ -38,7 +38,7 @@ public interface IPocketAccess
      *               {@code 0x000000} and {@code 0xFFFFFF} or -1 to reset to the default colour.
      * @see #getColour()
      */
-    void setColour( int colour );
+    void setColour(int colour);
 
     /**
      * Get the colour of this pocket computer's light as a RGB number.
@@ -56,7 +56,7 @@ public interface IPocketAccess
      *               {@code 0x000000} and {@code 0xFFFFFF} or -1 to reset to the default colour.
      * @see #getLight()
      */
-    void setLight( int colour );
+    void setLight(int colour);
 
     /**
      * Get the upgrade-specific NBT.

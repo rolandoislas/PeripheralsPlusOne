@@ -27,16 +27,16 @@ public interface ITurtlePermissionProvider
      * @param pos   The location of the block.
      * @return Whether the turtle can move into this block.
      */
-    boolean isBlockEnterable( @Nonnull World world, @Nonnull BlockPos pos );
+    boolean isBlockEnterable(@Nonnull World world, @Nonnull BlockPos pos);
 
     /**
      * Determine whether a block can be modified by a turtle.
      *
-     * This includes breaking and placing block.
+     * This includes breaking and placing blocks.
      *
      * @param world The world the block exists in
      * @param pos   The location of the block.
      * @return Whether the turtle can modify this block.
      */
-    boolean isBlockEditable( @Nonnull World world, @Nonnull BlockPos pos );
+    boolean isBlockEditable(@Nonnull World world, @Nonnull BlockPos pos);
 }

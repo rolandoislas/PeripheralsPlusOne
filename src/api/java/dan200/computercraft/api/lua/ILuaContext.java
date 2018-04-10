@@ -32,7 +32,7 @@ public interface ILuaContext
      *                              intercepted, or the computer will leak memory and end up in a broken state.
      */
     @Nonnull
-    Object[] pullEvent( @Nullable String filter ) throws LuaException, InterruptedException;
+    Object[] pullEvent(@Nullable String filter) throws LuaException, InterruptedException;
 
     /**
      * The same as {@link #pullEvent(String)}, except "terminated" events are ignored. Only use this if you want to
@@ -47,7 +47,7 @@ public interface ILuaContext
      * @see #pullEvent(String)
      */
     @Nonnull
-    Object[] pullEventRaw( @Nullable String filter ) throws InterruptedException;
+    Object[] pullEventRaw(@Nullable String filter) throws InterruptedException;
 
     /**
      * Yield the current coroutine with some arguments until it is resumed. This method is exactly equivalent to
@@ -61,7 +61,7 @@ public interface ILuaContext
      * @see #pullEvent(String)
      */
     @Nonnull
-    Object[] yield( @Nullable Object[] arguments ) throws InterruptedException;
+    Object[] yield(@Nullable Object[] arguments) throws InterruptedException;
 
     /**
      * Queue a task to be executed on the main server thread at the beginning of next tick, waiting for it to complete.
@@ -78,7 +78,7 @@ public interface ILuaContext
      *                              intercepted, or the computer will leak memory and end up in a broken state.
      */
     @Nullable
-    Object[] executeMainThreadTask( @Nonnull ILuaTask task ) throws LuaException, InterruptedException;
+    Object[] executeMainThreadTask(@Nonnull ILuaTask task) throws LuaException, InterruptedException;
 
     /**
      * Queue a task to be executed on the main server thread at the beginning of next tick, but do not wait for it to
@@ -93,5 +93,5 @@ public interface ILuaContext
      * @return The "id" of the task. This will be the first argument to the {@code task_completed} event.
      * @throws LuaException If the task could not be queued.
      */
-    long issueMainThreadTask( @Nonnull ILuaTask task ) throws LuaException;
+    long issueMainThreadTask(@Nonnull ILuaTask task) throws LuaException;
 }

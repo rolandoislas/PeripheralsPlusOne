@@ -27,5 +27,5 @@ public interface IMediaProvider
      * @see dan200.computercraft.api.ComputerCraftAPI#registerMediaProvider(IMediaProvider)
      */
     @Nullable
-    IMedia getMedia( @Nonnull ItemStack stack );
+    IMedia getMedia(@Nonnull ItemStack stack);
 }

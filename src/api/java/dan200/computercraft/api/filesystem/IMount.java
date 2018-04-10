@@ -37,7 +37,7 @@ public interface IMount
      * @return If the file exists.
      * @throws IOException If an error occurs when checking the existence of the file.
      */
-    boolean exists( @Nonnull String path ) throws IOException;
+    boolean exists(@Nonnull String path) throws IOException;
 
     /**
      * Returns whether a file with a given path is a directory or not.
@@ -46,7 +46,7 @@ public interface IMount
      * @return If the file exists and is a directory
      * @throws IOException If an error occurs when checking whether the file is a directory.
      */
-    boolean isDirectory( @Nonnull String path ) throws IOException;
+    boolean isDirectory(@Nonnull String path) throws IOException;
 
     /**
      * Returns the file names of all the files in a directory.
@@ -55,7 +55,7 @@ public interface IMount
      * @param contents A list of strings. Add all the file names to this list.
      * @throws IOException If the file was not a directory, or could not be listed.
      */
-    void list( @Nonnull String path, @Nonnull List<String> contents ) throws IOException;
+    void list(@Nonnull String path, @Nonnull List<String> contents) throws IOException;
 
     /**
      * Returns the size of a file with a given path, in bytes
@@ -64,7 +64,7 @@ public interface IMount
      * @return The size of the file, in bytes.
      * @throws IOException If the file does not exist, or its size could not be determined.
      */
-    long getSize( @Nonnull String path ) throws IOException;
+    long getSize(@Nonnull String path) throws IOException;
 
     /**
      * Opens a file with a given path, and returns an {@link InputStream} representing its contents.
@@ -74,5 +74,5 @@ public interface IMount
      * @throws IOException If the file does not exist, or could not be opened.
      */
     @Nonnull
-    InputStream openForRead( @Nonnull String path ) throws IOException;
+    InputStream openForRead(@Nonnull String path) throws IOException;
 }

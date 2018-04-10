@@ -128,7 +128,7 @@ configurations {
 
 ext.freettsVersion = "1.2.2"
 dependencies {
-    compile "com.rolandoislas.theframework:TheFramework:1.12.2-1.0-build-T8:deobf"
+    compile "com.rolandoislas.theframework:TheFramework:1.12.2-1.0.1-build-T23:deobf"
     compile "mezz.jei:jei_1.12.2:4.8.5.132"
     compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
     compileBundle "com.fasterxml.jackson.core:jackson-databind:2.9.1"

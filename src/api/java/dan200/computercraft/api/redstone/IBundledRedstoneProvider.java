@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 /**
- * This interface is used to provide bundled redstone output for block.
+ * This interface is used to provide bundled redstone output for blocks.
  *
  * @see dan200.computercraft.api.ComputerCraftAPI#registerBundledRedstoneProvider(IBundledRedstoneProvider)
  */
@@ -30,5 +30,5 @@ public interface IBundledRedstoneProvider
      * handle this block.
      * @see dan200.computercraft.api.ComputerCraftAPI#registerBundledRedstoneProvider(IBundledRedstoneProvider)
      */
-    int getBundledRedstoneOutput( @Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side );
+    int getBundledRedstoneOutput(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side);
 }

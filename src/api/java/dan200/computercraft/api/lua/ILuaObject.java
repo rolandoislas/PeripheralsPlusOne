@@ -52,5 +52,5 @@ public interface ILuaObject
      * @see IPeripheral#callMethod(IComputerAccess, ILuaContext, int, Object[])
      */
     @Nullable
-    Object[] callMethod( @Nonnull ILuaContext context, int method, @Nonnull Object[] arguments ) throws LuaException, InterruptedException;
+    Object[] callMethod(@Nonnull ILuaContext context, int method, @Nonnull Object[] arguments) throws LuaException, InterruptedException;
 }

@@ -8,9 +8,12 @@ package dan200.computercraft.api;
 
 import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.filesystem.IWritableMount;
+import dan200.computercraft.api.lua.ILuaAPIFactory;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.api.media.IMediaProvider;
 import dan200.computercraft.api.network.IPacketNetwork;
+import dan200.computercraft.api.network.wired.IWiredElement;
+import dan200.computercraft.api.network.wired.IWiredNode;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -20,6 +23,7 @@ import dan200.computercraft.api.redstone.IBundledRedstoneProvider;
 import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -154,11 +158,11 @@ public final class ComputerCraftAPI
     }
 
     /**
-     * Registers a peripheral handler to convert block into {@link IPeripheral} implementations.
+     * Registers a peripheral handler to convert blocks into {@link IPeripheral} implementations.
      *
      * @param handler The peripheral provider to register.
-     * @see dan200.computercraft.api.peripheral.IPeripheral
-     * @see dan200.computercraft.api.peripheral.IPeripheralProvider
+     * @see IPeripheral
+     * @see IPeripheralProvider
      */
     public static void registerPeripheralProvider( @Nonnull IPeripheralProvider handler )
     {
@@ -179,7 +183,7 @@ public final class ComputerCraftAPI
      * this during the load() method of your mod.
      *
      * @param upgrade The turtle upgrade to register.
-     * @see dan200.computercraft.api.turtle.ITurtleUpgrade
+     * @see ITurtleUpgrade
      */
     public static void registerTurtleUpgrade( @Nonnull ITurtleUpgrade upgrade )
     {
@@ -191,17 +195,17 @@ public final class ComputerCraftAPI
                 try {
                     computerCraft_registerTurtleUpgrade.invoke( null, upgrade );
                 } catch( Exception e ) {
-                    e.printStackTrace();
+                    // It failed
                 }
             }
         }
     }
 
     /**
-     * Registers a bundled redstone handler to provide bundled redstone output for block.
+     * Registers a bundled redstone handler to provide bundled redstone output for blocks.
      *
      * @param handler The bundled redstone provider to register.
-     * @see dan200.computercraft.api.redstone.IBundledRedstoneProvider
+     * @see IBundledRedstoneProvider
      */
     public static void registerBundledRedstoneProvider( @Nonnull IBundledRedstoneProvider handler )
     {
@@ -224,7 +228,7 @@ public final class ComputerCraftAPI
      * @param side  The side to extract the bundled redstone output from.
      * @return If there is a block capable of emitting bundled redstone at the location, it's signal (0-65535) will be returned.
      * If there is no block capable of emitting bundled redstone at the location, -1 will be returned.
-     * @see dan200.computercraft.api.redstone.IBundledRedstoneProvider
+     * @see IBundledRedstoneProvider
      */
     public static int getBundledRedstoneOutput( @Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side )
     {
@@ -244,7 +248,7 @@ public final class ComputerCraftAPI
      * Registers a media handler to provide {@link IMedia} implementations for Items
      *
      * @param handler The media provider to register.
-     * @see dan200.computercraft.api.media.IMediaProvider
+     * @see IMediaProvider
      */
     public static void registerMediaProvider( @Nonnull IMediaProvider handler )
     {
@@ -263,7 +267,7 @@ public final class ComputerCraftAPI
      * Registers a permission handler to restrict where turtles can move or build.
      *
      * @param handler The turtle permission provider to register.
-     * @see dan200.computercraft.api.permissions.ITurtlePermissionProvider
+     * @see ITurtlePermissionProvider
      */
     public static void registerPermissionProvider( @Nonnull ITurtlePermissionProvider handler )
     {
@@ -311,6 +315,77 @@ public final class ComputerCraftAPI
         return null;
     }
 
+    public static void registerAPIFactory( @Nonnull ILuaAPIFactory upgrade )
+    {
+        findCC();
+        if( computerCraft_registerAPIFactory != null )
+        {
+            try
+            {
+                computerCraft_registerAPIFactory.invoke( null, upgrade );
+            }
+            catch( Exception e )
+            {
+                // It failed
+            }
+        }
+    }
+
+    /**
+     * Construct a new wired node for a given wired element
+     *
+     * @param element The element to construct it for
+     * @return The element's node
+     * @see IWiredElement#getNode()
+     */
+    @Nonnull
+    public static IWiredNode createWiredNodeForElement( @Nonnull IWiredElement element )
+    {
+        findCC();
+        if( computerCraft_createWiredNodeForElement != null )
+        {
+            try
+            {
+                return (IWiredNode) computerCraft_createWiredNodeForElement.invoke( null, element );
+            }
+            catch( ReflectiveOperationException e )
+            {
+                throw new IllegalStateException( "Error creating wired node", e );
+            }
+        }
+        else
+        {
+            throw new IllegalStateException( "ComputerCraft cannot be found" );
+        }
+    }
+
+    /**
+     * Get the wired network element for a block in world
+     *
+     * @param world The world the block exists in
+     * @param pos   The position the block exists in
+     * @param side  The side to extract the network element from
+     * @return The element's node
+     * @see IWiredElement#getNode()
+     */
+    @Nullable
+    public static IWiredElement getWiredElementAt( @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side )
+    {
+        findCC();
+        if( computerCraft_getWiredElementAt != null )
+        {
+            try
+            {
+                return (IWiredElement) computerCraft_getWiredElementAt.invoke( null, world, pos, side );
+            }
+            catch( ReflectiveOperationException ignored )
+            {
+            }
+        }
+        
+        return null;
+    }
+
     // The functions below here are private, and are used to interface with the non-API ComputerCraft classes.
     // Reflection is used here so you can develop your mod without decompiling ComputerCraft and including
     // it in your solution, and so your mod won't crash if ComputerCraft is installed.
@@ -354,6 +429,15 @@ public final class ComputerCraftAPI
                 } );
                 computerCraft_getWirelessNetwork = findCCMethod( "getWirelessNetwork", new Class<?>[] {
                 } );
+                computerCraft_registerAPIFactory = findCCMethod( "registerAPIFactory", new Class<?>[] {
+                    ILuaAPIFactory.class
+                } );
+                computerCraft_createWiredNodeForElement = findCCMethod( "createWiredNodeForElement", new Class<?>[] {
+                    IWiredElement.class
+                } );
+                computerCraft_getWiredElementAt = findCCMethod( "getWiredElementAt", new Class<?>[]{
+                    IBlockAccess.class, BlockPos.class, EnumFacing.class
+                } );
             } catch( Exception e ) {
                 System.out.println( "ComputerCraftAPI: ComputerCraft not found." );
             } finally {
@@ -390,4 +474,7 @@ public final class ComputerCraftAPI
     private static Method computerCraft_registerPermissionProvider = null;
     private static Method computerCraft_registerPocketUpgrade = null;
     private static Method computerCraft_getWirelessNetwork = null;
+    private static Method computerCraft_registerAPIFactory = null;
+    private static Method computerCraft_createWiredNodeForElement = null;
+    private static Method computerCraft_getWiredElementAt = null;
 }

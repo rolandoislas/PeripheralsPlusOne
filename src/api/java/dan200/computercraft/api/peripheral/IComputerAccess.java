@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * The interface passed to peripherals by computers or turtles, providing methods
@@ -37,7 +39,7 @@ public interface IComputerAccess
      * @see IMount
      */
     @Nullable
-    String mount( @Nonnull String desiredLocation, @Nonnull IMount mount );
+    String mount(@Nonnull String desiredLocation, @Nonnull IMount mount);
 
     /**
      * Mount a mount onto the computer's file system in a read only mode.
@@ -56,7 +58,7 @@ public interface IComputerAccess
      * @see IMount
      */
     @Nullable
-    String mount( @Nonnull String desiredLocation, @Nonnull IMount mount, @Nonnull String driveName );
+    String mount(@Nonnull String desiredLocation, @Nonnull IMount mount, @Nonnull String driveName);
 
     /**
      * Mount a mount onto the computer's file system in a writable mode.
@@ -73,7 +75,7 @@ public interface IComputerAccess
      * @see IMount
      */
     @Nullable
-    String mountWritable( @Nonnull String desiredLocation, @Nonnull IWritableMount mount );
+    String mountWritable(@Nonnull String desiredLocation, @Nonnull IWritableMount mount);
 
     /**
      * Mount a mount onto the computer's file system in a writable mode.
@@ -90,7 +92,7 @@ public interface IComputerAccess
      * @see #unmount(String)
      * @see IMount
      */
-    String mountWritable( @Nonnull String desiredLocation, @Nonnull IWritableMount mount, @Nonnull String driveName );
+    String mountWritable(@Nonnull String desiredLocation, @Nonnull IWritableMount mount, @Nonnull String driveName);
 
     /**
      * Unmounts a directory previously mounted onto the computers file system by {@link #mount(String, IMount)}
@@ -110,7 +112,7 @@ public interface IComputerAccess
      * @see #mount(String, IMount)
      * @see #mountWritable(String, IWritableMount)
      */
-    void unmount( @Nullable String location );
+    void unmount(@Nullable String location);
 
     /**
      * Returns the numerical ID of this computer.
@@ -138,9 +140,9 @@ public interface IComputerAccess
      *
      *                  You may supply {@code null} to indicate that no arguments are to be supplied.
      * @throws RuntimeException If the peripheral has been detached.
-     * @see dan200.computercraft.api.peripheral.IPeripheral#callMethod
+     * @see IPeripheral#callMethod
      */
-    void queueEvent( @Nonnull String event, @Nullable Object[] arguments );
+    void queueEvent(@Nonnull String event, @Nullable Object[] arguments);
 
     /**
      * Get a string, unique to the computer, by which the computer refers to this peripheral.
@@ -154,4 +156,33 @@ public interface IComputerAccess
      */
     @Nonnull
     String getAttachmentName();
+
+    /**
+     * Get a set of peripherals that this computer access can "see", along with their attachment name.
+     *
+     * This may include other peripherals on the wired network or peripherals on other sides of the computer.
+     *
+     * @return All reachable peripherals
+     * @see #getAttachmentName()
+     * @see #getAvailablePeripheral(String)
+     */
+    @Nonnull
+    default Map<String, IPeripheral> getAvailablePeripherals()
+    {
+        return Collections.emptyMap();
+    }
+
+    /**
+     * Get a reachable peripheral with the given attachement name. This is a equivalent to
+     * {@link #getAvailablePeripherals()}{@code .get(name)}, though may be more performant.
+     *
+     * @param name The peripheral's attached name
+     * @return The reachable peripheral, or {@code null} if none can be found.
+     * @see #getAvailablePeripherals()
+     */
+    @Nullable
+    default IPeripheral getAvailablePeripheral(@Nonnull String name)
+    {
+        return null;
+    }
 }

@@ -27,7 +27,7 @@ public interface IMedia
      * @return The label. ie: "Dan's Programs".
      */
     @Nullable
-    String getLabel( @Nonnull ItemStack stack );
+    String getLabel(@Nonnull ItemStack stack);
 
     /**
      * Set a string representing the label of this item. Will be called vi {@code disk.setLabel()} in lua.
@@ -36,7 +36,7 @@ public interface IMedia
      * @param label The string to set the label to.
      * @return true if the label was updated, false if the label may not be modified.
      */
-    boolean setLabel( @Nonnull ItemStack stack, @Nullable String label );
+    boolean setLabel(@Nonnull ItemStack stack, @Nullable String label);
 
     /**
      * If this disk represents an item with audio (like a record), get the readable name of the audio track. ie:
@@ -46,7 +46,7 @@ public interface IMedia
      * @return The name, or null if this item does not represent an item with audio.
      */
     @Nullable
-    String getAudioTitle( @Nonnull ItemStack stack );
+    String getAudioTitle(@Nonnull ItemStack stack);
 
     /**
      * If this disk represents an item with audio (like a record), get the resource name of the audio track to play.
@@ -55,7 +55,7 @@ public interface IMedia
      * @return The name, or null if this item does not represent an item with audio.
      */
     @Nullable
-    SoundEvent getAudio( @Nonnull ItemStack stack );
+    SoundEvent getAudio(@Nonnull ItemStack stack);
 
     /**
      * If this disk represents an item with data (like a floppy disk), get a mount representing it's contents. This will
@@ -65,11 +65,11 @@ public interface IMedia
      * @param world The world in which the item and disk drive reside.
      * @return The mount, or null if this item does not represent an item with data. If the mount returned also
      * implements {@link dan200.computercraft.api.filesystem.IWritableMount}, it will mounted using mountWritable()
-     * @see dan200.computercraft.api.filesystem.IMount
+     * @see IMount
      * @see dan200.computercraft.api.filesystem.IWritableMount
      * @see dan200.computercraft.api.ComputerCraftAPI#createSaveDirMount(World, String, long)
      * @see dan200.computercraft.api.ComputerCraftAPI#createResourceMount(Class, String, String)
      */
     @Nullable
-    IMount createDataMount( @Nonnull ItemStack stack, @Nonnull World world );
+    IMount createDataMount(@Nonnull ItemStack stack, @Nonnull World world);
 }
