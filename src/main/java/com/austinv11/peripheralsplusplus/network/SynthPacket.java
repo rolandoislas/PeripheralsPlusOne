@@ -9,11 +9,15 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 public class SynthPacket implements IMessage {
@@ -97,28 +101,36 @@ public class SynthPacket implements IMessage {
 			
 			@Override
 			public void run() {
-				System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+				System.setProperty("mbrola.base", Paths.get(Minecraft.getMinecraft().mcDataDir.getAbsolutePath(),
+						"mods/peripheralsplusone/mbrola").toFile().getAbsolutePath());
+				System.setProperty("freetts.voices",
+						"com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory," +
+						"de.dfki.lt.freetts.en.us.MbrolaVoiceDirectory");
+				boolean success = false;
 				try {
 					Voice voice =  VoiceManager.getInstance().getVoice(message.voice);
-					voice.allocate();
-					if (message.pitch != null)
-						voice.setPitch(message.pitch);
-					if (message.pitchRange != null)
-						voice.setPitchRange(message.pitchRange);
-					if (message.pitchShift != null)
-						voice.setPitchShift(message.pitchShift);
-					if (message.rate != null)
-						voice.setRate(message.rate);
-					if (message.volume != null)
-						voice.setPitch(message.volume);
-					voice.speak(message.text);
-					voice.deallocate();
-					synchronized (this) {
-						PeripheralsPlusPlus.NETWORK.sendToServer(new SynthResponsePacket(message.text, message.pos,
-                                Minecraft.getMinecraft().world, message.side, message.eventId));
+					if (voice != null) {
+						voice.allocate();
+						if (message.pitch != null)
+							voice.setPitch(message.pitch);
+						if (message.pitchRange != null)
+							voice.setPitchRange(message.pitchRange);
+						if (message.pitchShift != null)
+							voice.setPitchShift(message.pitchShift);
+						if (message.rate != null)
+							voice.setRate(message.rate);
+						if (message.volume != null)
+							voice.setVolume(message.volume);
+						success = voice.speak(message.text);
+						voice.deallocate();
 					}
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					e.printStackTrace();
+				}
+				synchronized (this) {
+					PeripheralsPlusPlus.NETWORK.sendToServer(new SynthResponsePacket(message.text, message.pos,
+							Minecraft.getMinecraft().world, message.side, message.eventId, success));
 				}
 			}
 		}

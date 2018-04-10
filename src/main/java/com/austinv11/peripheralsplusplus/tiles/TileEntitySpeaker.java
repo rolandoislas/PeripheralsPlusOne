@@ -54,7 +54,7 @@ public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral
 		synchronized (this) {
 			for (Map.Entry<UUID, Long> pendingEvent : pendingEvents.entrySet())
 				if (System.currentTimeMillis() - pendingEvent.getValue() > 30000) {
-					onSpeechCompletion("", pendingEvent.getKey());
+					onSpeechCompletion("", pendingEvent.getKey(), true);
 					break;
 				}
 		}
@@ -141,13 +141,13 @@ public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral
 		return (this == other);
 	}
 
-	public void onSpeechCompletion(String text, UUID eventId) {
+	public void onSpeechCompletion(String text, UUID eventId, boolean success) {
 		synchronized (this) {
 			if (!pendingEvents.containsKey(eventId))
 				return;
 			pendingEvents.remove(eventId);
 		}
 		for (IComputerAccess computer : computers)
-			computer.queueEvent("synthComplete", new Object[]{text, eventId});
+			computer.queueEvent("synthComplete", new Object[]{text, eventId.toString(), success});
 	}
 }

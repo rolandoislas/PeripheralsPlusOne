@@ -20,6 +20,7 @@ import java.util.UUID;
 
 public class SynthResponsePacket implements IMessage {
 
+	private boolean success;
 	private UUID eventId;
 	private BlockPos pos;
     public String text;
@@ -29,12 +30,13 @@ public class SynthResponsePacket implements IMessage {
 	
 	public SynthResponsePacket(){}
 	
-	public SynthResponsePacket(String text, BlockPos pos, World world, TurtleSide side, UUID eventId) {
+	public SynthResponsePacket(String text, BlockPos pos, World world, TurtleSide side, UUID eventId, boolean success) {
 		this.text = text;
 		this.pos = pos;
 		this.world = world;
 		this.side = side;
 		this.eventId = eventId;
+		this.success = success;
 	}
 	
 	@Override
@@ -46,6 +48,7 @@ public class SynthResponsePacket implements IMessage {
 		world = DimensionManager.getWorld(tag.getInteger("dim"));
 		side = tag.getString("side").equals("null") ? null : TurtleSide.valueOf(tag.getString("side"));
 		eventId = tag.getUniqueId("eventId");
+		success = tag.getBoolean("success");
 	}
 	
 	@Override
@@ -56,6 +59,7 @@ public class SynthResponsePacket implements IMessage {
 		tag.setInteger("dim", world.provider.getDimension());
 		tag.setString("side", side == null ? "null" : side.name());
 		tag.setUniqueId("eventId", eventId);
+		tag.setBoolean("success", success);
 		ByteBufUtils.writeTag(buf, tag);
 	}
 	
@@ -66,7 +70,7 @@ public class SynthResponsePacket implements IMessage {
 			if (message.side == null) {
 				TileEntity tileEntity = message.world.getTileEntity(message.pos);
 				if (tileEntity != null)
-					((TileEntitySpeaker)tileEntity).onSpeechCompletion(message.text, message.eventId);
+					((TileEntitySpeaker)tileEntity).onSpeechCompletion(message.text, message.eventId, message.success);
 			}
 			else
 				try {
@@ -74,7 +78,7 @@ public class SynthResponsePacket implements IMessage {
 					if (turtle != null) {
 						IPeripheral tileEntity = turtle.getPeripheral(message.side);
 						if (tileEntity != null)
-							((TileEntitySpeaker) tileEntity).onSpeechCompletion(message.text, message.eventId);
+							((TileEntitySpeaker) tileEntity).onSpeechCompletion(message.text, message.eventId, message.success);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
