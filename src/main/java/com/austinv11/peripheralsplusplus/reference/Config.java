@@ -177,4 +177,7 @@ public class Config {
 
     @Description(category = "Privacy Guard", comment = ENABLE_CONFIG_MESSAGE)
 	public static boolean enablePrivacyGuard = true;
+
+    @Description(category = "Speaker", comment = "Voice RSS API key.")
+	public static String voiceRssApiKey = "";
 }

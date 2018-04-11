@@ -140,6 +140,7 @@ dependencies {
     compileBundle "org.bouncycastle:bcprov-jdk15on:1.57"
     compileBundle "org.bouncycastle:bcpg-jdk15on:1.57"
     compileBundle "name.neuhalfen.projects.crypto.bouncycastle.openpgp:bouncy-gpg:2.+"
+    compileBundle zipTree("libs/voicerss_tts.jar")
     configurations.compile.extendsFrom(configurations.compileBundle)
 }
 
