@@ -193,6 +193,12 @@ peripheralsplusone.lang.config.Iron Note Block=Iron Note Block
 peripheralsplusone.lang.config.Iron Note Block.enableNoteBlock=Enabled
 peripheralsplusone.lang.config.Iron Note Block.noteBlockRange=Audible Range
 
+peripheralsplusone.lang.config.Mag Strip Items=Mag Strip
+peripheralsplusone.lang.config.Mag Strip Items.enableMagStripItems=Enabled
+
+peripheralsplusone.lang.config.Mana Manipulator=Mana Manipulator
+peripheralsplusone.lang.config.Mana Manipulator.enableManaManipulator=Enabled
+
 peripheralsplusone.lang.config.ME Bridge=ME Bridge
 peripheralsplusone.lang.config.ME Bridge.enableMEBridge=Enabled
 
@@ -224,15 +230,21 @@ peripheralsplusone.lang.config.Player Sensor.additionalMethods=Additional Method
 peripheralsplusone.lang.config.Player Sensor.enablePlayerSensor=Enabled
 peripheralsplusone.lang.config.Player Sensor.sensorRange=Range
 
-peripheralsplusone.lang.config.RF Turtle Charger=RF Turtle Charger
-peripheralsplusone.lang.config.RF Turtle Charger.enableRFCharger=Enabled
-peripheralsplusone.lang.config.RF Turtle Charger.fuelRF=Turtle Fuel Point RF Value
+peripheralsplusone.lang.config.Privacy Guard=Privacy Guard
+peripheralsplusone.lang.config.Privacy Guard.enablePrivacyGuard=Enabled
 
 peripheralsplusone.lang.config.RedPower-Like Turtles=RedPower-Like Turtles
 peripheralsplusone.lang.config.RedPower-Like Turtles.enableRedPowerLikeTurtles=Enabled
 
 peripheralsplusone.lang.config.Resupply Station=Resupply Station
 peripheralsplusone.lang.config.Resupply Station.enableResupplyStation=Enabled
+
+peripheralsplusone.lang.config.RF Turtle Charger=RF Turtle Charger
+peripheralsplusone.lang.config.RF Turtle Charger.enableRFCharger=Enabled
+peripheralsplusone.lang.config.RF Turtle Charger.fuelRF=Turtle Fuel Point RF Value
+
+peripheralsplusone.lang.config.RFID Items=RFID
+peripheralsplusone.lang.config.RFID Items.enableRfidItems=Enabled
 
 peripheralsplusone.lang.config.Ridable Turtle=Ridable Turtle
 peripheralsplusone.lang.config.Ridable Turtle.enableRidableTurtle=Enabled
@@ -250,6 +262,7 @@ peripheralsplusone.lang.config.Smart Helmet.enableSmartHelmet=Enabled
 peripheralsplusone.lang.config.Speaker=Speaker
 peripheralsplusone.lang.config.Speaker.enableSpeaker=Enabled
 peripheralsplusone.lang.config.Speaker.speechRange=Range
+peripheralsplusone.lang.config.Speaker.voiceRssApiKey=Voice RSS Api Key
 
 peripheralsplusone.lang.config.Tank Turtle=Tank Turtle
 peripheralsplusone.lang.config.Tank Turtle.enableTankTurtle=Enable
