@@ -17,5 +17,7 @@ The ME Bridge is peripheral which is added when Applied Energistics 2 is install
 |listAll()|_table_ items|Lists all referenced items in the network|
 |listItems()|_table_ items|Lists all stored items in the network|
 |listCraft()|_table_ items|Lists all craftable items in the network|
-|retrieve(_string_ itemId, _number_ metadata, _number_ amount, _string or number_ directionToDeposit\[, _string_ nbt\])|_number_ extracted|Retrieves the given items and attempts to place it in an inventory in the direction given (either the number or a string like "north" or "up", returns the amount extracted.|
+|~~retrieve(_string_ itemId, _number_ metadata, _number_ amount, _string or number_ directionToDeposit\[, _string_ nbt\])~~|_number_ extracted|**Deprecated** Retrieves the given items and attempts to place it in an inventory in the direction given (either the number or a string like "north" or "up", returns the amount extracted.|
+|import(_string_ itemId, _number_ metadata, _number_ amount, _string or number_ directionToDeposit\[, _string_ nbt\])|_number_ imported|Retrieves the given items from the inventory in the direction given (either the number or a string like "north" or "up") and attempts to place them in the connected AE system, returns the amount imported.|
+|export(_string_ itemId, _number_ metadata, _number_ amount, _string or number_ directionToDeposit\[, _string_ nbt\])|_number_ exported|Retrieves the given items from the connected AE system and attempts to place them in an inventory in the direction given (either the number or a string like "north" or "up"), returns the amount exported.|
 |craft(_string_ itemId, _number_ metadata, _number_ amount\[, _string_ nbt\])|_nil_|Attempts to craft the given items|
