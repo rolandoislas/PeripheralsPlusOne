@@ -2,7 +2,12 @@ package com.austinv11.peripheralsplusplus.tiles;
 
 import appeng.api.AEApi;
 import appeng.api.config.Actionable;
-import appeng.api.networking.*;
+import appeng.api.networking.GridFlags;
+import appeng.api.networking.GridNotification;
+import appeng.api.networking.IGrid;
+import appeng.api.networking.IGridBlock;
+import appeng.api.networking.IGridHost;
+import appeng.api.networking.IGridNode;
 import appeng.api.networking.crafting.ICraftingGrid;
 import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.security.IActionHost;
@@ -125,7 +130,7 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 
 	@Override
 	public String[] getMethodNames() {
-		return new String[]{"listAll", "listItems", "listCraft", "retrieve", "craft"};
+		return new String[]{"listAll", "listItems", "listCraft", "retrieve", "craft", "export", "import"};
 	}
 
 	@Override
@@ -145,9 +150,12 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			case 2:
 				return new Object[]{iteratorToMap(grid.getStorageList().iterator(), 2)};
 			case 3:
-				return retrieve(arguments, grid);
+			case 5:
+				return importOrExportItem(arguments, grid, false);
 			case 4:
 				return craft(arguments, grid);
+			case 6:
+				return importOrExportItem(arguments, grid, true);
 		}
 		return new Object[0];
 	}
@@ -197,7 +205,15 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		return new Object[]{};
 	}
 
-	private Object[] retrieve(Object[] arguments, IMEMonitor<IAEItemStack> monitor) throws LuaException {
+	/**
+	 * Import an item from an inventory to the ae2 system
+	 * @param arguments lua args array
+	 * @param monitor ae2 monitor
+	 * @param doImport should the item be imported, otherwise it is exported
+	 * @return amount of items imported
+	 */
+	private Object[] importOrExportItem(Object[] arguments, IMEMonitor<IAEItemStack> monitor, boolean doImport)
+			throws LuaException {
 		if (arguments.length < 4)
 			throw new LuaException("Too few arguments");
 		if (!(arguments[0] instanceof String))
@@ -228,6 +244,17 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 		if (item.isEmpty())
 			throw new LuaException("Item not found");
 
+		if (doImport) {
+			if (importItems(amount, inventory, item, monitor, true) > 0) {
+				return new Object[]{
+						importItems(amount, inventory, item, monitor, false)
+				};
+			}
+			else
+				return new Object[]{0};
+		}
+
+		// Export
 		long extracted = 0;
 		IAEItemStack stack = findAEStackFromItemStack(monitor, item);
 		if (stack != null) {
@@ -274,6 +301,48 @@ public class TileEntityMEBridge extends TileEntity implements IActionHost, IGrid
 			}
 		}
 		return new Object[]{extracted};
+	}
+
+	/**
+	 * Import items from an inventory to an AE2 system
+	 * @param amount amount of items to import
+	 * @param inventory the inventory to import from
+	 * @param item the item to import
+	 * @param monitor the ae2 system import to
+	 * @param simulate should this be simulated
+	 * @throws LuaException error
+	 * @return amount of items imported
+	 */
+	private long importItems(long amount, IInventory inventory, ItemStack item, IMEMonitor<IAEItemStack> monitor,
+								boolean simulate) throws LuaException {
+		long importAmount = amount;
+		for (int slotIndex = 0; slotIndex < inventory.getSizeInventory(); slotIndex++) {
+			if (importAmount <= 0)
+				break;
+			ItemStack potentialImport = inventory.getStackInSlot(slotIndex);
+			if (ItemStack.areItemsEqual(potentialImport, item) &&
+					ItemStack.areItemStackTagsEqual(potentialImport, item)) {
+				if (!simulate) {
+					ItemStack imported = inventory.decrStackSize(slotIndex, importAmount > Integer.MAX_VALUE ?
+							Integer.MAX_VALUE : (int) importAmount);
+					if (!imported.isEmpty())
+						importAmount -= imported.getCount();
+				}
+				else {
+					importAmount -= Math.min(importAmount, potentialImport.getCount());
+				}
+			}
+		}
+		long importedAmount = amount - importAmount;
+		IAEItemStack aeStack = monitor.getChannel().createStack(item);
+		if (aeStack == null)
+			throw new LuaException("Failed to create itemstack in AE system");
+		aeStack.setStackSize(importedAmount);
+		IAEItemStack notInjected = monitor.injectItems(aeStack, simulate ? Actionable.SIMULATE : Actionable.MODULATE,
+				this);
+		if (notInjected != null)
+			throw new LuaException("Not enough space in AE system");
+		return importedAmount;
 	}
 
 	private int[] getDefaultSlots(IInventory inventory) {

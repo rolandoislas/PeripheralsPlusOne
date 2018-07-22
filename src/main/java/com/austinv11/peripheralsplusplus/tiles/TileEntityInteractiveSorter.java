@@ -5,6 +5,7 @@ import com.austinv11.collectiveframework.minecraft.utils.Location;
 import com.austinv11.collectiveframework.minecraft.utils.WorldUtils;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
+import com.austinv11.peripheralsplusplus.utils.ItemHandlerInventoryWrapper;
 import com.austinv11.peripheralsplusplus.utils.Util;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
@@ -16,13 +17,27 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagByteArray;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagIntArray;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -195,8 +210,18 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 			Block block = world.getBlockState(pos).getBlock();
 			if (block instanceof IInventory)
 				return (IInventory) block;
-			if (block instanceof ITileEntityProvider && world.getTileEntity(pos) instanceof IInventory)
-				return (IInventory)world.getTileEntity(pos);
+			if (block instanceof ITileEntityProvider) {
+				TileEntity tileEntity = world.getTileEntity(pos);
+				if (tileEntity != null) {
+					if (tileEntity instanceof IInventory)
+						return (IInventory) world.getTileEntity(pos);
+					else if (tileEntity.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
+						IItemHandler itemHandler =
+								tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+						return new ItemHandlerInventoryWrapper(itemHandler);
+					}
+				}
+			}
 		}
 		return null;
 	}
