@@ -5,8 +5,6 @@ import com.austinv11.peripheralsplusplus.network.SynthPacket;
 import com.austinv11.peripheralsplusplus.reference.Config;
 import com.austinv11.peripheralsplusplus.utils.IPlusPlusPeripheral;
 import com.voicerss.tts.Languages;
-import com.voicerss.tts.VoiceParameters;
-import com.voicerss.tts.VoiceProvider;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -17,7 +15,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral {
 	private ITurtleAccess turtle;
@@ -70,11 +72,10 @@ public class TileEntitySpeaker extends TileEntity implements IPlusPlusPeripheral
 
 	@Override
 	public String[] getMethodNames() {
-		VoiceProvider voiceProvider = new VoiceProvider("");
-		VoiceParameters voiceParameters = new VoiceParameters("bonjour", Languages.French_France);
 		return new String[]{
 				"speak", "synthesize", /*text, [range, [voice, [pitch, [pitchRange, [pitchShift, [rate, [volume, [wait]]]]]]]]*/
-				"web" /*text, [range, [language, [rate, [volume, [wait, [apiKey]]]]]]*/
+				"web", /*text, [range, [language, [rate, [volume, [wait, [apiKey]]]]]]*/
+				// TODO narrate (Narrator.getNarrator().say())
 		};
 	}
 

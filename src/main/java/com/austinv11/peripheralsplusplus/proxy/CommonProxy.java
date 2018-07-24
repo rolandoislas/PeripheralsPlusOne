@@ -1,5 +1,6 @@
 package com.austinv11.peripheralsplusplus.proxy;
 
+import com.austinv11.collectiveframework.minecraft.reference.ModIds;
 import com.austinv11.peripheralsplusplus.PeripheralsPlusPlus;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolder;
 import com.austinv11.peripheralsplusplus.capabilities.nano.NanoBotHolderDefault;
@@ -58,6 +59,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -83,30 +85,33 @@ public class CommonProxy {
 		registerTileEntity(TileEntityPlayerSensor.class);
 		registerTileEntity(TileEntityRFCharger.class);
 		registerTileEntity(TileEntityOreDictionary.class);
-		registerTileEntity(TileEntityAnalyzerBee.class);
-		registerTileEntity(TileEntityAnalyzerButterfly.class);
-		registerTileEntity(TileEntityAnalyzerTree.class);
+		if (Loader.isModLoaded(ModIds.FORESTRY)) {
+			registerTileEntity(TileEntityAnalyzerBee.class);
+			registerTileEntity(TileEntityAnalyzerButterfly.class);
+			registerTileEntity(TileEntityAnalyzerTree.class);
+		}
 		registerTileEntity(TileEntityTeleporter.class);
 		registerTileEntity(TileEntityEnvironmentScanner.class);
 		registerTileEntity(TileEntitySpeaker.class);
 		registerTileEntity(TileEntityAntenna.class);
 		registerTileEntity(TileEntityPeripheralContainer.class);
-		registerTileEntity(TileEntityMEBridge.class);
+		if (Loader.isModLoaded(ModIds.APPLIED_ENGERGISTICS))
+			registerTileEntity(TileEntityMEBridge.class);
 		registerTileEntity(TileEntityTurtle.class);
 		registerTileEntity(TileEntityTimeSensor.class);
 		registerTileEntity(TileEntityInteractiveSorter.class);
         registerTileEntity(TileEntityPlayerInterface.class);
 		registerTileEntity(TileEntityResupplyStation.class);
 		registerTileEntity(TileEntityModNotLoaded.class);
-		registerTileEntity(TileEntityManaManipulator.class);
+		if (Loader.isModLoaded("botania"))
+			registerTileEntity(TileEntityManaManipulator.class);
 		registerTileEntity(TileEntityRfidReaderWriter.class);
 		registerTileEntity(TileEntityMagReaderWriter.class);
 		registerTileEntity(TileEntityPrivacyGuard.class);
     }
 
 	private void registerTileEntity(Class<? extends TileEntity> tileEntity) {
-		GameRegistry.registerTileEntity(tileEntity, String.format("%s:%s", Reference.MOD_ID,
-				tileEntity.getSimpleName()));
+		GameRegistry.registerTileEntity(tileEntity, new ResourceLocation(Reference.MOD_ID, tileEntity.getSimpleName()));
 	}
 
 	public void textureAndModelInit() {}
@@ -155,8 +160,7 @@ public class CommonProxy {
 	}
 
 	public void registerCapabilities() {
-		CapabilityManager.INSTANCE.register(NanoBotHolder.class, new NanoBotHolderStorage(),
-				NanoBotHolderDefault.class);
-		CapabilityManager.INSTANCE.register(RfidTagHolder.class, new RfidTagStorage(), RfidTagHolderDefault.class);
+		CapabilityManager.INSTANCE.register(NanoBotHolder.class, new NanoBotHolderStorage(), NanoBotHolderDefault::new);
+		CapabilityManager.INSTANCE.register(RfidTagHolder.class, new RfidTagStorage(), RfidTagHolderDefault::new);
 	}
 }
