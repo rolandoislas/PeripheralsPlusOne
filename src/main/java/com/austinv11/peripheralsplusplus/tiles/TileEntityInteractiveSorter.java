@@ -112,7 +112,9 @@ public class TileEntityInteractiveSorter extends TileEntityInventory implements 
 					inventory.setInventorySlotContents(slots[currentSlot], getStackInSlot(0));
 					setInventorySlotContents(0, ItemStack.EMPTY);
 				} else {
-					if (!inventory.getStackInSlot(slots[currentSlot]).isItemEqual(getStackInSlot(0))) {
+					if (!inventory.getStackInSlot(slots[currentSlot]).isItemEqual(getStackInSlot(0)) ||
+							!ItemStack.areItemStackTagsEqual(inventory.getStackInSlot(slots[currentSlot]),
+									getStackInSlot(0))) {
 						currentSlot++;
 						continue;
 					}
