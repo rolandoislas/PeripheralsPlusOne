@@ -49,8 +49,11 @@ public class GuiAnalyzer extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRenderer.drawString(name.getUnformattedText(), 8, 6, 4210752);
-		this.fontRenderer.drawString(player.inventory.getDisplayName().getUnformattedText(), 8, this.ySize - 98, 4210752);
+		if(this.fontRenderer != null) {
+			if (name != null)
+				this.fontRenderer.drawString(name.getUnformattedText(), 8, 6, 4210752);
+			this.fontRenderer.drawString(player.inventory.getDisplayName().getUnformattedText(), 8, this.ySize - 98, 4210752);
+		}
 	}
 
 	@Override
