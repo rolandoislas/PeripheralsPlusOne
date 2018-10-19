@@ -20,8 +20,19 @@ public interface IFarmable {
 
 	/**
 	 * @return true if the block at the given location is a "sapling" for this type, i.e. a non-harvestable immature version of the crop.
+	 * @deprecated Since Forestry 5.8. Use the version below. TODO Remove this method in 1.13
 	 */
-	boolean isSaplingAt(World world, BlockPos pos);
+	@Deprecated
+	default boolean isSaplingAt(World world, BlockPos pos){
+		return false;
+	}
+
+	/**
+	 * @return true if the block at the given location is a "sapling" for this type, i.e. a non-harvestable immature version of the crop.
+	 */
+	default boolean isSaplingAt(World world, BlockPos pos, IBlockState blockState){
+		return isSaplingAt(world, pos);
+	}
 
 	/**
 	 * @return {@link ICrop} if the block at the given location is a harvestable and mature crop, null otherwise.
@@ -33,6 +44,9 @@ public interface IFarmable {
 	 * @return true if the item is a valid germling (plantable sapling, seed, etc.) for this type.
 	 */
 	boolean isGermling(ItemStack itemstack);
+
+	default void addInformation(IFarmableInfo info){
+	}
 
 	/**
 	 * @return true if the item is something that can drop from this type without actually being harvested as a crop. (Apples or sapling from decaying leaves.)

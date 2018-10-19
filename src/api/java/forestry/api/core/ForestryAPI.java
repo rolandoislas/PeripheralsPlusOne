@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import forestry.api.climate.IClimateManager;
-import forestry.api.climate.IClimateStates;
 import forestry.api.farming.IFarmRegistry;
 import forestry.api.farming.IFarmable;
 import forestry.api.farming.ISimpleFarmLogic;
@@ -26,7 +25,7 @@ import forestry.api.modules.IModuleManager;
  * If you need to distribute API files, try to only include the parts you are actually
  * using to minimize conflicts due to API changes.
  * <p>
- * .core     - Miscallenous base classes and interfaces as well as some basics for tools, armor, game modes and stuff needed by biome mods.
+ * .core     - Miscellaneous base classes and interfaces as well as some basics for tools, armor, game modes and stuff needed by biome mods.
  * .fuels    - Managers and classes to facilitate adding fuels to various engines and machines.
  * .recipes  - Managers and helpers to facilitate adding new recipes to various machines.
  * .storage  - Managers, events and interfaces for defining new backpacks and handling backpack behaviour.
@@ -54,6 +53,10 @@ public class ForestryAPI {
 	@SideOnly(Side.CLIENT)
 	public static IModelManager modelManager;
 
+	/**
+	 * @deprecated Please use {@link forestry.api.climate.ClimateManager#climateRoot}.
+	 */
+	@Deprecated
 	public static IClimateManager climateManager;
 
 	/**
@@ -61,11 +64,6 @@ public class ForestryAPI {
 	 * This can be used to register {@link IModuleContainer}s in the constructor of your mod.
 	 */
 	public static IModuleManager moduleManager;
-
-	/**
-	 *
-	 */
-	public static IClimateStates states;
 
 	/**
 	 * A registry for register fertilizers, {@link IFarmable}s and {@link ISimpleFarmLogic}s

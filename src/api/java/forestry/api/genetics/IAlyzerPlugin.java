@@ -10,6 +10,7 @@ import java.util.Map;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,7 +25,10 @@ public interface IAlyzerPlugin {
 	@SideOnly(Side.CLIENT)
 	void drawAnalyticsPage3(GuiScreen gui, ItemStack itemStack);
 
-	Map<String, ItemStack> getIconStacks();
-
+	/**
+	 * The hints that will be shown in the alyzer gui.
+	 */
 	List<String> getHints();
+
+	Map<String, ItemStack> getIconStacks();
 }
