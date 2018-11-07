@@ -42,6 +42,14 @@ repositories {
         name "JBoss"
         url = "https://repository.jboss.org/nexus/content/repositories/releases/"
     }
+    maven { 
+        name = "OpenComputers"
+        url = "http://maven.cil.li/" 
+    }
+    maven {
+        name = "Forestry"
+        url = "http://maven.ic2.player.to"
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -57,7 +65,7 @@ group= "com.rolandoislas.peripheralsplusone" // http://maven.apache.org/guides/m
 archivesBaseName = "PeripheralsPlusOne"
 
 minecraft {
-    version = "1.12.2-14.23.4.2705"
+    version = "1.12.2-14.23.5.2768"
     mappings = "snapshot_20171003"
     runDir = "run"
     replace("@VERSION@",project.version)
@@ -96,7 +104,7 @@ if (ext.tag) {
             releaseType = project.releaseType
             mainArtifact jar
             relations {
-                requiredLibrary "the-framework"
+                requiredDependency "the-framework"
             }
         }
     }
@@ -130,6 +138,8 @@ ext.freettsVersion = "1.2.2"
 dependencies {
     compile "com.rolandoislas.theframework:TheFramework:1.12.2-1.0.1-build-T23:deobf"
     compile "mezz.jei:jei_1.12.2:4.8.5.132"
+    compile "li.cil.oc:OpenComputers:MC1.12.2-1.7.+:api"
+    compile "net.sengir.forestry:forestry_1.12.2:5.8.+:api"
     compileBundle "com.michaelwflaherty:cleverbotapi:1.0.2"
     compileBundle "com.fasterxml.jackson.core:jackson-databind:2.9.1"
     compileBundle "org.mobicents.external.freetts:cmulex:$freettsVersion"
