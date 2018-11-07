@@ -238,6 +238,8 @@ public class LuaObjectEntityControl implements ILuaObject {
 						return new Object[]{true};
 					// setAttackTarget()
 					case 10:
+					// setMovementTarget()
+					case 11:
 						if (arguments.length < 1)
 							throw new LuaException("Too few arguments");
 						if (!(arguments[0] instanceof String || arguments[0] instanceof Double))
@@ -248,29 +250,35 @@ public class LuaObjectEntityControl implements ILuaObject {
 							throw new LuaException("Bad argument #3 (expected number)");
 						if (!ItemNanoSwarm.doInstruction(id, entity, false, 1))
 							throw new LuaException("Entity with id "+id+" cannot be interacted with");
-						Entity attackTarget;
-						if (arguments[0] instanceof String)
-							attackTarget = WorldUtils.getPlayerForWorld((String)arguments[0], entity.world);
-						else
-							attackTarget = WorldUtils.getNearestEntityToLocation(new Location((Double)arguments[0],
-									(Double)arguments[1], (Double)arguments[2], entity.world));
-						entity.setAttackTarget((EntityLivingBase) attackTarget);
-						return new Object[]{attackTarget != null};
-					// setMovementTarget()
-					case 11:
-						if (arguments.length < 3)
-							throw new LuaException("Too few arguments");
-						if (!(arguments[0] instanceof Double))
-							throw new LuaException("Bad argument #1 (expected number)");
-						if (!(arguments[1] instanceof Double))
-							throw new LuaException("Bad argument #2 (expected number)");
-						if (!(arguments[2] instanceof Double))
-							throw new LuaException("Bad argument #3 (expected number)");
-						if (!ItemNanoSwarm.doInstruction(id, entity, false, 1))
-							return new Object[]{false};
-						entity.getNavigator().setPath(entity.getNavigator().getPathToXYZ((Double)arguments[0], (Double)arguments[1],
-								(Double)arguments[2]), entity.getAIMoveSpeed());
-						break;
+						if (method == 10) {
+							Entity attackTarget;
+							if (arguments[0] instanceof String)
+								attackTarget = WorldUtils.getPlayerForWorld((String) arguments[0], entity.world);
+							else
+								attackTarget = WorldUtils.getNearestEntityToLocation(new Location((Double) arguments[0],
+										(Double) arguments[1], (Double) arguments[2], entity.world));
+							entity.setAttackTarget((EntityLivingBase) attackTarget);
+							return new Object[]{attackTarget != null};
+						}
+						else {
+							double x, y, z;
+							if (arguments[0] instanceof String) {
+								Entity moveTarget = WorldUtils.getPlayerForWorld((String) arguments[0], entity.world);
+								if (moveTarget == null)
+									throw new LuaException("Could not find player");
+								x = moveTarget.posX;
+								y = moveTarget.posY;
+								z = moveTarget.posZ;
+							}
+							else {
+								x = (Double) arguments[0];
+								y = (Double) arguments[1];
+								z = (Double) arguments[2];
+							}
+							boolean moveSuccess = entity.getNavigator().setPath(
+									entity.getNavigator().getPathToXYZ(x, y, z), Math.max(1, entity.getAIMoveSpeed()));
+							return new Object[]{moveSuccess};
+						}
 					// setTurnAngle()
 					case 12:
 						if (arguments.length < 1)
