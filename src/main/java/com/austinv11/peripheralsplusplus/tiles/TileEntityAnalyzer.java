@@ -59,6 +59,9 @@ public abstract class TileEntityAnalyzer extends TileEntityInventory implements 
 			throw new LuaException("Forestry is not installed");
 		switch (method) {
 			case 0:
+				boolean getActive = true;
+				if (arguments.length > 0 && arguments[0] instanceof Boolean)
+					getActive = (boolean) arguments[0];
 				ISpeciesRoot root = getRoot();
 				ItemStack stack = getStackInSlot(0);
 				if (stack == null || !root.isMember(stack))
@@ -66,8 +69,8 @@ public abstract class TileEntityAnalyzer extends TileEntityInventory implements 
 				IIndividual individual = root.getMember(stack);
 				if (individual == null || !individual.isAnalyzed())
 					return new Object[] {null};
-				HashMap<String, Object> ret = new HashMap<String, Object>();
-				addGenome(stack, individual.getGenome(), ret);
+				HashMap<String, Object> ret = new HashMap<>();
+				addGenome(stack, individual.getGenome(), ret, getActive);
 				return new Object[] {ret};
 			case 1:
 				ItemStack specimen = getStackInSlot(0);
@@ -89,7 +92,7 @@ public abstract class TileEntityAnalyzer extends TileEntityInventory implements 
 
 	protected abstract String getRootType();
 
-	protected abstract void addGenome(ItemStack stack, IGenome origGenome, HashMap<String, Object> ret);
+	protected abstract void addGenome(ItemStack stack, IGenome origGenome, HashMap<String, Object> ret, boolean activeAllele);
 
 	protected abstract IPeripheral getInstance();
 }
