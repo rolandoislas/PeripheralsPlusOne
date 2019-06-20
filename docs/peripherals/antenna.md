@@ -21,7 +21,7 @@ The Antenna is a peripheral which expands the wireless capabilities of computers
   </thead>
   <tbody>
     <tr>
-      <td>getInfectedEntites()</td>
+      <td>getInfectedEntities()</td>
       <td><em>table</em> entities</td>
       <td>Returns a list containing the entity IDs for all entities currently infected by a nanobot swarm.</td>
     </tr>
