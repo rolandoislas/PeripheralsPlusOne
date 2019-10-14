@@ -68,7 +68,7 @@ public class TileEntityRFCharger extends NetworkedTileEntity implements IEnergyS
 			}
 			int rate = ((int) Math.floor((float) 6/(float) turtles.size()));
 			for (ITurtleAccess turtle : turtles) {
-				if (storage.getEnergyStored() >= rate)
+				if (storage.getEnergyStored() >= rate*Config.fuelRF)
 					storage.extractEnergy(addFuel(turtle, rate)*Config.fuelRF, false);
 			}
 		}
